@@ -1,0 +1,29 @@
+.app {
+  text-align: center;
+  /* background-color: var(--color-ground); */
+}
+
+.app__logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.app__header {
+  background-color: var(--color-ground);
+  min-height: 100vh;
+  min-width: 320px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 20px;
+  color: var(--color-text-light);
+}
+
+.app__link {
+  color: #61dafb;
+}
