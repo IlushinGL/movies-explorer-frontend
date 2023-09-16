@@ -1,7 +1,10 @@
 import React from 'react';
-import logo from '../../images/pic_landing.svg';
 import './App.css';
 import Header from '../Header/Header';
+import Promo from '../Main/Promo/Promo';
+import NavTab from '../Main/NavTab/NavTab';
+import AboutProject from '../Main/AboutProject/AboutProject';
+import Techs from '../Main/Techs/Techs';
 import { getMediaBreakArea, getMediaBreakNumber} from '../../utils/customFunction';
 import { useMedia } from '../../utils/customHooks';
 
@@ -19,8 +22,10 @@ function App() {
 
       <section className="app__content">
         <Header num={media} isAuthorized={isUserKnown} />
-        <img src={logo} className="app__logo" alt="logo" />
-
+        <Promo num={media} />
+        <NavTab num={media} />
+        <AboutProject num={media} />
+        <Techs num={media} />
       </section>
     </div>
   );

@@ -6,11 +6,6 @@ export function useMedia(points, hanleMediaChanged) {
   });
   const handleMedia = useCallback((event) => {
     hanleMediaChanged();
-    // if (event.matches) {
-    //   hanleMediaChanged('+' + event.media);
-    // } else {
-    //   hanleMediaChanged('-' + event.media);
-    // }
   }, [hanleMediaChanged]);
 
   useEffect(() => {
