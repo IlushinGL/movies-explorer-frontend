@@ -1,4 +1,4 @@
-.techs {
+.about-me {
   display: flex;
   padding: 0;
   margin: 0;
@@ -7,10 +7,9 @@
   justify-content: center;
   align-items: center;
   color: var(--color-text-dark);
-  min-height: 625px;
-  background-color: var(--color-nav);
-}
-.techs_pos_3 {
-  min-height: 651px;
+  min-height: 1079px;
   background-color: var(--color-body);
+}
+.about-me_pos_3 {
+  min-height: 1198px;
 }

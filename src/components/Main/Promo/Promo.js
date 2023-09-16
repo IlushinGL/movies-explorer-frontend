@@ -5,9 +5,9 @@ function Promo({num}) {
   const titleClass = `promo__title promo__title_pos_${num}`;
   return (
     <section className={promoClass}>
-      <div className={titleClass}>
+      <h1 className={titleClass}>
         Учебный проект студента факультета Веб-разработки.
-      </div>
+      </h1>
     </section>
   );
 }
