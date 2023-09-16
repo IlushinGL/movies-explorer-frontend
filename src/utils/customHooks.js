@@ -5,11 +5,12 @@ export function useMedia(points, hanleMediaChanged) {
     return window.matchMedia(`(min-width: ${point}px)`);
   });
   const handleMedia = useCallback((event) => {
-    if (event.matches) {
-      hanleMediaChanged('+' + event.media);
-    } else {
-      hanleMediaChanged('-' + event.media);
-    }
+    hanleMediaChanged();
+    // if (event.matches) {
+    //   hanleMediaChanged('+' + event.media);
+    // } else {
+    //   hanleMediaChanged('-' + event.media);
+    // }
   }, [hanleMediaChanged]);
 
   useEffect(() => {
