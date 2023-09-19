@@ -1,7 +1,7 @@
 import './NavTab.css';
 
 function NavTab({num}) {
-  const navClass =  'nav-tab';
+  const navClass  = 'nav-tab';
   const linkClass = `${navClass}__link ${navClass}__link_pos_${num}`;
   return (
     <nav className={navClass}>

@@ -153,16 +153,13 @@
   padding: 0;
   margin: 0;
   max-width: 270px;
-  /* max-height: 327px; */
   border: 1px solid var(--color-body);
   border-radius: 10px;
   object-fit: cover;
 }
 .about-me__brief-img_pos_2 {
   max-width: 255px;
-  /* max-height: 307px; */
 }
 .about-me__brief-img_pos_3 {
   max-width: 292px;
-  /* max-height: 352px; */
 }
