@@ -3,14 +3,9 @@
   background-color: var(--color-ground);
 }
 
-.app__logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
 .app__content {
   background-color: var(--color-body);
-  min-height: 100vh;
+  min-height: 100%;
   min-width: 320px;
   max-width: 1280px;
   margin: 0 auto;

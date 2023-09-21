@@ -12,8 +12,8 @@
   --color-nav: #F5F5F5;
   --color-tbl-b: #F2F2F2;
   --color-tech-ground: #E8E8E8;
-  ;
-  ;
+  --color-control: #FF6838;
+  --color-err: #EE3465;
 }
 .redborder {
   border: 1px solid red;

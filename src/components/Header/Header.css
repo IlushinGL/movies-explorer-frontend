@@ -97,18 +97,20 @@
 }
 
 .header__auth-btn {
+  display: flex;
   min-height: 32px;
   min-width: 76px;
   border-radius: 3px;
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
-  text-align: center;
+  justify-content: center;
   align-items: center;
   border: none;
   color: var(--color-text-dark);
   background-color: var(--color-btn-auth);
   cursor: pointer;
+  text-decoration: none;
   opacity: 100%;
 }
 .header__auth-btn_pos_1 {

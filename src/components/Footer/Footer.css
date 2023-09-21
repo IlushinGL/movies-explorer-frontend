@@ -73,6 +73,7 @@
   content: '\00A9';
 }
 .footer__copyright_pos_3 {
+  margin-bottom: 0;
   font-size: 12px;
   line-height: 14.52px;
   color: var(--color-text-gray);

@@ -4,14 +4,14 @@ import logo from '../../images/logo.svg';
 import menu from '../../images/icon_main.svg';
 import './Header.css';
 
-function Header({num, isAuthorized}) {
-  const logoClass = `header__logo header__logo_pos_${num}`;
+function Header({mediaNum, isAuthorized, logIn}) {
+  const logoClass = `header__logo header__logo_pos_${mediaNum}`;
   if (isAuthorized) {
-    const menuClass = `header__menu header__menu_pos_${num}`;
+    const menuClass = `header__menu header__menu_pos_${mediaNum}`;
     return (
       <header className="header">
         <img className={logoClass} src={logo} alt="logo" />
-        {num===1 ? (
+        {mediaNum===1 ? (
         <>
         <nav className="header__nav">
           <NavLink to=""
@@ -34,8 +34,8 @@ function Header({num, isAuthorized}) {
       </header>
     );
   }
-  const authBtnClass = `header__auth-btn header__auth-btn_pos_${num}`;
-  const authNavClass = `header__link-auth header__link-auth_pos_${num}`;
+  const authBtnClass = `header__auth-btn header__auth-btn_pos_${mediaNum}`;
+  const authNavClass = `header__link-auth header__link-auth_pos_${mediaNum}`;
   return (
     <header className="header">
       <img className={logoClass} src={logo} alt="logo" />
@@ -43,7 +43,7 @@ function Header({num, isAuthorized}) {
       <nav className="header__nav">
         <NavLink className={authNavClass} to="#">Регистрация</NavLink>
       </nav>
-      <button className={authBtnClass} href="#">Войти</button>
+      <div className={authBtnClass} onClick={logIn}>Войти</div>
       </>
     </header>
   );

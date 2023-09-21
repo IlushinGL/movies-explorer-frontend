@@ -12,7 +12,7 @@ function Footer({num}) {
       <h2 className={titleClass}>Учебный проект Яндекс.Практикум х BeatFilm.</h2>
 
       <div className={infoClass}>
-        <div className={cprClass}>2020</div>
+        <h3 className={cprClass}>2020</h3>
         <div className={linksClass}>
           <div>Яндекс.Практикум</div>
           <div>Github</div>
