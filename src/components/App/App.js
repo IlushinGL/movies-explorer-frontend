@@ -6,6 +6,8 @@ import Main from '../Main/Main';
 import Login from '../Auth/Login/Login';
 import Register from '../Auth/Register/Register';
 
+import Preloader from '../Movies/Preloader/Preloader';
+
 import { getMediaBreakArea, getMediaBreakNumber} from '../../utils/customFunction';
 import { useMedia } from '../../utils/customHooks';
 
@@ -47,6 +49,12 @@ function App() {
             path="/signup"
             element={
               <Register mediaNum={mediaNum} />
+            }
+          />
+          <Route
+            path="/pre"
+            element={
+              <Preloader />
             }
           />
         </Routes>

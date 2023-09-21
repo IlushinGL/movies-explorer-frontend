@@ -61,8 +61,9 @@
     position: absolute;
     top: 0;
     left: 0;
-    background: #FF6838;
+    background: var(--color-body);
     border-radius: 50px;
+    opacity: 50%;
 }
 
 .preloader__round::after,
@@ -77,12 +78,13 @@
 }
 
 .preloader__round::after {
-    background: white;
+    background: var(--color-control);
     animation: preloader-inside-white 1s ease-in-out infinite;
+    opacity: 100%;
 }
 
 .preloader__round::before {
     z-index: 10;
-    background: #FF6838;
+    background: var(--color-body);
     animation: preloader-inside-red 1s ease-in-out infinite;
 }
