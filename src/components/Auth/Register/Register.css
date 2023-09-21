@@ -1,0 +1,23 @@
+.register__form_height {
+  min-height: 244px;
+}
+
+.register__control_pos_1 {
+  min-height: 239px;
+}
+.register__control_pos_2 {
+  min-height: 401px;
+}
+.register__control_pos_3 {
+  min-height: 283px;
+}
+
+.register__control-btn_pos_1 {
+  margin-top: 91px;
+}
+.register__control-btn_pos_2 {
+  margin-top: 91px;
+}
+.register__control-btn_pos_3 {
+  margin-top: 179px;
+}
