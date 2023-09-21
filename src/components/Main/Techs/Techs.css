@@ -8,6 +8,7 @@
   color: var(--color-text-dark);
   min-height: 625px;
   background-color: var(--color-nav);
+  cursor: default;
 }
 .techs_pos_2 {
   min-height: 567px;

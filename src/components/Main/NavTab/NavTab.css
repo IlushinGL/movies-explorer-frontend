@@ -3,18 +3,17 @@
   padding: 0;
   margin: 0;
   width: 100%;
-  min-height: 66px;
+  max-height: 66px;
   flex-direction: row;
+  align-content: flex-start;
   justify-content: center;
-  align-items: center;
   background-color: var(--color-nav);
 }
 
 .nav-tab__link {
   display: block;
   padding: 0;
-  margin: 0;
-  margin-right: 40px;
+  margin: 24px 40px 24px 0;
   font-size: 13px;
   font-weight: 500;
   line-height: 16px;
@@ -22,6 +21,9 @@
   border-bottom: 1px solid var(--color-text-dark);
   text-decoration: none;
   opacity: 100%;
+}
+.nav-tab__link:last-child {
+  margin-right: 0;
 }
 .nav-tab__link_pos_3 {
   font-size: 11px;

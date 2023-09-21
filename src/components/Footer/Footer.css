@@ -3,16 +3,99 @@
   padding: 0;
   margin: 0;
   width: 100%;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  color: var(--color-text-dark);
+  flex-direction: column;
+  align-content: flex-start;
   min-height: 172px;
   background-color: var(--color-body);
+  cursor: default;
 }
 .footer_pos_1 {
   background-color: var(--color-footer);
 }
 .footer_pos_3 {
   min-height: 253px;
+}
+
+.footer__title {
+  display: block;
+  margin: 79px 70px 20px;
+  padding: 0;
+  min-height: 36px;
+  min-width: 1140px;
+  color: var(--color-text-dark);
+  border-bottom: 1px solid var(--color-tech-ground);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15.73px;
+  text-align: center;
+  color: var(--color-text-gray);
+}
+.footer__title_pos_2 {
+  margin: 79px 30px 20px;
+  min-width: 708px;
+}
+.footer__title_pos_3 {
+  margin: 79px 10px 30px;
+  min-width: 300px;
+  font-size: 12px;
+  line-height: 14.25px;
+}
+
+.footer__info {
+  display: flex;
+  flex-direction: row;
+  margin: 0 70px auto;
+  padding: 0;
+  min-height: 16px;
+  min-width: 1140px;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-text-dark);
+}
+.footer__info_pos_2 {
+  margin: 0 30px auto;
+  min-width: 708px;
+}
+.footer__info_pos_3 {
+  flex-direction: column-reverse;
+  margin: 0 10px auto;
+  min-width: 300px;
+  min-height: 87px;
+}
+
+.footer__copyright {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15.73px;
+  color: var(--color-text-dark);
+}
+.footer__copyright::before {
+  content: '\00A9';
+}
+.footer__copyright_pos_3 {
+  font-size: 12px;
+  line-height: 14.52px;
+  color: var(--color-text-gray);
+}
+
+.footer__links-set {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  min-height: 16px;
+  min-width: 182px;
+  justify-content: space-between;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15.73px;
+  /* align-items: center; */
+  color: var(--color-text-dark);
+}
+.footer__links-set_pos_3 {
+  flex-direction: column;
+  min-width: 300px;
+  min-height: 42px;
+  font-size: 12px;
+  line-height: 14.25px;
 }

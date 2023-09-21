@@ -1,15 +1,23 @@
 import './Footer.css';
 
 function Footer({num}) {
-  const  footerClass = `footer footer_pos_${num}`;
-  // const titleClass = `promo__title promo__title_pos_${num}`;
+  const base = 'footer';
+  const  footerClass = `${base} ${base}_pos_${num}`;
+  const titleClass = `${base}__title ${base}__title_pos_${num}`;
+  const infoClass = `${base}__info ${base}__info_pos_${num}`;
+  const cprClass = `${base}__copyright ${base}__copyright_pos_${num}`;
+  const linksClass = `${base}__links-set ${base}__links-set_pos_${num}`;
   return (
     <section className={ footerClass}>
-      <dir>Подвал</dir>
+      <h2 className={titleClass}>Учебный проект Яндекс.Практикум х BeatFilm.</h2>
 
-      {/* <div className={titleClass}>
-        Учебный проект студента факультета Веб-разработки.
-      </div> */}
+      <div className={infoClass}>
+        <div className={cprClass}>2020</div>
+        <div className={linksClass}>
+          <div>Яндекс.Практикум</div>
+          <div>Github</div>
+        </div>
+      </div>
     </section>
   );
 }

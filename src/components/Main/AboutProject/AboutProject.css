@@ -7,6 +7,7 @@
   align-content: flex-start;
   background-color: var(--color-body);
   color: var(--color-text-dark);
+  cursor: default;
 }
 .about-project_pos_1 {
   min-height: 608px;

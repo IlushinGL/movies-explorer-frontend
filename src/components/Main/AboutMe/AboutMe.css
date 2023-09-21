@@ -8,12 +8,13 @@
   background-color: var(--color-body);
   color: var(--color-text-dark);
   min-height: 1079px;
+  cursor: default;
 }
 .about-me_pos_2 {
   min-height: 994px;
 }
 .about-me_pos_3 {
-  min-height: 1198px;
+  min-height: 1186px;
 }
 
 .about-me__title {
