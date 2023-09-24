@@ -9,6 +9,7 @@ import Register from '../Auth/Register/Register';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Auth/Profile/Profile';
+import Navigation from '../Navigation/Navigation';
 
 import getMoveSet from '../../utils/generateMovie';
 
@@ -24,6 +25,7 @@ const savedMovieSet = getMoveSet(3);
 function App() {
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
   const [isUserKnown, setUserKnown] = React.useState(false);
+  const [isMenuOpen, setMenuOpen] = React.useState(false);
 
 
   useMedia(getMediaBreakArea(), hanleMediaChanged);
@@ -35,6 +37,10 @@ function App() {
 
   function hanleLogIn() {
     setUserKnown(true);
+  }
+
+  function hanleMenuClick() {
+    setMenuOpen(true);
   }
 
   return (
@@ -70,7 +76,8 @@ function App() {
               <>
               <Header mediaNum={mediaNum}
                       isAuthorized={true}
-                      logIn={hanleLogIn}/>
+                      logIn={hanleLogIn}
+                      onMenuClick={hanleMenuClick}/>
               <Movies mediaNum={mediaNum} movieCards={movieSet} />
               </>
             }
@@ -81,7 +88,8 @@ function App() {
               <>
               <Header mediaNum={mediaNum}
                       isAuthorized={true}
-                      logIn={hanleLogIn}/>
+                      logIn={hanleLogIn}
+                      onMenuClick={hanleMenuClick}/>
               <SavedMovies mediaNum={mediaNum} movieCards={savedMovieSet} />
               </>
             }
@@ -92,7 +100,8 @@ function App() {
               <>
               <Header mediaNum={mediaNum}
                       isAuthorized={true}
-                      logIn={hanleLogIn}/>
+                      logIn={hanleLogIn}
+                      onMenuClick={hanleMenuClick} />
               <Profile mediaNum={mediaNum} />
               </>
             }
@@ -104,7 +113,11 @@ function App() {
             }
           />
         </Routes>
+
+        <Navigation mediaNum={mediaNum} isOpened={isMenuOpen} />
+
       </div>
+
     </div>
   );
 }

@@ -4,7 +4,7 @@ import logo from '../../images/logo.svg';
 import menu from '../../images/icon_main.svg';
 import './Header.css';
 
-function Header({mediaNum, isAuthorized, logIn}) {
+function Header({mediaNum, isAuthorized, logIn, onMenuClick}) {
   const logoClass = `header__logo header__logo_pos_${mediaNum}`;
   if (isAuthorized) {
     const menuClass = `header__menu header__menu_pos_${mediaNum}`;
@@ -27,7 +27,7 @@ function Header({mediaNum, isAuthorized, logIn}) {
         </>
       ) : (
         <>
-        <img className={menuClass} src={menu} alt="menu" />
+        <img className={menuClass} src={menu} alt="menu" onClick={onMenuClick} />
         </>
 
       )}

@@ -112,6 +112,9 @@
   overflow: hidden;
   color: var(--color-err);
 }
+.profile__data-err_pos_3 {
+  max-width: 260px;
+}
 
 .profile__control {
   display: flex;

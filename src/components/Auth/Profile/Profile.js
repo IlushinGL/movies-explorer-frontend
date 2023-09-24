@@ -9,7 +9,7 @@ function Profile({mediaNum}) {
   const itemClass      = `${base}__data-item`;
   const lblClass       = `${base}__data-lbl`;
   const inputClass     = `${base}__data-input`;
-  const errClass       = `${base}__data-err`;
+  const errClass       = `${base}__data-err ${base}__data-err_pos_${mediaNum}`;
   const crlClass       = `${base}__control ${base}__control_pos_${mediaNum}`;
   const crlItemClass   = `${base}__control-item ${base}__control-item_pos_${mediaNum}`;
   return (
@@ -23,14 +23,14 @@ function Profile({mediaNum}) {
             <div className={lblClass}>Имя</div>
             <div className={inputClass}>Виталий</div>
           </div>
-          <div className={errClass}></div>
+          <div className={errClass}>тут будет ошибка валидации имени любой длинны</div>
         </div>
         <div className={setClass}>
           <div className={itemClass}>
             <div className={lblClass}>E-mail</div>
             <div className={inputClass}>pochta@yandex.ru</div>
           </div>
-          <div className={errClass}></div>
+          <div className={errClass}>тут будет ошибка валидации почты любой длинны</div>
         </div>
       </div>
       <div className={crlClass}>

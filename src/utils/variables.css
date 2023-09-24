@@ -16,6 +16,7 @@
   --color-err: #EE3465;
   --color-shadow: #0000000D;
   --color-shadow-like: #00000017;
+  --color-popup-ground: rgb(0 0 0 / .3);
 }
 .redborder {
   border: 1px solid red;
