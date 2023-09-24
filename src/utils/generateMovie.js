@@ -16,19 +16,19 @@ const dir = [
   'Тарантино',
 ];
 const about = [
-  'о любви',
+  'про любовь',
   'о жадности',
-  'о войне',
-  'о жизни',
+  'про войну',
+  'о жизни человека в целом',
 ];
 
 function getMovie(id) {
   const res = {
     drector: dir[Math.floor(Math.random() * 5)],
-    duration: 45 + Math.floor(Math.random() * 135),
+    duration: 15 + Math.floor(Math.random() * 165),
     image: movieLink[Math.floor(Math.random() * 6)],
     moveId: id,
-    mameRU: Math.floor(Math.random() * 101) + 'слов ' + about[Math.floor(Math.random() * 4)],
+    nameRU: Math.floor(Math.random() * 101) + '\'й фильм ' + about[Math.floor(Math.random() * 4)],
   }
   return res;
 }

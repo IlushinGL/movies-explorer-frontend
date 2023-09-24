@@ -1,6 +1,6 @@
 .app {
   text-align: center;
-  background-color: var(--color-ground);
+  background-color: var(--color-body);
 }
 
 .app__content {

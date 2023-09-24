@@ -14,6 +14,8 @@
   --color-tech-ground: #E8E8E8;
   --color-control: #FF6838;
   --color-err: #EE3465;
+  --color-shadow: #0000000D;
+  --color-shadow-like: #00000017;
 }
 .redborder {
   border: 1px solid red;

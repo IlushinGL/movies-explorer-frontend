@@ -1,0 +1,131 @@
+.search {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 248px;
+}
+.search_pos_1 {
+  min-height: 247px;
+}
+
+.search__form {
+  display: flex;
+  padding: 0;
+  flex-direction: column;
+  max-height: 157px;
+  align-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid var(--color-tech-ground);
+}
+.search__form_pos_1 {
+  margin: 60px 70px 10px;
+  max-height: 176px;
+}
+.search__form_pos_2 {
+  margin: 80px 30px 10px;
+}
+.search__form_pos_3 {
+  margin: 80px 14px 10px;
+}
+
+.search__input {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  margin-bottom: 41px;
+  border-radius: 40px;
+  justify-content: space-between;
+  background-color: var(--color-btn-light);
+}
+.search__input-txt_pos_3 {
+  margin-bottom: 42px;
+}
+
+.search__input-txt {
+  display: block;
+  margin: 14px auto 14px 13px;
+  min-width: 1026px;
+  padding: 0;
+  padding-left: 9px;
+  padding-right: 9px;
+  font-size: 13px;
+  line-height: 17px;
+  font-weight: 400;
+  max-height: 18px;
+  border-radius: 40px;
+  border: none;
+  background-color: var(--color-btn-light);
+  color: var(--color-text-dark);
+}
+.search__input-txt::placeholder {
+  color: var(--color-text-gray);
+}
+.search__input-txt:focus-visible {
+  background-color: var(--color-body);
+  outline: 1px solid var(--color-text-gray);
+  outline-offset: -1px;
+}
+.search__input-txt_pos_2 {
+  min-width: 594px;
+}
+.search__input-txt_pos_3 {
+  font-size: 11px;
+  min-width: 181px;
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.search__btn {
+  display: block;
+  padding: 0;
+  margin: 6px 6px;
+  min-width: 80px;
+  min-height: 34px;
+  border-radius: 40px;
+  background-color:  var(--color-control);
+  background-image: url(../../../images/find.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  opacity: 100%;
+}
+.search__btn:hover {
+  opacity: 80%;
+}
+
+.search__option {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  min-height: 20px;
+  justify-items: center;
+  align-items: center;
+}
+
+.search__option-item {
+  display: block;
+  padding: 0;
+  margin: 0;
+  margin-right: 12px;
+  color: var(--color-text-dark);
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  cursor: pointer;
+  opacity: 100%;
+}
+.search__option-item:last-child {
+  margin-right: 0;
+}
+.search__option-item:hover {
+  opacity: 80%;
+}
+.search__option-item_pos_3 {
+  font-size: 11px;
+}

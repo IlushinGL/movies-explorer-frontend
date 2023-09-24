@@ -11,3 +11,9 @@ export function getMediaBreakNumber() {
   if (winW >= MEDIA_POINT2) { return 2; }
   return 3;
 }
+
+export function getDurationStr(minutes) {
+  const hour = Math.floor(minutes/60);
+  const rest = minutes - hour * 60;
+  return `${hour}ч${rest}м`;
+}
