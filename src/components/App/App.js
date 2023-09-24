@@ -8,6 +8,7 @@ import Login from '../Auth/Login/Login';
 import Register from '../Auth/Register/Register';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
+import Profile from '../Auth/Profile/Profile';
 
 import getMoveSet from '../../utils/generateMovie';
 
@@ -82,6 +83,17 @@ function App() {
                       isAuthorized={true}
                       logIn={hanleLogIn}/>
               <SavedMovies mediaNum={mediaNum} movieCards={savedMovieSet} />
+              </>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <>
+              <Header mediaNum={mediaNum}
+                      isAuthorized={true}
+                      logIn={hanleLogIn}/>
+              <Profile mediaNum={mediaNum} />
               </>
             }
           />
