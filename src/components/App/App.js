@@ -7,6 +7,7 @@ import Main from '../Main/Main';
 import Login from '../Auth/Login/Login';
 import Register from '../Auth/Register/Register';
 import Movies from '../Movies/Movies';
+import SavedMovies from '../SavedMovies/SavedMovies';
 
 import getMoveSet from '../../utils/generateMovie';
 
@@ -16,10 +17,11 @@ import { getMediaBreakArea, getMediaBreakNumber} from '../../utils/customFunctio
 import { useMedia } from '../../utils/customHooks';
 
 const movieSet = getMoveSet(19);
+const savedMovieSet = getMoveSet(3);
 
 
 function App() {
-  const [mediaNum, setMedia] = React.useState(getMediaBreakNumber());
+  const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
   const [isUserKnown, setUserKnown] = React.useState(false);
 
 
@@ -27,7 +29,7 @@ function App() {
 
 
   function hanleMediaChanged() {
-    setMedia(getMediaBreakNumber());
+    setMediaNum(getMediaBreakNumber());
   }
 
   function hanleLogIn() {
@@ -68,7 +70,18 @@ function App() {
               <Header mediaNum={mediaNum}
                       isAuthorized={true}
                       logIn={hanleLogIn}/>
-              <Movies mediaNum={mediaNum} movieCards={movieSet} optionSelected={false} />
+              <Movies mediaNum={mediaNum} movieCards={movieSet} />
+              </>
+            }
+          />
+          <Route
+            path="/saved-movies"
+            element={
+              <>
+              <Header mediaNum={mediaNum}
+                      isAuthorized={true}
+                      logIn={hanleLogIn}/>
+              <SavedMovies mediaNum={mediaNum} movieCards={savedMovieSet} />
               </>
             }
           />

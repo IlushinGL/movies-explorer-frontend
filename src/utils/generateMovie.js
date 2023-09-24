@@ -28,7 +28,7 @@ function getMovie(id) {
     duration: 15 + Math.floor(Math.random() * 165),
     image: movieLink[Math.floor(Math.random() * 6)],
     moveId: id,
-    nameRU: Math.floor(Math.random() * 101) + '\'й фильм ' + about[Math.floor(Math.random() * 4)],
+    nameRU: (1 + Math.floor(Math.random() * 99)) + '\'й фильм ' + about[Math.floor(Math.random() * 4)],
   }
   return res;
 }

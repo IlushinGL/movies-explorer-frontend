@@ -1,9 +1,8 @@
 import React from 'react';
 // import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-import './MoviesCard.css';
-import like_yes from '../../../images/like_yes.png';
-import like_no from '../../../images/like_no.png';
+import '../../Movies/MoviesCard/MoviesCard.css';
+import delicon from '../../../images/delete.png';
 import { getDurationStr } from '../../../utils/customFunction';
 
 function MoviesCard({mediaNum, card}) {
@@ -16,11 +15,10 @@ function MoviesCard({mediaNum, card}) {
   const likeClass   = `${base}__caption-img`;
   const timeClass   = `${base}__caption-duration`;
 
-  const [isSelected, setSelected] = React.useState(false);
+  function handleDelClick() {
 
-  function handleSelected() {
-    setSelected(!isSelected);
   }
+
   // const currentUser = React.useContext(CurrentUserContext);
   // const isOwn = card.owner === currentUser._id;
   // const isLiked = card.likes.some(item => item === currentUser._id);
@@ -49,10 +47,10 @@ function MoviesCard({mediaNum, card}) {
         <div className={titleClass}>
           <h2 className={txtClass}>{card.nameRU}</h2>
           <img
-            onClick={handleSelected}
+            onClick={handleDelClick}
             className={likeClass}
-            src={isSelected ? like_yes : like_no}
-            alt={isSelected ? 'yes' : 'no'} />
+            src={delicon}
+            alt={'del'} />
         </div>
         <p className={timeClass}>
           {getDurationStr(card.duration)}

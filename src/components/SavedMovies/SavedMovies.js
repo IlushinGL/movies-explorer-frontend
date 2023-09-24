@@ -1,8 +1,8 @@
-import SearchForm from './SearchForm/SearchForm';
+import SearchForm from '../Movies/SearchForm/SearchForm';
 import Footer from '../Footer/Footer';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 
-function Movies({mediaNum, movieCards}) {
+function SavedMovies({mediaNum, movieCards}) {
   return (
     <>
       <SearchForm mediaNum={mediaNum} />
@@ -18,4 +18,4 @@ function Movies({mediaNum, movieCards}) {
   );
 }
 
-export default Movies;
+export default SavedMovies;

@@ -6,21 +6,21 @@
   row-gap: 32px;
   column-gap: 20px;
   padding: 0;
-  margin: 70px 70px 30px;
+  margin: 70px auto 30px 70px;
 }
 .card-list_pos_2 {
   min-width: 708px;
   column-gap: 30px;
   row-gap: 32px;
   grid-template-columns: repeat(auto-fit, 339px);
-  margin: 70px 30px 30px;
+  margin: 70px auto 30px 30px;
 }
 .card-list_pos_3 {
   min-width:300px;
   column-gap: 0;
   row-gap: 20px;
   grid-template-columns: repeat(auto-fit, 300px);
-  margin: 40px 10px 30px;
+  margin: 40px auto 30px 10px;
 }
 
 .card-list__more {
