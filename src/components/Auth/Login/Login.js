@@ -1,7 +1,8 @@
+import { NavLink } from 'react-router-dom';
 import logo from '../../../images/logo.svg';
 import './Login.css';
 
-function Login({mediaNum, onSubmit}) {
+function Login({mediaNum, onSubmit, linkMain, linkSignUp}) {
   const base        = 'login';
   const baseClass   = `${base} ${base}_pos_${mediaNum}`;
   const headerClass = `${base}__header ${base}__header_pos_${mediaNum}`;
@@ -18,7 +19,10 @@ function Login({mediaNum, onSubmit}) {
   return (
     <div className={baseClass}>
       <section className={headerClass}>
-        <img className={imgClass} src={logo} alt="logo" />
+        <NavLink className={imgClass} to={linkMain}>
+          <img src={logo} alt="logo" />
+        </NavLink>
+        {/* <img className={imgClass} src={logo} alt="logo" /> */}
         <h1 className={titleClass}>Привет! Проходите😎</h1>
       </section>
       <form className={formClass}>
@@ -27,6 +31,7 @@ function Login({mediaNum, onSubmit}) {
         </h2>
         <input
           className={inputClass}
+          name="email"
           type="email"
           minLength="5"
           maxLength="40"
@@ -38,6 +43,7 @@ function Login({mediaNum, onSubmit}) {
         </h2>
         <input
           className={inputClass}
+          name="password"
           type="password"
           minLength="8"
           maxLength="12"
@@ -51,7 +57,9 @@ function Login({mediaNum, onSubmit}) {
         </button>
         <div className={blockClass}>
           <div className={infoClass}>Ещё не зарегистрированы?</div>
-          <div className={actClass}>Регистрация</div>
+          <NavLink className={actClass} to={linkSignUp}>
+            Регистрация
+          </NavLink>
         </div>
       </div>
     </div>

@@ -24,9 +24,12 @@ const savedMovieSet = getMoveSet(3);
 
 function App() {
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
-  // const [menuItem, setMenuItem] = React.useState(0);
   const [isUserKnown, setUserKnown] = React.useState(false);
   const [isMenuOpen, setMenuOpen] = React.useState(false);
+
+  const base = 'app__content';
+  const baseClass = `${base} ${base}_pos_${mediaNum}`;
+
   const navigate = useNavigate();
 
   useMedia(getMediaBreakArea(), hanleMediaChanged);
@@ -36,12 +39,25 @@ function App() {
   }
 
   function hanleSignIn() {
-    navigate('/signin', {replace: true});
+    // если юзер известен, то по клику на войти сразу ведём на список карточек
+    if (isUserKnown) {
+      navigate('/movies', {replace: true});
+    } else {
+      navigate('/signin', {replace: true});
+    }
   }
 
   function hanleLogIn() {
+    // юзер авторизуется при клике в форме авторизации на войти
+    // или в форме регистрации на зарегистрироваться
     setUserKnown(true);
     navigate('/movies', {replace: true});
+  }
+
+  function hanleLogOut() {
+    // юзер деавторизуется в форме профиля при клике на выйти из аккаунта
+    setUserKnown(false);
+    navigate('/', {replace: true});
   }
 
   function hanleMenuClick() {
@@ -54,7 +70,7 @@ function App() {
 
   return (
     <div className="app">
-      <div className="app__content">
+      <div className={baseClass}>
         <Routes>
           <Route
             path="/"
@@ -62,7 +78,8 @@ function App() {
               <>
               <Header
                 mediaNum={mediaNum}
-                isAuthorized={isUserKnown}
+                isAuthorized={false}
+                linkMain={'/'}
                 linkSignUp={'/signup'}
                 onSignInClick={hanleSignIn}/>
               <Main mediaNum={mediaNum} />
@@ -72,22 +89,30 @@ function App() {
           <Route
             path="/signin"
             element={
-              <Login mediaNum={mediaNum} onSubmit={hanleLogIn}/>
+              <Login
+                mediaNum={mediaNum}
+                linkMain={'/'}
+                onSubmit={hanleLogIn}
+                linkSignUp={'/signup'}/>
             }
           />
           <Route
             path="/signup"
             element={
-              <Register mediaNum={mediaNum} onSubmit={hanleLogIn}/>
+              <Register
+                mediaNum={mediaNum}
+                linkMain={'/'}
+                onSubmit={hanleLogIn}
+                linkSignIn={'/signin'}/>
             }
           />
           <Route
             path="/movies"
             element={
               <>
-              {/* mediaNum, isAuthorized, linkMovies, linkSavedMovies, linkProfile, linkSignUp, onSignInClick, onMenuClick */}
               <Header mediaNum={mediaNum}
-                      isAuthorized={isUserKnown}
+                      isAuthorized={true}
+                      linkMain={'/'}
                       linkMovies={'/movies'}
                       linkSavedMovies={'/saved-movies'}
                       linkProfile={'/profile'}
@@ -101,7 +126,8 @@ function App() {
             element={
               <>
                <Header mediaNum={mediaNum}
-                      isAuthorized={isUserKnown}
+                      isAuthorized={true}
+                      linkMain={'/'}
                       linkMovies={'/movies'}
                       linkSavedMovies={'/saved-movies'}
                       linkProfile={'/profile'}
@@ -115,12 +141,16 @@ function App() {
             element={
               <>
                <Header mediaNum={mediaNum}
-                      isAuthorized={isUserKnown}
+                      isAuthorized={true}
+                      linkMain={'/'}
                       linkMovies={'/movies'}
                       linkSavedMovies={'/saved-movies'}
                       linkProfile={'/profile'}
                       onMenuClick={hanleMenuClick}/>
-              <Profile mediaNum={mediaNum} />
+              <Profile
+                mediaNum={mediaNum}
+                onOutClick={hanleLogOut}
+                onEditClick={hanleLogIn}/>
               </>
             }
           />

@@ -12,9 +12,6 @@ function MoviesCardList({mediaNum, movieCards}) {
           key={'' + card.moveId}
           mediaNum={mediaNum}
           card={card}
-          // onCardClick={onCardClick}
-          // onCardLike={onCardLike}
-          // onCardDelete={onCardDelete}
         />
       ))}
     </section>

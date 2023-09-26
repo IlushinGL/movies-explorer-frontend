@@ -24,8 +24,9 @@ function Techs({num}) {
         </p>
       </div>
       <div className={tblClass}>
-        {TECHS_NAMES.map((item) => (
+        {TECHS_NAMES.map((item, id) => (
           <Link
+            key={'tch' + id}
             className={tblElement}
             to={item[1]}
             target="_blank"
@@ -33,11 +34,6 @@ function Techs({num}) {
             {item[0]}
           </Link>
         ))}
-        {/* {TECHS_NAMES.map((item) => (
-          <div className={tblElement}>
-            {item[0]}
-          </div>
-        ))} */}
       </div>
     </section>
   );

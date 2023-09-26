@@ -29,12 +29,12 @@ function Navigation({mediaNum, linkMain, linkMovies, linkSavedMovies, linkProfil
             Главная
           </NavLink>
           <NavLink to={linkMovies}
-            className={itemClass}
+            className={({isActive}) => `${itemClass} ${isActive ? `${`${base}__item`}_active` : ""}`}
             onClick={handleOnClose}>
             Фильмы
           </NavLink>
           <NavLink to={linkSavedMovies}
-            className={itemClass}
+            className={({isActive}) => `${itemClass} ${isActive ? `${`${base}__item`}_active` : ""}`}
             onClick={handleOnClose}>
             Сохранённые фильмы
           </NavLink>

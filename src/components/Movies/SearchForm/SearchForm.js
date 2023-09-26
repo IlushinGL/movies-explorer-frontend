@@ -1,9 +1,10 @@
 import React from 'react';
+// import { NavLink } from 'react-router-dom';
 import switchY from '../../../images/switch_yes.svg';
 import switchN from '../../../images/switch_no.svg';
 import './SearchForm.css';
 
-function SearchForm({mediaNum}) {
+function SearchForm({mediaNum, onSubmit}) {
   const base        = 'search';
   const baseClass   = `${base} ${base}_pos_${mediaNum}`;
   const formClass   = `${base}__form ${base}__form_pos_${mediaNum}`;
@@ -23,15 +24,12 @@ function SearchForm({mediaNum}) {
       <form className={formClass}>
         <div className={inputClass}>
           <input
+            name="query"
             type="text"
             className={txtClass}
             placeholder="Фильм"
-            // minLength="2"
-            // maxLength="40"
-            // autoComplete="off"
-            // required
           />
-          <button className={btnClass}></button>
+          <div className={btnClass} onClick={onSubmit}></div>
         </div>
         <div className={optClass}>
           <img

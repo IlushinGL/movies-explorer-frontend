@@ -14,9 +14,10 @@ function Portfolio({num}) {
         Портфолио
       </h2>
       {PORTFOLIO_DATA.map((item, id) => (
-        <h3 className={itemClass}>
+        <h3 className={itemClass} key={'pft' + id}>
         {item[0]}
         <Link
+          key={'pfi' + id}
           className={linkClass}
           to={item[1]}
           target="_blank"

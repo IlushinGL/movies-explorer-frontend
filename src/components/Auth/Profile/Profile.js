@@ -1,6 +1,6 @@
 import './Profile.css';
 
-function Profile({mediaNum}) {
+function Profile({mediaNum, onOutClick, onEditClick}) {
   const base           = 'profile';
   const baseClass      = `${base} ${base}_pos_${mediaNum}`;
   const titleClass     = `${base}__title ${base}__title_pos_${mediaNum}`;
@@ -34,8 +34,16 @@ function Profile({mediaNum}) {
         </div>
       </div>
       <div className={crlClass}>
-        <div className={crlItemClass}>Редактировать</div>
-        <div className={crlItemClass + ` ${base}__control-item_att`}>Выйти из аккаунта</div>
+        <div
+          onClick={onEditClick}
+          className={crlItemClass}>
+          Редактировать
+        </div>
+        <div
+          onClick={onOutClick}
+          className={crlItemClass + ` ${base}__control-item_att`}>
+          Выйти из аккаунта
+        </div>
       </div>
     </div>
   );

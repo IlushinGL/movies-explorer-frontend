@@ -12,8 +12,16 @@
 }
 
 .header__logo {
+  display: block;
+  padding: 0;
+  margin: 0;
   width: 38px;
   object-fit: cover;
+  cursor: pointer;
+  opacity: 100%;
+}
+.header__logo:hover {
+  opacity: 80%;
 }
 .header__logo_pos_1 {
   margin-left: 70px;

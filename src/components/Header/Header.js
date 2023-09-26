@@ -3,7 +3,7 @@ import logo from '../../images/logo.svg';
 import menu from '../../images/icon_main.svg';
 import './Header.css';
 
-function Header({mediaNum, isAuthorized, linkMovies, linkSavedMovies, linkProfile, linkSignUp, onSignInClick, onMenuClick}) {
+function Header({mediaNum, isAuthorized, linkMain, linkMovies, linkSavedMovies, linkProfile, linkSignUp, onSignInClick, onMenuClick}) {
   const base         = 'header';
   const linkBase     = `${base}__link`;
   const baseClass    = `${base}`;
@@ -17,7 +17,9 @@ function Header({mediaNum, isAuthorized, linkMovies, linkSavedMovies, linkProfil
 
     return (
       <header className={baseClass}>
-        <img className={logoClass} src={logo} alt="logo" />
+        <NavLink className={logoClass} to={linkMain}>
+          <img src={logo} alt="logo" />
+        </NavLink>
         {mediaNum===1 ? (
         <>
         <nav className={navClass}>
@@ -47,7 +49,9 @@ function Header({mediaNum, isAuthorized, linkMovies, linkSavedMovies, linkProfil
 
   return (
     <header className={baseClass}>
-      <img className={logoClass} src={logo} alt="logo" />
+      <NavLink className={logoClass} to={linkMain}>
+        <img src={logo} alt="logo" />
+      </NavLink>
       <>
       <nav className={navClass}>
         <NavLink className={authNavClass} to={linkSignUp}>Регистрация</NavLink>

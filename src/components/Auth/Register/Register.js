@@ -1,8 +1,9 @@
+import { NavLink } from 'react-router-dom';
 import logo from '../../../images/logo.svg';
 import '../Login/Login.css';
 import './Register.css';
 
-function Register({mediaNum, onSubmit}) {
+function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
   const base        = 'login';
   const mode        = 'register';
   const baseClass   = `${base} ${base}_pos_${mediaNum}`;
@@ -20,7 +21,10 @@ function Register({mediaNum, onSubmit}) {
   return (
     <div className={baseClass}>
       <section className={headerClass}>
-        <img className={imgClass} src={logo} alt="logo" />
+        <NavLink className={imgClass} to={linkMain}>
+          <img src={logo} alt="logo" />
+        </NavLink>
+        {/* <img className={imgClass} src={logo} alt="logo" /> */}
         <h1 className={titleClass}>Добро пожаловать!</h1>
       </section>
       <form className={formClass}>
@@ -64,7 +68,9 @@ function Register({mediaNum, onSubmit}) {
         </button>
         <div className={blockClass}>
           <div className={infoClass}>Уже зарегистрированы?</div>
-          <div className={actClass}>Войти</div>
+          <NavLink className={actClass} to={linkSignIn}>
+            Войти
+          </NavLink>
         </div>
       </div>
     </div>
