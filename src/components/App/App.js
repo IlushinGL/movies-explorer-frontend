@@ -10,6 +10,7 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Auth/Profile/Profile';
 import Navigation from '../Navigation/Navigation';
+import NotFound from '../NotFound/NotFound';
 
 import getMoveSet from '../../utils/generateMovie';
 
@@ -158,6 +159,12 @@ function App() {
             path="/pre"
             element={
               <Preloader />
+            }
+          />
+          <Route
+            path="/*"
+            element={
+              <NotFound mediaNum={mediaNum} />
             }
           />
         </Routes>
