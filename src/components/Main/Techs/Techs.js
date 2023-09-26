@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { TECHS_NAMES } from '../../../utils/constants';
 import './Techs.css';
 
@@ -24,10 +25,19 @@ function Techs({num}) {
       </div>
       <div className={tblClass}>
         {TECHS_NAMES.map((item) => (
-          <div className={tblElement}>
-            {item}
-          </div>
+          <Link
+            className={tblElement}
+            to={item[1]}
+            target="_blank"
+            rel="noopener noreferrer">
+            {item[0]}
+          </Link>
         ))}
+        {/* {TECHS_NAMES.map((item) => (
+          <div className={tblElement}>
+            {item[0]}
+          </div>
+        ))} */}
       </div>
     </section>
   );

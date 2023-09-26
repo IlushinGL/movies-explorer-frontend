@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom';
 import './Portfolio.css';
+import { PORTFOLIO_DATA } from '../../../utils/constants';
 
 function Portfolio({num}) {
   const base       = 'portfolio';
@@ -11,18 +13,17 @@ function Portfolio({num}) {
       <h2 className={titleClass}>
         Портфолио
       </h2>
-      <div className={itemClass}>
-        Статичный сайт
-        <div className={linkClass}></div>
-      </div>
-      <div className={itemClass}>
-        Адаптивный сайт
-        <div className={linkClass}></div>
-      </div>
-      <div className={itemClass}>
-        Одностраничное приложение
-        <div className={linkClass}></div>
-      </div>
+      {PORTFOLIO_DATA.map((item, id) => (
+        <h3 className={itemClass}>
+        {item[0]}
+        <Link
+          className={linkClass}
+          to={item[1]}
+          target="_blank"
+          rel="noopener noreferrer">
+        </Link>
+      </h3>
+      ))}
     </section>
   );
 }

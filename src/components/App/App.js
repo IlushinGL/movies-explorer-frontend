@@ -1,6 +1,6 @@
 import React from 'react';
 // import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -24,36 +24,47 @@ const savedMovieSet = getMoveSet(3);
 
 function App() {
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
+  // const [menuItem, setMenuItem] = React.useState(0);
   const [isUserKnown, setUserKnown] = React.useState(false);
   const [isMenuOpen, setMenuOpen] = React.useState(false);
-
+  const navigate = useNavigate();
 
   useMedia(getMediaBreakArea(), hanleMediaChanged);
-
 
   function hanleMediaChanged() {
     setMediaNum(getMediaBreakNumber());
   }
 
+  function hanleSignIn() {
+    navigate('/signin', {replace: true});
+  }
+
   function hanleLogIn() {
     setUserKnown(true);
+    navigate('/movies', {replace: true});
   }
 
   function hanleMenuClick() {
     setMenuOpen(true);
   }
 
+  function hanleNavigationCloseClick() {
+    setMenuOpen(false);
+  }
+
   return (
     <div className="app">
-      <div className="app__content redborder">
+      <div className="app__content">
         <Routes>
           <Route
             path="/"
             element={
               <>
-              <Header mediaNum={mediaNum}
-                      isAuthorized={isUserKnown}
-                      logIn={hanleLogIn}/>
+              <Header
+                mediaNum={mediaNum}
+                isAuthorized={isUserKnown}
+                linkSignUp={'/signup'}
+                onSignInClick={hanleSignIn}/>
               <Main mediaNum={mediaNum} />
               </>
             }
@@ -61,22 +72,25 @@ function App() {
           <Route
             path="/signin"
             element={
-              <Login mediaNum={mediaNum} />
+              <Login mediaNum={mediaNum} onSubmit={hanleLogIn}/>
             }
           />
           <Route
             path="/signup"
             element={
-              <Register mediaNum={mediaNum} />
+              <Register mediaNum={mediaNum} onSubmit={hanleLogIn}/>
             }
           />
           <Route
             path="/movies"
             element={
               <>
+              {/* mediaNum, isAuthorized, linkMovies, linkSavedMovies, linkProfile, linkSignUp, onSignInClick, onMenuClick */}
               <Header mediaNum={mediaNum}
-                      isAuthorized={true}
-                      logIn={hanleLogIn}
+                      isAuthorized={isUserKnown}
+                      linkMovies={'/movies'}
+                      linkSavedMovies={'/saved-movies'}
+                      linkProfile={'/profile'}
                       onMenuClick={hanleMenuClick}/>
               <Movies mediaNum={mediaNum} movieCards={movieSet} />
               </>
@@ -86,9 +100,11 @@ function App() {
             path="/saved-movies"
             element={
               <>
-              <Header mediaNum={mediaNum}
-                      isAuthorized={true}
-                      logIn={hanleLogIn}
+               <Header mediaNum={mediaNum}
+                      isAuthorized={isUserKnown}
+                      linkMovies={'/movies'}
+                      linkSavedMovies={'/saved-movies'}
+                      linkProfile={'/profile'}
                       onMenuClick={hanleMenuClick}/>
               <SavedMovies mediaNum={mediaNum} movieCards={savedMovieSet} />
               </>
@@ -98,10 +114,12 @@ function App() {
             path="/profile"
             element={
               <>
-              <Header mediaNum={mediaNum}
-                      isAuthorized={true}
-                      logIn={hanleLogIn}
-                      onMenuClick={hanleMenuClick} />
+               <Header mediaNum={mediaNum}
+                      isAuthorized={isUserKnown}
+                      linkMovies={'/movies'}
+                      linkSavedMovies={'/saved-movies'}
+                      linkProfile={'/profile'}
+                      onMenuClick={hanleMenuClick}/>
               <Profile mediaNum={mediaNum} />
               </>
             }
@@ -114,7 +132,14 @@ function App() {
           />
         </Routes>
 
-        <Navigation mediaNum={mediaNum} isOpened={isMenuOpen} />
+        <Navigation
+          mediaNum={mediaNum}
+          linkMain={'/'}
+          linkMovies={'/movies'}
+          linkSavedMovies={'/saved-movies'}
+          linkProfile={'/profile'}
+          isOpened={isMenuOpen}
+          handleOnClose={hanleNavigationCloseClick} />
 
       </div>
 

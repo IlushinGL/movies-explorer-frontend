@@ -2,7 +2,7 @@ import logo from '../../../images/logo.svg';
 import '../Login/Login.css';
 import './Register.css';
 
-function Register({mediaNum}) {
+function Register({mediaNum, onSubmit}) {
   const base        = 'login';
   const mode        = 'register';
   const baseClass   = `${base} ${base}_pos_${mediaNum}`;
@@ -59,7 +59,7 @@ function Register({mediaNum}) {
         />
       </form>
       <div className={ctlClass}>
-        <button className={btnClass}>
+        <button className={btnClass} onClick={onSubmit}>
           Зарегистрироваться
         </button>
         <div className={blockClass}>

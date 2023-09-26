@@ -23,14 +23,14 @@ function Profile({mediaNum}) {
             <div className={lblClass}>Имя</div>
             <div className={inputClass}>Виталий</div>
           </div>
-          <div className={errClass}>тут будет ошибка валидации имени любой длинны</div>
+          <div className={errClass}>тут будет ошибка (любой длинны) валидации имени</div>
         </div>
         <div className={setClass}>
           <div className={itemClass}>
             <div className={lblClass}>E-mail</div>
             <div className={inputClass}>pochta@yandex.ru</div>
           </div>
-          <div className={errClass}>тут будет ошибка валидации почты любой длинны</div>
+          <div className={errClass}>тут будет ошибка (любой длинны) валидации почты</div>
         </div>
       </div>
       <div className={crlClass}>

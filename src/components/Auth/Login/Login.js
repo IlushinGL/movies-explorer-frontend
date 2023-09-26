@@ -1,7 +1,7 @@
 import logo from '../../../images/logo.svg';
 import './Login.css';
 
-function Login({mediaNum}) {
+function Login({mediaNum, onSubmit}) {
   const base        = 'login';
   const baseClass   = `${base} ${base}_pos_${mediaNum}`;
   const headerClass = `${base}__header ${base}__header_pos_${mediaNum}`;
@@ -46,7 +46,7 @@ function Login({mediaNum}) {
         />
       </form>
       <div className={ctlClass}>
-        <button className={btnClass}>
+        <button className={btnClass} onClick={onSubmit}>
           Войти
         </button>
         <div className={blockClass}>

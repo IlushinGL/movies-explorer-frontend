@@ -12,7 +12,7 @@ function MoviesCard({mediaNum, card}) {
   const imgClass    = `${base}__img ${base}__img_pos_${mediaNum}`;
   const capClass    = `${base}__caption`;
   const titleClass  = `${base}__caption-title`;
-  const txtClass    = `${base}__caption-txt`;
+  const txtClass    = `${base}__caption-txt ${base}__caption-txt_pos_${mediaNum}`;
   const likeClass   = `${base}__caption-img`;
   const timeClass   = `${base}__caption-duration`;
 

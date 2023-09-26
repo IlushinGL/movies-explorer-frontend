@@ -1,6 +1,8 @@
 .app {
-  text-align: center;
   background-color: var(--color-body);
+  font-family: Inter, Arial, sans-serif;
+  font-size: 20px;
+  color: var(--color-text-light);
 }
 
 .app__content {
@@ -15,9 +17,10 @@
   position: relative;
   align-items: center;
   justify-content: flex-start;
-  font-family: Inter, Arial, sans-serif;
-  font-size: 20px;
-  color: var(--color-text-light);
+
+
+  border: 0.5px solid var(--color-tech-ground);
+  border-top: none;
 }
 
 @media (max-width:  1279px) {

@@ -13,12 +13,16 @@
   background-color: var(--color-popup-ground);
   transition: opacity 0.5s , visibility 0.5s;
 }
-
+.navigation-popup_pos_1 {
+  width: 1280px;
+}
+.navigation-popup_pos_3 {
+  width: 320px;
+}
 .navigation-popup_opened {
   visibility: visible;
   opacity: 1;
 }
-
 .navigation-popup_closed {
   visibility: hidden;
   opacity: 0;
@@ -28,13 +32,15 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  /* align-items: flex-start; */
+  align-content: space-between;
   margin: 0;
   padding: 0;
   min-height: 100vh;
   min-width: 520px;
   background-color: var(--color-body);
-  color: black;
+}
+.navigation__conteiner_pos_3 {
+  min-width: 320px;
 }
 
 .navigation__close {
@@ -54,4 +60,74 @@
 }
 .navigation__close:hover {
   opacity: 70%;
+}
+.navigation__close_pos_3 {
+  top: 13px;
+  right: 13px;
+}
+
+.navigation__items-set {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  margin-top: 159px;
+  flex-direction: column;
+  min-height: 134px;
+}
+.navigation__items-set_pos_3 {
+  margin-top: 144px;
+  min-height: 117px;
+}
+
+.navigation__item {
+  display: block;
+  padding: 0;
+  margin: 0 auto 22px;
+  min-height: 26px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21.78px;
+  text-align: top center;
+  text-decoration: none;
+  border-bottom: 2px solid var(--color-body);
+  color: var(--color-text-dark);
+  cursor: pointer;
+  /* opacity: 100%; */
+}
+.navigation__item:last-child {
+  margin-bottom: 0;
+}
+.navigation__item:hover {
+  /* opacity: 70%; */
+  border-bottom: 2px solid var(--color-text-dark);
+}
+.navigation__item_pos_3 {
+  min-height: 29px;
+  margin-bottom: 15px;
+}
+
+.navigation__btn {
+  display: flex;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  min-width: 100px;
+  min-height: 32px;
+  margin: auto auto 90px;
+  border-radius: 20px;
+  background-color: var(--color-btn-light);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  text-decoration: none;
+  border: none;
+  color: var(--color-text-dark);
+  cursor: pointer;
+  opacity: 100%;
+}
+.navigation__btn:hover {
+  opacity: 70%;
+}
+.navigation__btn_pos_3 {
+  margin-bottom: 46px;
 }

@@ -138,12 +138,18 @@
   line-height: 14.52px;
   font-weight: 400;
   letter-spacing: -4%;
+  text-decoration: none;
   color: var(--color-text-dark);
   background-color: var(--color-tech-ground);
   border-radius: 10px;
   align-items: center;
   justify-content: center;
-  cursor: default;
+  cursor: pointer;
+  opacity: 100%;
+}
+.techs-tbl__element:hover {
+  font-weight: 900;
+  opacity: 70%;
 }
 .techs-tbl__element_pos_1 {
   max-width: 90px;
