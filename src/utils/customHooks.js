@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import {useState, useEffect, useCallback } from 'react';
 import { HOOKS_DATA } from './constants';
 
 export function useEscapeKey(handleClose) {
@@ -36,7 +36,7 @@ export function useMedia(points, hanleMediaChanged) {
     return window.matchMedia(`(min-width: ${point}px)`);
   });
   const handleMedia = useCallback((event) => {
-    hanleMediaChanged();
+    hanleMediaChanged(event);
   }, [hanleMediaChanged]);
 
   useEffect(() => {
@@ -49,4 +49,25 @@ export function useMedia(points, hanleMediaChanged) {
       });
     };
   });
+}
+
+export function useFormAndValidation() {
+  const [ values, setValues ] = useState({});
+  const [ errors, setErrors ] = useState({});
+  const [ isValid, setIsValid ] = useState(false);
+
+  const handleChange = (e) => {
+    const {name, value} = e.target
+    setValues({...values, [name]: value });
+    setErrors({...errors, [name]: e.target.validationMessage});
+    setIsValid(e.target.closest('form').checkValidity());
+  };
+
+  const resetForm = useCallback((newValues = {}, newErrors = {}, newIsValid = false) => {
+    setValues(newValues);
+    setErrors(newErrors);
+    setIsValid(newIsValid);
+  }, [setValues, setErrors, setIsValid]);
+
+  return { values, handleChange, errors, isValid, resetForm, setValues, setErrors, setIsValid };
 }

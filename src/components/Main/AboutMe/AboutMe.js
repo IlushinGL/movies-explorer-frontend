@@ -31,7 +31,7 @@ function AboutMe({num}) {
           <div className="about-me__brief-other">Github</div>
 
         </div>
-        <img className={briefImgClass} src={me_img} alt="me" />
+        <img className={briefImgClass} src={me_img} alt="Львович" />
       </div>
       <Portfolio num={num} />
     </section>

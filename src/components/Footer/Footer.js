@@ -9,7 +9,7 @@ function Footer({num}) {
   const linksClass   = `${base}__links-set ${base}__links-set_pos_${num}`;
   const itemClass    = `${base}__link-item ${base}__link-item_pos_${num}`;
   return (
-    <section className={ footerClass}>
+    <footer className={footerClass}>
       <h2 className={titleClass}>Учебный проект Яндекс.Практикум х BeatFilm.</h2>
 
       <div className={infoClass}>
@@ -19,7 +19,7 @@ function Footer({num}) {
           <h3 className={itemClass}>Github</h3>
         </div>
       </div>
-    </section>
+    </footer>
   );
 }
 

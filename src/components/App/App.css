@@ -1,5 +1,5 @@
 .app {
-  background-color: var(--color-body);
+  background-color: var(--color-ground);
   font-family: Inter, Arial, sans-serif;
   font-size: 20px;
   color: var(--color-text-light);
@@ -8,7 +8,7 @@
 .app__content {
   background-color: var(--color-body);
   min-height: 100%;
-  min-width: 320px;
+  /* min-width: 320px; */
   max-width: 1280px;
   margin: 0 auto;
   padding: 0;
@@ -17,10 +17,6 @@
   position: relative;
   align-items: center;
   justify-content: flex-start;
-
-
-  border: 0.5px solid var(--color-tech-ground);
-  border-top: none;
 }
 .app__content_pos_2 {
   max-width: 768px;
@@ -28,3 +24,14 @@
 .app__content_pos_3 {
   max-width: 320px;
 }
+
+/* @media (max-width: 1279px) {
+  .app__content {
+    max-width: 768px;
+  }
+}
+@media (max-width: 767px) {
+  .content {
+    max-width: 320px;
+  }
+} */

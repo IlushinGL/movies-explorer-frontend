@@ -35,8 +35,17 @@ function App() {
 
   useMedia(getMediaBreakArea(), hanleMediaChanged);
 
-  function hanleMediaChanged() {
-    setMediaNum(getMediaBreakNumber());
+
+  function hanleMediaChanged(event) {
+    let num = getMediaBreakNumber();
+    if (event.matches && num === mediaNum) {
+      num -= 1;
+    } else if (!event.matches && num === mediaNum) {
+      num += 1;
+    }
+    if (num > 3) {num = 3;}
+    else if (num < 1) {num = 1;}
+    setMediaNum(num);
   }
 
   function hanleSignIn() {

@@ -3,11 +3,17 @@
 ### Movies Collections. Фронтенд. Реакт.
 ### Автор: Григорий Илюшин
 
-После клонирования проекта и установки зависимостей команда:
+Клонирование и установка зависимостей:
 
-`npm start` — запустит приложение в режиме разработки
+`git clone https://github.com/IlushinGL/movies-explorer-frontend.git`
+`cd movies-explorer-frontend`
+`git checkout -b level-2  origin/level-2`
+`npm install`
 
-`npm build` — создаст оптимизированную сборку приложения
+Команды:
+
+`npm run start` — запуск приложение в режиме разработки
+`npm run build` — создание оптимизированной сборки приложения
 
 Откройте [http://localhost:3000](http://localhost:3000) чтобы увидеть результат в браузере.
 
