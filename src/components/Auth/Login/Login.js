@@ -6,18 +6,18 @@ import { useFormAndValidation } from '../../../utils/customHooks';
 function Login({mediaNum, onSubmit, linkMain, linkSignUp}) {
   const base        = 'login';
   const baseClass   = `${base} ${base}_pos_${mediaNum}`;
-  const headerClass = `${base}__header ${base}__header_pos_${mediaNum}`;
-  const imgClass    = `${base}__header-img ${base}__header-img_pos_${mediaNum}`;
-  const titleClass  = `${base}__header-title ${base}__header-title_pos_${mediaNum}`;
-  const formClass   = `${base}__form`;
-  const lblClass    = `${base}__form-input-lbl ${base}__form-input-lbl_pos_${mediaNum}`;
-  const inputClass  = `${base}__form-input-txt ${base}__form-input-txt_pos_${mediaNum}`;
-  const errClass    = `${base}__form-input-err ${base}__form-input-err_pos_${mediaNum}`;
-  const ctlClass    = `${base}__control ${base}__control_pos_${mediaNum}`;
-  const btnClass    = `${base}__control-btn ${base}__control-btn_pos_${mediaNum}`;
-  const blockClass  = `${base}__control-block ${base}__control-block_pos_${mediaNum}`;
-  const infoClass   = `${base}__control-block-info ${base}__control-block-info_pos_${mediaNum}`;
-  const actClass    = `${base}__control-block-action ${base}__control-block-action_pos_${mediaNum}`;
+  const headerClass = `${base}-header ${base}-header_pos_${mediaNum}`;
+  const imgClass    = `${base}-header-img ${base}-header-img_pos_${mediaNum}`;
+  const titleClass  = `${base}-header-title ${base}-header-title_pos_${mediaNum}`;
+  const formClass   = `${base}-form`;
+  const lblClass    = `${base}-form-input-lbl ${base}-form-input-lbl_pos_${mediaNum}`;
+  const inputClass  = `${base}-form-input-txt ${base}-form-input-txt_pos_${mediaNum}`;
+  const errClass    = `${base}-form-input-err ${base}-form-input-err_pos_${mediaNum}`;
+  const ctlClass    = `${base}-control ${base}-control_pos_${mediaNum}`;
+  const btnClass    = `${base}-control-btn ${base}-control-btn_pos_${mediaNum}`;
+  const blockClass  = `${base}-control-block ${base}-control-block_pos_${mediaNum}`;
+  const infoClass   = `${base}-control-block-info ${base}-control-block-info_pos_${mediaNum}`;
+  const actClass    = `${base}-control-block-action ${base}-control-block-action_pos_${mediaNum}`;
 
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
@@ -74,9 +74,10 @@ function Login({mediaNum, onSubmit, linkMain, linkSignUp}) {
       </form>
       <div className={ctlClass}>
         <button
-          className={btnClass}
+          className={btnClass + (!isValid ? ` ${base}-control-btn_disabled` : '')}
           type="button"
-          onClick={handleSubmit} disabled={!isValid}>
+          onClick={handleSubmit}
+          disabled={!isValid}>
           Войти
         </button>
         <div className={blockClass}>

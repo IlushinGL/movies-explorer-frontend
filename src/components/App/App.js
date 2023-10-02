@@ -2,6 +2,7 @@ import React from 'react';
 // import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Login from '../Auth/Login/Login';
@@ -24,11 +25,16 @@ const savedMovieSet = getMoveSet(3);
 
 
 function App() {
+  const [currentUser, setCurrentUser] = React.useState({
+    _id: '-1',
+    name: null,
+    email: null,
+  });
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
   const [isUserKnown, setUserKnown] = React.useState(false);
   const [isMenuOpen, setMenuOpen] = React.useState(false);
 
-  const base = 'app__content';
+  const base = 'app-content';
   const baseClass = `${base} ${base}_pos_${mediaNum}`;
 
   const navigate = useNavigate();
@@ -58,8 +64,14 @@ function App() {
   }
 
   function hanleLogIn() {
-    // юзер авторизуется при клике в форме авторизации на войти
-    // или в форме регистрации на зарегистрироваться
+    // юзер авторизуется
+    setUserKnown(true);
+    navigate('/movies', {replace: true});
+  }
+
+  function hanleRegister({name, email}) {
+    // юзер регестрируется и авторизуется
+    setCurrentUser({name, email})
     setUserKnown(true);
     navigate('/movies', {replace: true});
   }
@@ -79,117 +91,119 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <div className={baseClass}>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-              <Header
-                mediaNum={mediaNum}
-                isAuthorized={false}
-                linkMain={'/'}
-                linkSignUp={'/signup'}
-                onSignInClick={hanleSignIn}/>
-              <Main mediaNum={mediaNum} />
-              </>
-            }
-          />
-          <Route
-            path="/signin"
-            element={
-              <Login
-                mediaNum={mediaNum}
-                linkMain={'/'}
-                onSubmit={hanleLogIn}
-                linkSignUp={'/signup'}/>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <Register
-                mediaNum={mediaNum}
-                linkMain={'/'}
-                onSubmit={hanleLogIn}
-                linkSignIn={'/signin'}/>
-            }
-          />
-          <Route
-            path="/movies"
-            element={
-              <>
-              <Header mediaNum={mediaNum}
-                      isAuthorized={true}
-                      linkMain={'/'}
-                      linkMovies={'/movies'}
-                      linkSavedMovies={'/saved-movies'}
-                      linkProfile={'/profile'}
-                      onMenuClick={hanleMenuClick}/>
-              <Movies mediaNum={mediaNum} movieCards={movieSet} />
-              </>
-            }
-          />
-          <Route
-            path="/saved-movies"
-            element={
-              <>
-               <Header mediaNum={mediaNum}
-                      isAuthorized={true}
-                      linkMain={'/'}
-                      linkMovies={'/movies'}
-                      linkSavedMovies={'/saved-movies'}
-                      linkProfile={'/profile'}
-                      onMenuClick={hanleMenuClick}/>
-              <SavedMovies mediaNum={mediaNum} movieCards={savedMovieSet} />
-              </>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <>
-               <Header mediaNum={mediaNum}
-                      isAuthorized={true}
-                      linkMain={'/'}
-                      linkMovies={'/movies'}
-                      linkSavedMovies={'/saved-movies'}
-                      linkProfile={'/profile'}
-                      onMenuClick={hanleMenuClick}/>
-              <Profile
-                mediaNum={mediaNum}
-                onOutClick={hanleLogOut}
-                onEditClick={hanleLogIn}/>
-              </>
-            }
-          />
-          <Route
-            path="/pre"
-            element={
-              <Preloader />
-            }
-          />
-          <Route
-            path="/*"
-            element={
-              <NotFound mediaNum={mediaNum} />
-            }
-          />
-        </Routes>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="app">
+        <div className={baseClass}>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                <Header
+                  mediaNum={mediaNum}
+                  isAuthorized={false}
+                  linkMain={'/'}
+                  linkSignUp={'/signup'}
+                  onSignInClick={hanleSignIn}/>
+                <Main mediaNum={mediaNum} />
+                </>
+              }
+            />
+            <Route
+              path="/signin"
+              element={
+                <Login
+                  mediaNum={mediaNum}
+                  linkMain={'/'}
+                  onSubmit={hanleLogIn}
+                  linkSignUp={'/signup'}/>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <Register
+                  mediaNum={mediaNum}
+                  linkMain={'/'}
+                  onSubmit={hanleRegister}
+                  linkSignIn={'/signin'}/>
+              }
+            />
+            <Route
+              path="/movies"
+              element={
+                <>
+                <Header mediaNum={mediaNum}
+                        isAuthorized={true}
+                        linkMain={'/'}
+                        linkMovies={'/movies'}
+                        linkSavedMovies={'/saved-movies'}
+                        linkProfile={'/profile'}
+                        onMenuClick={hanleMenuClick}/>
+                <Movies mediaNum={mediaNum} movieCards={movieSet} />
+                </>
+              }
+            />
+            <Route
+              path="/saved-movies"
+              element={
+                <>
+                <Header mediaNum={mediaNum}
+                        isAuthorized={true}
+                        linkMain={'/'}
+                        linkMovies={'/movies'}
+                        linkSavedMovies={'/saved-movies'}
+                        linkProfile={'/profile'}
+                        onMenuClick={hanleMenuClick}/>
+                <SavedMovies mediaNum={mediaNum} movieCards={savedMovieSet} />
+                </>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <>
+                <Header mediaNum={mediaNum}
+                        isAuthorized={true}
+                        linkMain={'/'}
+                        linkMovies={'/movies'}
+                        linkSavedMovies={'/saved-movies'}
+                        linkProfile={'/profile'}
+                        onMenuClick={hanleMenuClick}/>
+                <Profile
+                  mediaNum={mediaNum}
+                  onOutClick={hanleLogOut}
+                  onEditClick={hanleRegister}/>
+                </>
+              }
+            />
+            <Route
+              path="/pre"
+              element={
+                <Preloader />
+              }
+            />
+            <Route
+              path="/*"
+              element={
+                <NotFound mediaNum={mediaNum} />
+              }
+            />
+          </Routes>
 
-        <Navigation
-          mediaNum={mediaNum}
-          linkMain={'/'}
-          linkMovies={'/movies'}
-          linkSavedMovies={'/saved-movies'}
-          linkProfile={'/profile'}
-          isOpened={isMenuOpen}
-          handleOnClose={hanleNavigationCloseClick} />
+          <Navigation
+            mediaNum={mediaNum}
+            linkMain={'/'}
+            linkMovies={'/movies'}
+            linkSavedMovies={'/saved-movies'}
+            linkProfile={'/profile'}
+            isOpened={isMenuOpen}
+            handleOnClose={hanleNavigationCloseClick} />
+
+        </div>
 
       </div>
-
-    </div>
+    </CurrentUserContext.Provider>
   );
 }
 

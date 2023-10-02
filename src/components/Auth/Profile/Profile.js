@@ -1,51 +1,96 @@
+import React from 'react';
 import './Profile.css';
+import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
+import { useFormAndValidation } from '../../../utils/customHooks';
 
 function Profile({mediaNum, onOutClick, onEditClick}) {
   const base           = 'profile';
   const baseClass      = `${base} ${base}_pos_${mediaNum}`;
-  const titleClass     = `${base}__title ${base}__title_pos_${mediaNum}`;
-  const dataClass      = `${base}__data ${base}__data_pos_${mediaNum}`;
-  const setClass       = `${base}__data-set`;
-  const itemClass      = `${base}__data-item`;
-  const lblClass       = `${base}__data-lbl`;
-  const inputClass     = `${base}__data-input`;
-  const errClass       = `${base}__data-err ${base}__data-err_pos_${mediaNum}`;
-  const crlClass       = `${base}__control ${base}__control_pos_${mediaNum}`;
-  const crlItemClass   = `${base}__control-item ${base}__control-item_pos_${mediaNum}`;
+  const titleClass     = `${base}-title ${base}-title_pos_${mediaNum}`;
+  const dataClass      = `${base}-data ${base}-data_pos_${mediaNum}`;
+  const setClass       = `${base}-data-set`;
+  const itemClass      = `${base}-data-item`;
+  const lblClass       = `${base}-data-lbl`;
+  const inputClass     = `${base}-data-input`;
+  const errClass       = `${base}-data-err ${base}-data-err_pos_${mediaNum}`;
+  const crlClass       = `${base}-control ${base}-control_pos_${mediaNum}`;
+  const crlItemClass   = `${base}-control-item ${base}-control-item_pos_${mediaNum}`;
+
+  const currentUser = React.useContext(CurrentUserContext);
+  const {values, setValues, handleChange, errors, isValid, resetForm} = useFormAndValidation();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // Передать значения управляемых компонентов во внешний обработчик
+    onEditClick({
+      name: values.name,
+      email: values.email,
+    });
+    resetForm();
+  }
+
+  React.useEffect(() => {
+    resetForm();
+    setValues({
+      name: currentUser.name,
+      email: currentUser.email,
+    });
+  }, [resetForm, setValues, currentUser]);
+
   return (
-    <div className={baseClass}>
-      <div className={titleClass}>
-        Привет, Виталий!
-      </div>
-      <div className={dataClass}>
+    <main className={baseClass}>
+      <h1 className={titleClass}>
+        {`Привет, ${currentUser.name}!`}
+      </h1>
+      <form className={dataClass}>
         <div className={setClass}>
           <div className={itemClass}>
-            <div className={lblClass}>Имя</div>
-            <div className={inputClass}>Виталий</div>
+            <label className={lblClass}>Имя</label>
+            <input
+              className={inputClass}
+              onChange={handleChange}
+              type="text"
+              name="name"
+              value={values.name || ''}
+              minLength="2"
+              maxLength="40"
+              autoComplete="off"
+              required
+            />
           </div>
-          <div className={errClass}>тут будет ошибка (любой длинны) валидации имени</div>
+          <span className={errClass}>{ errors.name || ' ' }</span>
         </div>
         <div className={setClass}>
           <div className={itemClass}>
-            <div className={lblClass}>E-mail</div>
-            <div className={inputClass}>pochta@yandex.ru</div>
+            <label className={lblClass}>E-mail</label>
+            <input
+              className={inputClass}
+              onChange={handleChange}
+              type="email"
+              name="email"
+              value={values.email || ''}
+              minLength="5"
+              maxLength="40"
+              autoComplete="off"
+              required
+            />
           </div>
-          <div className={errClass}>тут будет ошибка (любой длинны) валидации почты</div>
+          <span className={errClass}>{ errors.email || ' ' }</span>
         </div>
-      </div>
+      </form>
       <div className={crlClass}>
         <div
-          onClick={onEditClick}
-          className={crlItemClass}>
+          onClick={isValid ? handleSubmit : undefined}
+          className={crlItemClass + (!isValid ? ` ${base}-control-item_disabled` : '')}>
           Редактировать
         </div>
         <div
           onClick={onOutClick}
-          className={crlItemClass + ` ${base}__control-item_att`}>
+          className={crlItemClass + ` ${base}-control-item_att`}>
           Выйти из аккаунта
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

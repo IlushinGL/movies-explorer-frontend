@@ -1,25 +1,51 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from '../../../images/logo.svg';
 import '../Login/Login.css';
-import './Register.css';
+import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
+import { useFormAndValidation } from '../../../utils/customHooks';
 
 function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
   const base        = 'login';
-  const mode        = 'register';
-  const baseClass   = `${base} ${base}_pos_${mediaNum}`;
-  const headerClass = `${base}__header ${base}__header_pos_${mediaNum}`;
-  const imgClass    = `${base}__header-img ${base}__header-img_pos_${mediaNum}`;
-  const titleClass  = `${base}__header-title ${base}__header-title_pos_${mediaNum}`;
-  const formClass   = `${base}__form ${mode}__form_height`;
-  const lblClass    = `${base}__form-input-lbl ${base}__form-input-lbl_pos_${mediaNum}`;
-  const inputClass  = `${base}__form-input-txt ${base}__form-input-txt_pos_${mediaNum}`;
-  const ctlClass    = `${base}__control ${base}__control_pos_${mediaNum} ${mode}__control_pos_${mediaNum}`;
-  const btnClass    = `${base}__control-btn ${base}__control-btn_pos_${mediaNum} ${mode}__control-btn_pos_${mediaNum}`;
-  const blockClass  = `${base}__control-block ${base}__control-block_pos_${mediaNum}`;
-  const infoClass   = `${base}__control-block-info ${base}__control-block-info_pos_${mediaNum}`;
-  const actClass    = `${base}__control-block-action ${base}__control-block-action_pos_${mediaNum}`;
+  const baseClass   = `${base}
+                       ${base}_pos_${mediaNum}`;
+  const headerClass = `${base}-header ${base}-header_pos_${mediaNum}`;
+  const imgClass    = `${base}-header-img ${base}-header-img_pos_${mediaNum}`;
+  const titleClass  = `${base}-header-title ${base}-header-title_pos_${mediaNum}`;
+  const formClass   = `${base}-form`;
+  const lblClass    = `${base}-form-input-lbl ${base}-form-input-lbl_pos_${mediaNum}`;
+  const inputClass  = `${base}-form-input-txt ${base}-form-input-txt_pos_${mediaNum}`;
+  const errClass    = `${base}-form-input-err ${base}-form-input-err_pos_${mediaNum}`;
+  const ctlClass    = `${base}-control ${base}-control_pos_${mediaNum}`;
+  const btnClass    = `${base}-control-btn ${base}-control-btn_pos_${mediaNum}`;
+  const blockClass  = `${base}-control-block ${base}-control-block_pos_${mediaNum}`;
+  const infoClass   = `${base}-control-block-info ${base}-control-block-info_pos_${mediaNum}`;
+  const actClass    = `${base}-control-block-action ${base}-control-block-action_pos_${mediaNum}`;
+
+  const currentUser = React.useContext(CurrentUserContext);
+  const {values, setValues, handleChange, errors, isValid, resetForm} = useFormAndValidation();
+
+  React.useEffect(() => {
+    resetForm();
+    setValues({
+      name: currentUser.name,
+      email: currentUser.email,
+    });
+  }, [resetForm, setValues, currentUser]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // Передать значения управляемых компонентов во внешний обработчик
+    onSubmit({
+      name: values.name,
+      email: values.email,
+      password: values.password,
+    });
+    resetForm();
+  }
+
   return (
-    <div className={baseClass}>
+    <main className={baseClass}>
       <section className={headerClass}>
         <NavLink className={imgClass} to={linkMain}>
           <img src={logo} alt="logo" />
@@ -28,42 +54,54 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
         <h1 className={titleClass}>Добро пожаловать!</h1>
       </section>
       <form className={formClass}>
-      <h2 className={lblClass}>
+        <label className={lblClass}>
           Имя
-        </h2>
+        </label>
         <input
           className={inputClass}
+          onChange={handleChange}
           type="text"
+          name="name"
           minLength="2"
           maxLength="40"
           autoComplete="off"
           required
         />
-        <h2 className={lblClass}>
+        <span className={errClass}>{ errors.name || ' ' }</span>
+        <label className={lblClass}>
           E-mail
-        </h2>
+        </label>
         <input
           className={inputClass}
+          onChange={handleChange}
           type="email"
+          name="email"
           minLength="5"
           maxLength="40"
           autoComplete="off"
           required
         />
-        <h2 className={lblClass}>
+        <span className={errClass}>{ errors.email || ' ' }</span>
+        <label className={lblClass}>
           пароль
-        </h2>
+        </label>
         <input
           className={inputClass}
+          onChange={handleChange}
           type="password"
+          name="password"
           minLength="8"
           maxLength="12"
           autoComplete="off"
           required
         />
+        <span className={errClass}>{ errors.password || ' ' }</span>
       </form>
       <div className={ctlClass}>
-        <button className={btnClass} onClick={onSubmit}>
+        <button
+          className={btnClass + (!isValid ? ` ${base}-control-btn_disabled` : '')}
+          onClick={handleSubmit}
+          disabled={!isValid}>
           Зарегистрироваться
         </button>
         <div className={blockClass}>
@@ -73,7 +111,7 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
           </NavLink>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

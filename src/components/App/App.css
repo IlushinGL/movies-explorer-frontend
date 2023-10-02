@@ -5,7 +5,7 @@
   color: var(--color-text-light);
 }
 
-.app__content {
+.app-content {
   background-color: var(--color-body);
   min-height: 100%;
   /* min-width: 320px; */
@@ -18,10 +18,10 @@
   align-items: center;
   justify-content: flex-start;
 }
-.app__content_pos_2 {
+.app-content_pos_2 {
   max-width: 768px;
 }
-.app__content_pos_3 {
+.app-content_pos_3 {
   max-width: 320px;
 }
 
