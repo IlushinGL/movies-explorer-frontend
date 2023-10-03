@@ -1,34 +1,48 @@
 import { NavLink } from 'react-router-dom';
 import logo from '../../images/logo.svg';
-import menu from '../../images/icon_main.svg';
+import menu_light from '../../images/menu_light.svg';
+import menu_dark from '../../images/menu_dark.svg';
 import './Header.css';
 
-function Header({mediaNum, isAuthorized, linkMain, linkMovies, linkSavedMovies, linkProfile, linkSignUp, onSignInClick, onMenuClick}) {
-  const base         = 'header';
-  const linkBase     = `${base}-link`;
-  const baseClass    = `${base}`;
-  const navClass     = `${base}-nav`;
-  const authBtnClass = `${base}-auth-btn ${base}-auth-btn_pos_${mediaNum}`;
-  const authNavClass = `${linkBase}-auth ${linkBase}-auth_pos_${mediaNum}`;
-  const logoClass    = `${base}-logo ${base}-logo_pos_${mediaNum}`;
-  const menuClass    = `${base}-menu ${base}-menu_pos_${mediaNum}`;
-  const btnClass     = `${base}-profile-btn`;
-  if (isAuthorized) {
+function Header({
+  mediaNum,
+  isLight, isAuthorized,
+  linkMain, linkMovies, linkSavedMovies, linkProfile, linkSignUp,
+  onSignInClick, onMenuClick}) {
 
+  const base         = 'header';
+  const baseClass    = `${base} ${isLight ? (base + '_light'): ''}`;
+  const navClass     = `${base}__nav`;
+  const linkBase     = `${base}-nav__link`;
+  const authBtnClass = `${base}__auth-btn ${base}__auth-btn_pos_${mediaNum}`;
+  const authNavClass = `${base}__link-auth ${base}__link-auth_pos_${mediaNum}`;
+  const logoClass    = `${base}__logo ${base}__logo_pos_${mediaNum}`;
+  const menuClass    = `${base}__menu ${base}__menu_pos_${mediaNum}`;
+  const btnClass     = `${base}__profile-btn`;
+
+  if (isAuthorized) {
     return (
       <header className={baseClass}>
         <NavLink className={logoClass} to={linkMain}>
-          <img src={logo} alt="logo" />
+          <img src={logo} alt="лого" />
         </NavLink>
         {mediaNum===1 ? (
         <>
         <nav className={navClass}>
           <NavLink to={linkMovies}
-            className={({isActive}) => `${linkBase} ${linkBase}_align_right ${isActive ? `${linkBase}_active` : ""}`}>
+            className={({isActive}) =>
+              `${linkBase}
+               ${isLight ? `${linkBase}_light` : ''}
+               ${linkBase}_align_right
+               ${isActive ? `${linkBase}_active` : ''}`}>
             Фильмы
           </NavLink>
           <NavLink to={linkSavedMovies}
-            className={({isActive}) => `${linkBase} ${linkBase}_align_left ${isActive ? `${linkBase}_active` : ""}`}>
+            className={({isActive}) =>
+              `${linkBase}
+               ${isLight ? `${linkBase}_light` : ''}
+               ${linkBase}_align_left
+               ${isActive ? `${linkBase}_active` : ''}`}>
             Сохранённые фильмы
           </NavLink>
         </nav>
@@ -39,7 +53,7 @@ function Header({mediaNum, isAuthorized, linkMain, linkMovies, linkSavedMovies, 
         </>
       ) : (
         <>
-        <img className={menuClass} src={menu} alt="menu" onClick={onMenuClick} />
+        <img className={menuClass} src={!isLight ? menu_light : menu_dark} alt="меню" onClick={onMenuClick} />
         </>
 
       )}

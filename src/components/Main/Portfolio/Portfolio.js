@@ -5,9 +5,9 @@ import { PORTFOLIO_DATA } from '../../../utils/constants';
 function Portfolio({num}) {
   const base       = 'portfolio';
   const baseClass  = `${base} ${base}_pos_${num}`;
-  const titleClass = `${base}__title ${base}__title_pos_${num}`;
-  const itemClass  = `${base}__item ${base}__item_pos_${num}`;
-  const linkClass  = `${base}__item-link ${base}__item-link_pos_${num}`;
+  const titleClass = `${base}-title ${base}-title_pos_${num}`;
+  const itemClass  = `${base}-item ${base}-item_pos_${num}`;
+  const linkClass  = `${base}-item__link ${base}-item__link_pos_${num}`;
   return (
     <section className={baseClass}>
       <h2 className={titleClass}>

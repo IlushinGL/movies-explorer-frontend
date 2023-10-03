@@ -4,13 +4,13 @@ import './Techs.css';
 
 function Techs({num}) {
   const base               = 'techs';
-  const techsClass         = `${base} techs_pos_${num}`;
-  const titleClass         = `${base}__title ${base}__title_pos_${num}`;
-  const briefClass         = `${base}__brief ${base}__brief_pos_${num}`;
-  const briefTitleClass    = `${base}__brief-title ${base}__brief-title_pos_${num}`;
-  const briefSubTitleClass = `${base}__brief-subtitle ${base}__brief-subtitle_pos_${num}`;
-  const tblClass           = `${base}-tbl ${base}-tbl_pos_${num}`;
-  const tblElement         = `${base}-tbl__element ${base}-tbl__element_pos_${num}`;
+  const techsClass         = `${base} ${base}_pos_${num}`;
+  const titleClass         = `${base}-title ${base}-title_pos_${num}`;
+  const briefClass         = `${base}-brief ${base}-brief_pos_${num}`;
+  const briefTitleClass    = `${base}-brief__title ${base}-brief__title_pos_${num}`;
+  const briefSubTitleClass = `${base}-brief__subtitle ${base}-brief__subtitle_pos_${num}`;
+  const tblClass           = `${base}-brief-tbl ${base}-brief-tbl_pos_${num}`;
+  const tblElement         = `${base}-brief-tbl__element ${base}-brief-tbl__element_pos_${num}`;
   return (
     <section id="techs-project" className={techsClass}>
       <div className={titleClass}>Технологии</div>

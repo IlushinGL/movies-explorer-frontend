@@ -5,22 +5,17 @@
   width: 100%;
   flex-direction: column;
   align-content: flex-start;
-  min-height: 172px;
   background-color: var(--color-body);
   cursor: default;
 }
 .footer_pos_1 {
   background-color: var(--color-footer);
 }
-.footer_pos_3 {
-  min-height: 253px;
-}
 
 .footer__title {
   display: block;
   margin: 79px 70px 20px;
-  padding: 0;
-  min-height: 36px;
+  padding: 0 0 20px;
   min-width: 1140px;
   color: var(--color-text-dark);
   border-bottom: 1px solid var(--color-tech-ground);
@@ -41,64 +36,64 @@
   line-height: 14.25px;
 }
 
-.footer__info {
+.footer-info {
   display: flex;
   flex-direction: row;
   margin: 0 70px 20px;
   padding: 0;
-  max-height: 16px;
   min-width: 1140px;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   color: var(--color-text-dark);
 }
-.footer__info_pos_2 {
+.footer-info_pos_2 {
   margin: 0 30px 20px;
   min-width: 708px;
 }
-.footer__info_pos_3 {
+.footer-info_pos_3 {
   flex-direction: column-reverse;
   margin: 0 10px 20px;
   min-width: 300px;
-  min-height: 87px;
 }
 
-.footer__copyright {
+.footer-info__copyright {
+  display: block;
+  margin: 0;
+  padding: 0;
   font-weight: 400;
   font-size: 13px;
   line-height: 15.73px;
   color: var(--color-text-dark);
 }
-.footer__copyright::before {
+.footer-info__copyright::before {
   content: '\00A9';
 }
-.footer__copyright_pos_3 {
+.footer-info__copyright_pos_3 {
   margin-bottom: 0;
   font-size: 12px;
   line-height: 14.52px;
+  margin: 0 auto;
   color: var(--color-text-gray);
 }
 
-.footer__links-set {
+.footer-info__links {
   display: flex;
   flex-direction: row;
   margin: 0;
   padding: 0;
-  max-height: 16px;
   min-width: 182px;
   align-items: center;
   justify-content: space-between;
 }
-.footer__links-set_pos_3 {
+.footer-info__links_pos_3 {
   flex-direction: column;
+  margin-bottom: 18px;
   align-content: space-between;
   min-width: 300px;
-  min-height: 42px;
 }
 
-.footer__link-item {
+.footer-info-links__item {
   display: block;
-  min-height: 15px;
   padding: 0;
   margin: 0;
   font-weight: 400;
@@ -106,7 +101,8 @@
   line-height: 15.73px;
   color: var(--color-text-dark);
 }
-.footer__link-item_pos_3 {
+.footer-info-links__item_pos_3 {
+  margin-bottom: 12px;
   font-size: 12px;
   line-height: 14.25px;
 }

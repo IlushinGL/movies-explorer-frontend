@@ -8,13 +8,13 @@ function Profile({mediaNum, onOutClick, onEditClick}) {
   const baseClass      = `${base} ${base}_pos_${mediaNum}`;
   const titleClass     = `${base}-title ${base}-title_pos_${mediaNum}`;
   const dataClass      = `${base}-data ${base}-data_pos_${mediaNum}`;
-  const setClass       = `${base}-data-set`;
-  const itemClass      = `${base}-data-item`;
-  const lblClass       = `${base}-data-lbl`;
-  const inputClass     = `${base}-data-input`;
-  const errClass       = `${base}-data-err ${base}-data-err_pos_${mediaNum}`;
+  const setClass       = `${base}-data__set`;
+  const itemClass      = `${base}-data-set__item`;
+  const lblClass       = `${base}-data-set-item__lbl`;
+  const inputClass     = `${base}-data-set-item__input`;
+  const errClass       = `${base}-data-set-item__err ${base}-data-set-item__err_pos_${mediaNum}`;
   const crlClass       = `${base}-control ${base}-control_pos_${mediaNum}`;
-  const crlItemClass   = `${base}-control-item ${base}-control-item_pos_${mediaNum}`;
+  const crlItemClass   = `${base}-control__item ${base}-control__item_pos_${mediaNum}`;
 
   const currentUser = React.useContext(CurrentUserContext);
   const {values, setValues, handleChange, errors, isValid, resetForm} = useFormAndValidation();
@@ -81,12 +81,12 @@ function Profile({mediaNum, onOutClick, onEditClick}) {
       <div className={crlClass}>
         <div
           onClick={isValid ? handleSubmit : undefined}
-          className={crlItemClass + (!isValid ? ` ${base}-control-item_disabled` : '')}>
+          className={crlItemClass + (!isValid ? ` ${base}-control__item_disabled` : '')}>
           Редактировать
         </div>
         <div
           onClick={onOutClick}
-          className={crlItemClass + ` ${base}-control-item_att`}>
+          className={crlItemClass + ` ${base}-control__item_att`}>
           Выйти из аккаунта
         </div>
       </div>

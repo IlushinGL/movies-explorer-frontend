@@ -7,20 +7,19 @@ import { useFormAndValidation } from '../../../utils/customHooks';
 
 function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
   const base        = 'login';
-  const baseClass   = `${base}
-                       ${base}_pos_${mediaNum}`;
+  const baseClass   = `${base}`;
   const headerClass = `${base}-header ${base}-header_pos_${mediaNum}`;
-  const imgClass    = `${base}-header-img ${base}-header-img_pos_${mediaNum}`;
-  const titleClass  = `${base}-header-title ${base}-header-title_pos_${mediaNum}`;
+  const imgClass    = `${base}-header__img ${base}-header__img_pos_${mediaNum}`;
+  const titleClass  = `${base}-header__title ${base}-header__title_pos_${mediaNum}`;
   const formClass   = `${base}-form`;
-  const lblClass    = `${base}-form-input-lbl ${base}-form-input-lbl_pos_${mediaNum}`;
-  const inputClass  = `${base}-form-input-txt ${base}-form-input-txt_pos_${mediaNum}`;
-  const errClass    = `${base}-form-input-err ${base}-form-input-err_pos_${mediaNum}`;
+  const lblClass    = `${base}-form__lbl ${base}-form__lbl_pos_${mediaNum}`;
+  const inputClass  = `${base}-form__input ${base}-form__input_pos_${mediaNum}`;
+  const errClass    = `${base}-form__err ${base}-form__err_pos_${mediaNum}`;
   const ctlClass    = `${base}-control ${base}-control_pos_${mediaNum}`;
-  const btnClass    = `${base}-control-btn ${base}-control-btn_pos_${mediaNum}`;
-  const blockClass  = `${base}-control-block ${base}-control-block_pos_${mediaNum}`;
-  const infoClass   = `${base}-control-block-info ${base}-control-block-info_pos_${mediaNum}`;
-  const actClass    = `${base}-control-block-action ${base}-control-block-action_pos_${mediaNum}`;
+  const btnClass    = `${base}-control__btn ${base}-control__btn_pos_${mediaNum}`;
+  const blockClass  = `${base}-control__block ${base}-control__block_pos_${mediaNum}`;
+  const infoClass   = `${base}-control-block__info ${base}-control-block__info_pos_${mediaNum}`;
+  const actClass    = `${base}-control-block__action ${base}-control-block__action_pos_${mediaNum}`;
 
   const currentUser = React.useContext(CurrentUserContext);
   const {values, setValues, handleChange, errors, isValid, resetForm} = useFormAndValidation();
@@ -50,7 +49,6 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
         <NavLink className={imgClass} to={linkMain}>
           <img src={logo} alt="logo" />
         </NavLink>
-        {/* <img className={imgClass} src={logo} alt="logo" /> */}
         <h1 className={titleClass}>Добро пожаловать!</h1>
       </section>
       <form className={formClass}>
@@ -99,7 +97,7 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
       </form>
       <div className={ctlClass}>
         <button
-          className={btnClass + (!isValid ? ` ${base}-control-btn_disabled` : '')}
+          className={btnClass + (!isValid ? ` ${base}-control__btn_disabled` : '')}
           onClick={handleSubmit}
           disabled={!isValid}>
           Зарегистрироваться

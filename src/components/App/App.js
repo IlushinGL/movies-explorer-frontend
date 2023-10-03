@@ -34,7 +34,7 @@ function App() {
   const [isUserKnown, setUserKnown] = React.useState(false);
   const [isMenuOpen, setMenuOpen] = React.useState(false);
 
-  const base = 'app-content';
+  const base = 'app__content';
   const baseClass = `${base} ${base}_pos_${mediaNum}`;
 
   const navigate = useNavigate();
@@ -101,8 +101,13 @@ function App() {
                 <>
                 <Header
                   mediaNum={mediaNum}
-                  isAuthorized={false}
+                  isLight={false}
+                  isAuthorized={isUserKnown}
                   linkMain={'/'}
+                  linkMovies={'/movies'}
+                  linkSavedMovies={'/saved-movies'}
+                  linkProfile={'/profile'}
+                  onMenuClick={hanleMenuClick}
                   linkSignUp={'/signup'}
                   onSignInClick={hanleSignIn}/>
                 <Main mediaNum={mediaNum} />
@@ -133,13 +138,15 @@ function App() {
               path="/movies"
               element={
                 <>
-                <Header mediaNum={mediaNum}
-                        isAuthorized={true}
-                        linkMain={'/'}
-                        linkMovies={'/movies'}
-                        linkSavedMovies={'/saved-movies'}
-                        linkProfile={'/profile'}
-                        onMenuClick={hanleMenuClick}/>
+                <Header
+                  mediaNum={mediaNum}
+                  isLight={true}
+                  isAuthorized={true}
+                  linkMain={'/'}
+                  linkMovies={'/movies'}
+                  linkSavedMovies={'/saved-movies'}
+                  linkProfile={'/profile'}
+                  onMenuClick={hanleMenuClick}/>
                 <Movies mediaNum={mediaNum} movieCards={movieSet} />
                 </>
               }
@@ -148,13 +155,15 @@ function App() {
               path="/saved-movies"
               element={
                 <>
-                <Header mediaNum={mediaNum}
-                        isAuthorized={true}
-                        linkMain={'/'}
-                        linkMovies={'/movies'}
-                        linkSavedMovies={'/saved-movies'}
-                        linkProfile={'/profile'}
-                        onMenuClick={hanleMenuClick}/>
+                <Header
+                  mediaNum={mediaNum}
+                  isLight={true}
+                  isAuthorized={true}
+                  linkMain={'/'}
+                  linkMovies={'/movies'}
+                  linkSavedMovies={'/saved-movies'}
+                  linkProfile={'/profile'}
+                  onMenuClick={hanleMenuClick}/>
                 <SavedMovies mediaNum={mediaNum} movieCards={savedMovieSet} />
                 </>
               }
@@ -163,13 +172,15 @@ function App() {
               path="/profile"
               element={
                 <>
-                <Header mediaNum={mediaNum}
-                        isAuthorized={true}
-                        linkMain={'/'}
-                        linkMovies={'/movies'}
-                        linkSavedMovies={'/saved-movies'}
-                        linkProfile={'/profile'}
-                        onMenuClick={hanleMenuClick}/>
+                <Header
+                  mediaNum={mediaNum}
+                  isLight={true}
+                  isAuthorized={true}
+                  linkMain={'/'}
+                  linkMovies={'/movies'}
+                  linkSavedMovies={'/saved-movies'}
+                  linkProfile={'/profile'}
+                  onMenuClick={hanleMenuClick}/>
                 <Profile
                   mediaNum={mediaNum}
                   onOutClick={hanleLogOut}
