@@ -29,7 +29,8 @@ function SearchForm({mediaNum, onSubmit}) {
             className={txtClass}
             placeholder="Фильм"
           />
-          <div className={btnClass} onClick={onSubmit}></div>
+          <button className={btnClass} onClick={onSubmit} type='button'></button>
+          {/* <div className={btnClass} onClick={onSubmit}></div> */}
         </div>
         <div className={optClass}>
           <img

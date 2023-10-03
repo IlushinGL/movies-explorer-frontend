@@ -35,7 +35,7 @@ function MoviesCard({mediaNum, card}) {
             onClick={handleSelected}
             className={likeClass}
             src={isSelected ? like_yes : like_no}
-            alt={isSelected ? 'yes' : 'no'} />
+            alt={isSelected ? 'отмечен' : 'не отмечен'} />
         </div>
         <p className={timeClass}>
           {getDurationStr(card.duration)}

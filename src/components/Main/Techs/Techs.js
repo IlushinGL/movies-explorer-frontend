@@ -12,18 +12,18 @@ function Techs({num}) {
   const tblClass           = `${base}-brief-tbl ${base}-brief-tbl_pos_${num}`;
   const tblElement         = `${base}-brief-tbl__element ${base}-brief-tbl__element_pos_${num}`;
   return (
-    <section id="techs-project" className={techsClass}>
-      <div className={titleClass}>Технологии</div>
-      <div className={briefClass}>
-        <h2 className={briefTitleClass}>
+    <article id="techs-project" className={techsClass}>
+      <h1 className={titleClass}>Технологии</h1>
+      <h2 className={briefClass}>
+        <h3 className={briefTitleClass}>
           7 технологий
-        </h2>
+        </h3>
         <p className={briefSubTitleClass}>
           На курсе веб-разработки мы осваивали следующие технологии, которые
           нужно применить в дипломном проекте:
         </p>
-      </div>
-      <div className={tblClass}>
+      </h2>
+      <section className={tblClass}>
         {TECHS_NAMES.map((item, id) => (
           <Link
             key={'tch' + id}
@@ -34,8 +34,8 @@ function Techs({num}) {
             {item[0]}
           </Link>
         ))}
-      </div>
-    </section>
+      </section>
+    </article>
   );
 }
 

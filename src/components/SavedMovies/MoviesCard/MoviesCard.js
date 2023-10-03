@@ -20,14 +20,14 @@ function MoviesCard({mediaNum, card}) {
       <img
         className={imgClass}
         src={card.image}
-        alt={'film'+ card.moveId} />
+        alt={'фильм'+ card.moveId} />
       <div className={capClass}>
         <div className={titleClass}>
           <h2 className={txtClass}>{card.nameRU}</h2>
           <img
             className={likeClass}
             src={delicon}
-            alt={'del'} />
+            alt={'удалить'} />
         </div>
         <p className={timeClass}>
           {getDurationStr(card.duration)}

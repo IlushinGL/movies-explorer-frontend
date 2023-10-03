@@ -14,35 +14,35 @@ function AboutProject({num}) {
   const tblDAClass         = `${base}-tbl__dataA`;
   const tblDBClass         = `${base}-tbl__dataB`;
   return (
-    <section id="about-project" className={aboutClass}>
-      <h2 className={titleClass}>О проекте</h2>
+    <article id="about-project" className={aboutClass}>
+      <h1 className={titleClass}>О проекте</h1>
       <div className={sectionClass}>
         <div className={briefClass}>
-          <h3 className={briefTitleClass}>
+          <h2 className={briefTitleClass}>
             Дипломный проект состоит из 5 этапов
-          </h3>
+          </h2>
           <p className={briefSubTitleClass}>
             Составление плана, работу над бэкендом, вёрстку,
             добавление функциональности и финальные доработки.
           </p>
         </div>
         <div className={briefClass}>
-          <h3 className={briefTitleClass}>
+          <h2 className={briefTitleClass}>
             На выполнение диплома разрешено 5 недель
-          </h3>
+          </h2>
           <p className={briefSubTitleClass}>
             У каждого этапа будет мягкий и жёсткий дедлайн, которые
             нужно соблюдать, чтобы успешно защититься.
           </p>
         </div>
       </div>
-      <div className={tblClass}>
+      <section className={tblClass}>
         <div className={tblHAClass}>10.09-12.09</div>
         <div className={tblHBClass}>Осталось 4.5 недели</div>
         <div className={tblDAClass}>Back-end</div>
         <div className={tblDBClass}>Front-end</div>
-      </div>
-    </section>
+      </section>
+    </article>
   );
 }
 

@@ -15,21 +15,21 @@ function AboutMe({num}) {
   const briefOtherClass  = `${base}-brief-text__other ${base}-brief-text__other_pos_${num}`;
   const briefImgClass    = `${base}-brief__img ${base}-brief__img_pos_${num}`;
   return (
-    <section id="about-me-project" className={aboutClass}>
-      <div className={titleClass}>Студент</div>
+    <article id="about-me-project" className={aboutClass}>
+      <h1 className={titleClass}>Студент</h1>
       <div className={blockClass}>
         <div className={briefClass}>
-          <div className={briefTltClass}>Львович</div>
-          <div className={briefSubTltClass}>
+          <h2 className={briefTltClass}>Львович</h2>
+          <h3 className={briefSubTltClass}>
             Агностик, 40 лет минимум
-          </div>
-          <div className={briefInfoClass}>
+          </h3>
+          <p className={briefInfoClass}>
             Я родился и живу в Мордатове, закончил факультет вероведения МорГУ.
             С начала работал в «НИИ ЧАВО». У меня есть то что есть.
             Я люблю то что люблю, а ещё увлекаюсь умклайдетами.
             Начинал кодить на МИР-1. После курса по веб-разработке,
             единственным применением себя считаю фриланс.
-          </div>
+          </p>
           <Link
             className={briefOtherClass}
             to={'https://github.com/IlushinGL'}
@@ -43,7 +43,7 @@ function AboutMe({num}) {
         <img className={briefImgClass} src={me_img} alt="Львович" />
       </div>
       <Portfolio num={num} />
-    </section>
+    </article>
   );
 }
 
