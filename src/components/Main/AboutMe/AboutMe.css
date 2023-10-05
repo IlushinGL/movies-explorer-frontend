@@ -23,17 +23,17 @@
   text-align: left;
 }
 .about-me-title_pos1 {
-  min-width: 1140px;
+  width: 1140px;
   margin: 110px 70px 66px;
 }
 .about-me-title_pos2 {
   margin: 90px 50px 66px;
-  min-width: 668px;
+  width: 668px;
 }
 .about-me-title_pos3 {
   margin: 70px 14px 60px;
   padding-bottom: 28px;
-  min-width: 292px;
+  width: 292px;
   font-size: 18px;
   line-height: 21.78px;
 }
@@ -44,7 +44,7 @@
   justify-content: space-between;
   padding: 0;
   margin: 0 70px;
-  max-width: 1140px;
+  /* width: 1140px; */
 }
 .about-me-brief_pos2 {
   margin: 0 50px;
@@ -59,15 +59,15 @@
   flex-direction: column;
   padding: 0;
   margin: 0;
-  max-width: 600px;
+  width: 600px;
   text-align: left;
 }
 .about-me-brief-text_pos2 {
-  max-width: 364px;
+  width: 364px;
 }
 .about-me-brief-text_pos3 {
   margin-top: 40px;
-  max-width: 292px;
+  width: 292px;
 }
 
 .about-me-brief-text__title {
@@ -135,7 +135,6 @@
   display: block;
   padding: 0;
   margin: auto auto 0 0;
-  min-height: 17px;
   font-size: 14px;
   font-weight: 500;
   line-height: 16.94px;

@@ -6,10 +6,12 @@
 }
 
 .app-content {
+  display: flex;
   background-color: var(--color-body);
   min-height: 100%;
   min-width: 320px;
   max-width: 1280px;
+  width: 1280px;
   margin: 0 auto;
   padding: 0;
   display: flex;
@@ -19,10 +21,10 @@
   justify-content: flex-start;
 }
 .app-content_pos2 {
-  max-width: 768px;
+  width: 768px;
 }
 .app-content_pos3 {
-  max-width: 320px;
+  width: 320px;
 }
 
 /* @media (max-width: 1279px) {

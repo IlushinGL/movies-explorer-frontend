@@ -58,12 +58,12 @@
   opacity: 50%;
 }
 .portfolio-item_pos2 {
-  max-width: 668px;
+  /* max-width: 668px; */
   font-size: 28px;
   line-height: 50px;
 }
 .portfolio-item_pos3 {
-  max-width: 292px;
+  /* max-width: 292px; */
   font-size: 18px;
   line-height: 28px;
 }
