@@ -6,16 +6,16 @@ import './AboutMe.css';
 function AboutMe({num}) {
   const base             = 'about-me';
   const aboutClass       = `${base}`;
-  const titleClass       = `${base}__title ${base}__title_pos_${num}`;
-  const blockClass       = `${base}-brief ${base}-brief_pos_${num}`;
-  const briefClass       = `${base}-brief__text ${base}-brief__text_pos_${num}`;
-  const briefTltClass    = `${base}-brief-text__title ${base}-brief-text__title_pos_${num}`;
-  const briefSubTltClass = `${base}-brief-text__subtitle ${base}-brief-text__subtitle_pos_${num}`;
-  const briefInfoClass   = `${base}-brief-text__info ${base}-brief-text__info_pos_${num}`;
-  const briefOtherClass  = `${base}-brief-text__other ${base}-brief-text__other_pos_${num}`;
-  const briefImgClass    = `${base}-brief__img ${base}-brief__img_pos_${num}`;
+  const titleClass       = `${base}-title ${base}-title_pos${num}`;
+  const blockClass       = `${base}-brief ${base}-brief_pos${num}`;
+  const briefClass       = `${base}-brief-text ${base}-brief-text_pos${num}`;
+  const briefTltClass    = `${base}-brief-text__title ${base}-brief-text__title_pos${num}`;
+  const briefSubTltClass = `${base}-brief-text__subtitle ${base}-brief-text__subtitle_pos${num}`;
+  const briefInfoClass   = `${base}-brief-text__info ${base}-brief-text__info_pos${num}`;
+  const briefOtherClass  = `${base}-brief-text__other ${base}-brief-text__other_pos${num}`;
+  const briefImgClass    = `${base}-brief-img ${base}-brief-img_pos${num}`;
   return (
-    <article id="about-me-project" className={aboutClass}>
+    <section id="about-me-project" className={aboutClass}>
       <h1 className={titleClass}>Студент</h1>
       <div className={blockClass}>
         <div className={briefClass}>
@@ -32,18 +32,16 @@ function AboutMe({num}) {
           </p>
           <Link
             className={briefOtherClass}
-            to={'https://github.com/IlushinGL'}
+            to={'https://github.com'}
             target="_blank"
             rel="noopener noreferrer">
             Github
           </Link>
-          {/* <div className={briefOtherClass}>Github</div> */}
-
         </div>
-        <img className={briefImgClass} src={me_img} alt="Львович" />
+        <img className={briefImgClass} src={me_img} alt="фото" />
       </div>
       <Portfolio num={num} />
-    </article>
+    </section>
   );
 }
 

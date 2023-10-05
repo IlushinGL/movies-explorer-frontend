@@ -6,13 +6,13 @@ import './SearchForm.css';
 
 function SearchForm({mediaNum, onSubmit}) {
   const base        = 'search';
-  const baseClass   = `${base} ${base}_pos_${mediaNum}`;
-  const formClass   = `${base}__form ${base}__form_pos_${mediaNum}`;
-  const inputClass  = `${base}__input ${base}__input_pos_${mediaNum}`;
-  const txtClass    = `${base}__input-txt ${base}__input-txt_pos_${mediaNum}`;
-  const btnClass    = `${base}__btn`;
-  const optClass    = `${base}__option`;
-  const itemClass   = `${base}__option-item ${base}__option-item_pos_${mediaNum}`;
+  const baseClass   = `${base}`;
+  const formClass   = `${base}-form ${base}-form_pos${mediaNum}`;
+  const inputClass  = `${base}-form__input ${base}-form__input_pos${mediaNum}`;
+  const txtClass    = `${base}-form-input__txt ${base}-form-input__txt_pos${mediaNum}`;
+  const btnClass    = `${base}-form-input__btn`;
+  const optClass    = `${base}-form-option ${base}-form-option_pos${mediaNum}`;
+  const itemClass   = `${base}-form-option__item ${base}-form-option__item_pos${mediaNum}`;
   const [isShortFilmsSelected, setShortFilmsSelected] = React.useState(false);
 
   function handleShortFilmsSelected() {
@@ -27,6 +27,7 @@ function SearchForm({mediaNum, onSubmit}) {
             name="query"
             type="text"
             className={txtClass}
+            required
             placeholder="Фильм"
           />
           <button className={btnClass} onClick={onSubmit} type='button'></button>
@@ -36,7 +37,7 @@ function SearchForm({mediaNum, onSubmit}) {
           <img
             className={itemClass}
             onClick={handleShortFilmsSelected}
-            src={isShortFilmsSelected ? switchY : switchN} alt="yes" />
+            src={isShortFilmsSelected ? switchY : switchN} alt="переключатель" />
           <div
             className={itemClass}
             onClick={handleShortFilmsSelected}>

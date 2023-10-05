@@ -2,7 +2,7 @@ import './NavTab.css';
 
 function NavTab({num}) {
   const navClass  = 'nav-tab';
-  const linkClass = `${navClass}__link ${navClass}__link_pos_${num}`;
+  const linkClass = `${navClass}__link ${navClass}__link_pos${num}`;
   return (
     <nav className={navClass}>
       <a className={linkClass} href="#about-project">О проекте</a>

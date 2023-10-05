@@ -17,10 +17,10 @@
   align-content: flex-start;
   align-items: flex-start;
 }
-.login-header_pos_2 {
+.login-header_pos2 {
   margin-top: 232px;
 }
-.login-header_pos_3 {
+.login-header_pos3 {
   margin-top: 56px;
 }
 
@@ -39,10 +39,10 @@
 .login-header__img:hover {
   opacity: 80%;
 }
-.login-header__img_pos_2 {
+.login-header__img_pos2 {
   margin-left: 186px;
 }
-.login-header__img_pos_3 {
+.login-header__img_pos3 {
   margin-left: 141px;
 }
 
@@ -56,10 +56,10 @@
   color: var(--color-text-dark);
   text-align: left;
 }
-.login-header__title_pos_2 {
+.login-header__title_pos2 {
   margin-left: 186px;
 }
-.login-header__title_pos_3 {
+.login-header__title_pos3 {
   margin-top: 50px;
   margin-left: 30px;
   min-width: 260px;
@@ -73,6 +73,9 @@
   flex-direction: column;
   width: 100%;
   align-content: flex-start;
+}
+.login-form_pos3 {
+  margin-top: 80px;
 }
 
 .login-form__lbl {
@@ -88,11 +91,11 @@
   color: var(--color-text-gray);
   text-align: left;
 }
-.login-form__lbl_pos_2 {
+.login-form__lbl_pos2 {
   margin-left: 186px;
 }
-.login-form__lbl_pos_3 {
-  margin-left: 39px;
+.login-form__lbl_pos3 {
+  margin-left: 30px;
   max-width: 260px;
 }
 
@@ -114,12 +117,15 @@
   outline: 1px solid var(--color-text-gray);
   outline-offset: -15px;
 }
-.login-form__input_pos_2 {
+.login-form__input_pos2 {
   margin-left: 186px;
 }
-.login-form__input_pos_3 {
+.login-form__input_pos3 {
   margin-left: 30px;
   max-width: 260px;
+}
+.login-form__input::placeholder {
+  color: var(--color-text-gray);
 }
 
 .login-form__err {
@@ -136,10 +142,10 @@
   overflow: hidden; */
   color: var(--color-err);
 }
-.login-form__err_pos_2 {
+.login-form__err_pos2 {
   margin-left: 186px;
 }
-.login-form__err_pos_3 {
+.login-form__err_pos3 {
   margin-left: 30px;
   max-width: 260px;
 }
@@ -153,10 +159,10 @@
   justify-items: flex-end;
   align-items: center;
 }
-.login-control_pos_2 {
+.login-control_pos2 {
   margin-bottom: 232px;
 }
-.login-control_pos_3 {
+.login-control_pos3 {
   margin-bottom: 30px;
 }
 
@@ -179,7 +185,7 @@
 .login-control__btn:hover {
   opacity: 80%;
 }
-.login-control__btn_pos_3 {
+.login-control__btn_pos3 {
   min-width: 260px;
   font-size: 12px;
   line-height: 14.52px;
@@ -200,7 +206,7 @@
   justify-content: center;
   align-items: center;
 }
-.login-control__block_pos_3 {
+.login-control__block_pos3 {
   min-width: 188px;
   margin-top: 14px;
 }
@@ -213,7 +219,7 @@
   color: var(--color-text-gray);
   cursor: default;
 }
-.login-control-block__info_pos_3 {
+.login-control-block__info_pos3 {
   margin-right: 7px;
   font-size: 12px;
   line-height: 14.52px;
@@ -231,7 +237,7 @@
 .login-control-block__action:hover {
   opacity: 70%;
 }
-.login-control-block__action_pos_3 {
+.login-control-block__action_pos3 {
   font-size: 12px;
   line-height: 14.52px;
 }

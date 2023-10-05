@@ -7,15 +7,16 @@ import Footer from '../Footer/Footer';
 
 function Main({mediaNum}) {
   return (
-    <>
-      <Promo num={mediaNum} />
-      <NavTab num={mediaNum} />
-      <AboutProject num={mediaNum} />
-      <Techs num={mediaNum} />
-      <AboutMe num={mediaNum} />
+    <main>
+      <>
+        <Promo num={mediaNum} />
+        <NavTab num={mediaNum} />
+        <AboutProject num={mediaNum} />
+        <Techs num={mediaNum} />
+        <AboutMe num={mediaNum} />
+      </>
       <Footer num={mediaNum} />
-    </>
-
+    </main>
   );
 }
 

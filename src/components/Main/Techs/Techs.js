@@ -4,25 +4,25 @@ import './Techs.css';
 
 function Techs({num}) {
   const base               = 'techs';
-  const techsClass         = `${base} ${base}_pos_${num}`;
-  const titleClass         = `${base}-title ${base}-title_pos_${num}`;
-  const briefClass         = `${base}-brief ${base}-brief_pos_${num}`;
-  const briefTitleClass    = `${base}-brief__title ${base}-brief__title_pos_${num}`;
-  const briefSubTitleClass = `${base}-brief__subtitle ${base}-brief__subtitle_pos_${num}`;
-  const tblClass           = `${base}-brief-tbl ${base}-brief-tbl_pos_${num}`;
-  const tblElement         = `${base}-brief-tbl__element ${base}-brief-tbl__element_pos_${num}`;
+  const techsClass         = `${base} ${base}_pos${num}`;
+  const titleClass         = `${base}-title ${base}-title_pos${num}`;
+  const briefClass         = `${base}-brief ${base}-brief_pos${num}`;
+  const briefTitleClass    = `${base}-brief__title ${base}-brief__title_pos${num}`;
+  const briefSubTitleClass = `${base}-brief__subtitle ${base}-brief__subtitle_pos${num}`;
+  const tblClass           = `${base}-brief-tbl ${base}-brief-tbl_pos${num}`;
+  const tblElement         = `${base}-brief-tbl__element ${base}-brief-tbl__element_pos${num}`;
   return (
-    <article id="techs-project" className={techsClass}>
-      <h1 className={titleClass}>Технологии</h1>
-      <h2 className={briefClass}>
+    <section id="techs-project" className={techsClass}>
+      <h2 className={titleClass}>Технологии</h2>
+      <div className={briefClass}>
         <h3 className={briefTitleClass}>
           7 технологий
         </h3>
         <p className={briefSubTitleClass}>
-          На курсе веб-разработки мы осваивали следующие технологии, которые
-          нужно применить в дипломном проекте:
+          На курсе веб-разработки мы осваивали технологии, которые
+          применяются в дипломном проекте:
         </p>
-      </h2>
+      </div>
       <section className={tblClass}>
         {TECHS_NAMES.map((item, id) => (
           <Link
@@ -35,7 +35,7 @@ function Techs({num}) {
           </Link>
         ))}
       </section>
-    </article>
+    </section>
   );
 }
 

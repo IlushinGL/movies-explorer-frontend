@@ -5,7 +5,8 @@ export function getMediaBreakArea() {
 }
 
 export function getMediaBreakNumber() {
-  const winW = window.innerWidth;
+  // const winW = window.innerWidth;
+  const winW = document.documentElement.clientWidth
   if (winW > MEDIA_POINT1) { return 1; }
   if (winW > MEDIA_POINT2) { return 2; }
   return 3;

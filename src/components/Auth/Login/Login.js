@@ -6,18 +6,18 @@ import { useFormAndValidation } from '../../../utils/customHooks';
 function Login({mediaNum, onSubmit, linkMain, linkSignUp}) {
   const base        = 'login';
   const baseClass   = `${base}`;
-  const headerClass = `${base}-header ${base}-header_pos_${mediaNum}`;
-  const imgClass    = `${base}-header__img ${base}-header__img_pos_${mediaNum}`;
-  const titleClass  = `${base}-header__title ${base}-header__title_pos_${mediaNum}`;
-  const formClass   = `${base}-form`;
-  const lblClass    = `${base}-form__lbl ${base}-form__lbl_pos_${mediaNum}`;
-  const inputClass  = `${base}-form__input ${base}-form__input_pos_${mediaNum}`;
-  const errClass    = `${base}-form__err ${base}-form__err_pos_${mediaNum}`;
-  const ctlClass    = `${base}-control ${base}-control_pos_${mediaNum}`;
-  const btnClass    = `${base}-control__btn ${base}-control__btn_pos_${mediaNum}`;
-  const blockClass  = `${base}-control__block ${base}-control__block_pos_${mediaNum}`;
-  const infoClass   = `${base}-control-block__info ${base}-control-block__info_pos_${mediaNum}`;
-  const actClass    = `${base}-control-block__action ${base}-control-block__action_pos_${mediaNum}`;
+  const headerClass = `${base}-header ${base}-header_pos${mediaNum}`;
+  const imgClass    = `${base}-header__img ${base}-header__img_pos${mediaNum}`;
+  const titleClass  = `${base}-header__title ${base}-header__title_pos${mediaNum}`;
+  const formClass   = `${base}-form ${base}-form_pos${mediaNum}`;
+  const lblClass    = `${base}-form__lbl ${base}-form__lbl_pos${mediaNum}`;
+  const inputClass  = `${base}-form__input ${base}-form__input_pos${mediaNum}`;
+  const errClass    = `${base}-form__err ${base}-form__err_pos${mediaNum}`;
+  const ctlClass    = `${base}-control ${base}-control_pos${mediaNum}`;
+  const btnClass    = `${base}-control__btn ${base}-control__btn_pos${mediaNum}`;
+  const blockClass  = `${base}-control__block ${base}-control__block_pos${mediaNum}`;
+  const infoClass   = `${base}-control-block__info ${base}-control-block__info_pos${mediaNum}`;
+  const actClass    = `${base}-control-block__action ${base}-control-block__action_pos${mediaNum}`;
 
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
@@ -35,7 +35,7 @@ function Login({mediaNum, onSubmit, linkMain, linkSignUp}) {
     <main className={baseClass}>
       <section className={headerClass}>
         <NavLink className={imgClass} to={linkMain}>
-          <img src={logo} alt="logo" />
+          <img src={logo} alt="логотип" />
         </NavLink>
         <h1 className={titleClass}>Привет! Проходите😎</h1>
       </section>
@@ -51,6 +51,7 @@ function Login({mediaNum, onSubmit, linkMain, linkSignUp}) {
           onChange={handleChange}
           minLength="5"
           maxLength="40"
+          placeholder='укажите почтовый адрес'
           autoComplete="off"
           required
         />
@@ -66,6 +67,7 @@ function Login({mediaNum, onSubmit, linkMain, linkSignUp}) {
           onChange={handleChange}
           minLength="8"
           maxLength="12"
+          placeholder='укажите пароль'
           autoComplete="off"
           required
         />

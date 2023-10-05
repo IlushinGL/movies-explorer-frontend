@@ -2,8 +2,8 @@ import React from 'react';
 // import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 import './MoviesCard.css';
-import like_yes from '../../../images/like_yes.png';
-import like_no from '../../../images/like_no.png';
+import like_yes from '../../../images/like_yes.svg';
+import like_no from '../../../images/like_no.svg';
 import { getDurationStr } from '../../../utils/customFunction';
 
 function MoviesCard({mediaNum, card}) {

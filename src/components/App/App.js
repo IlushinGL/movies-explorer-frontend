@@ -34,8 +34,8 @@ function App() {
   const [isUserKnown, setUserKnown] = React.useState(false);
   const [isMenuOpen, setMenuOpen] = React.useState(false);
 
-  const base = 'app__content';
-  const baseClass = `${base} ${base}_pos_${mediaNum}`;
+  const base = 'app-content';
+  const contentClass = `${base} ${base}_pos${mediaNum}`;
 
   const navigate = useNavigate();
 
@@ -93,7 +93,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
-        <div className={baseClass}>
+        <div className={contentClass}>
           <Routes>
             <Route
               path="/"

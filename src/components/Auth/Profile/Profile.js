@@ -5,16 +5,16 @@ import { useFormAndValidation } from '../../../utils/customHooks';
 
 function Profile({mediaNum, onOutClick, onEditClick}) {
   const base           = 'profile';
-  const baseClass      = `${base} ${base}_pos_${mediaNum}`;
-  const titleClass     = `${base}-title ${base}-title_pos_${mediaNum}`;
-  const dataClass      = `${base}-data ${base}-data_pos_${mediaNum}`;
-  const setClass       = `${base}-data__set`;
-  const itemClass      = `${base}-data-set__item`;
+  const baseClass      = `${base} ${base}_pos${mediaNum}`;
+  const titleClass     = `${base}-title ${base}-title_pos${mediaNum}`;
+  const dataClass      = `${base}-data ${base}-data_pos${mediaNum}`;
+  const setClass       = `${base}-data-set`;
+  const itemClass      = `${base}-data-set-item`;
   const lblClass       = `${base}-data-set-item__lbl`;
   const inputClass     = `${base}-data-set-item__input`;
-  const errClass       = `${base}-data-set-item__err ${base}-data-set-item__err_pos_${mediaNum}`;
-  const crlClass       = `${base}-control ${base}-control_pos_${mediaNum}`;
-  const crlItemClass   = `${base}-control__item ${base}-control__item_pos_${mediaNum}`;
+  const errClass       = `${base}-data-set-item__err ${base}-data-set-item__err_pos${mediaNum}`;
+  const crlClass       = `${base}-control ${base}-control_pos${mediaNum}`;
+  const crlItemClass   = `${base}-control__item ${base}-control__item_pos${mediaNum}`;
 
   const currentUser = React.useContext(CurrentUserContext);
   const {values, setValues, handleChange, errors, isValid, resetForm} = useFormAndValidation();
@@ -54,6 +54,7 @@ function Profile({mediaNum, onOutClick, onEditClick}) {
               value={values.name || ''}
               minLength="2"
               maxLength="40"
+              placeholder='ваше имя'
               autoComplete="off"
               required
             />
@@ -71,6 +72,7 @@ function Profile({mediaNum, onOutClick, onEditClick}) {
               value={values.email || ''}
               minLength="5"
               maxLength="40"
+              placeholder='актуальный адрес'
               autoComplete="off"
               required
             />

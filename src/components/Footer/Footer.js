@@ -1,22 +1,35 @@
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 function Footer({num}) {
   const base         = 'footer';
-  const  footerClass = `${base} ${base}_pos_${num}`;
-  const titleClass   = `${base}__title ${base}__title_pos_${num}`;
-  const infoClass    = `${base}-info ${base}-info_pos_${num}`;
-  const cprClass     = `${base}-info__copyright ${base}-info__copyright_pos_${num}`;
-  const linksClass   = `${base}-info__links ${base}-info__links_pos_${num}`;
-  const itemClass    = `${base}-info-links__item ${base}-info-links__item_pos_${num}`;
+  const  footerClass = `${base} ${base}_pos${num}`;
+  const titleClass   = `${base}-title ${base}-title_pos${num}`;
+  const infoClass    = `${base}-info ${base}-info_pos${num}`;
+  const cprClass     = `${base}-info-copyright ${base}-info-copyright_pos${num}`;
+  const linksClass   = `${base}-info-links ${base}-info-links_pos${num}`;
+  const itemClass    = `${base}-info-links__item ${base}-info-links__item_pos${num}`;
   return (
     <footer className={footerClass}>
       <h2 className={titleClass}>Учебный проект Яндекс.Практикум х BeatFilm.</h2>
       <div className={infoClass}>
         <h3 className={cprClass}>2020</h3>
-        <div className={linksClass}>
-          <h3 className={itemClass}>Яндекс.Практикум</h3>
-          <h3 className={itemClass}>Github</h3>
-        </div>
+        <nav className={linksClass}>
+          <Link
+            className={itemClass}
+            to={'https://practicum.yandex.ru'}
+            target="_blank"
+            rel="noopener noreferrer">
+            Яндекс.Практикум
+          </Link>
+          <Link
+            className={itemClass}
+            to={'https://github.com'}
+            target="_blank"
+            rel="noopener noreferrer">
+            Github
+          </Link>
+        </nav>
       </div>
     </footer>
   );

@@ -9,23 +9,23 @@
   background-image: url(../../../images/pic_landing.svg);
   background-repeat: no-repeat;
 }
-.promo_pos_1 {
+.promo_pos1 {
   height: 524px;
   background-size: 320px 320px;
   background-position: center 82px;
 }
-.promo_pos_2 {
+.promo_pos2 {
   min-height: 784px;
   background-size: 320px 320px;
   background-position: center 224px;
 }
-.promo_pos_3 {
+.promo_pos3 {
   height: 570px;
   background-size: 248px 248px;
   background-position: center 142px;
 }
 
- .promo__title {
+ .promo-title {
   margin: 184px 275px auto 275px;
   padding: 0;
   font-size: 50px;
@@ -36,10 +36,10 @@
   text-align: center;
   cursor: default;
  }
-.promo__title_pos_2 {
+.promo-title_pos2 {
   margin: 326px 19px auto 19px;
 }
-.promo__title_pos_3 {
+.promo-title_pos3 {
   margin: 207px 10px auto 10px;
   font-size: 29px;
   line-height: 39px;

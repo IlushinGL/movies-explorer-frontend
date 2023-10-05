@@ -12,19 +12,19 @@ function Header({
 
   const base         = 'header';
   const baseClass    = `${base} ${isLight ? (base + '_light'): ''}`;
-  const navClass     = `${base}__nav`;
+  const logoClass    = `${base}-logo ${base}-logo_pos${mediaNum}`;
+  const navClass     = `${base}-nav`;
   const linkBase     = `${base}-nav__link`;
-  const authBtnClass = `${base}__auth-btn ${base}__auth-btn_pos_${mediaNum}`;
-  const authNavClass = `${base}__link-auth ${base}__link-auth_pos_${mediaNum}`;
-  const logoClass    = `${base}__logo ${base}__logo_pos_${mediaNum}`;
-  const menuClass    = `${base}__menu ${base}__menu_pos_${mediaNum}`;
-  const btnClass     = `${base}__profile-btn`;
+  const authNavClass = `${base}-nav__link-auth ${base}-nav__link-auth_pos${mediaNum}`;
+  const authBtnClass = `${base}-auth-btn ${base}-auth-btn_pos${mediaNum}`;
+  const btnClass     = `${base}-profile-btn`;
+  const menuClass    = `${base}-menu ${base}-menu_pos${mediaNum}`;
 
   if (isAuthorized) {
     return (
       <header className={baseClass}>
         <NavLink className={logoClass} to={linkMain}>
-          <img src={logo} alt="лого" />
+          <img src={logo} alt="логотип" />
         </NavLink>
         {mediaNum===1 ? (
         <>
@@ -64,13 +64,13 @@ function Header({
   return (
     <header className={baseClass}>
       <NavLink className={logoClass} to={linkMain}>
-        <img src={logo} alt="logo" />
+        <img src={logo} alt="логотип" />
       </NavLink>
       <>
       <nav className={navClass}>
         <NavLink className={authNavClass} to={linkSignUp}>Регистрация</NavLink>
       </nav>
-      <button className={authBtnClass} onClick={onSignInClick}>Войти</button>
+      <button className={authBtnClass} onClick={onSignInClick} type="button" >Войти</button>
       </>
     </header>
   );

@@ -4,26 +4,26 @@ import { PORTFOLIO_DATA } from '../../../utils/constants';
 
 function Portfolio({num}) {
   const base       = 'portfolio';
-  const baseClass  = `${base} ${base}_pos_${num}`;
-  const titleClass = `${base}-title ${base}-title_pos_${num}`;
-  const itemClass  = `${base}-item ${base}-item_pos_${num}`;
-  const linkClass  = `${base}-item__link ${base}-item__link_pos_${num}`;
+  const baseClass  = `${base} ${base}_pos${num}`;
+  const titleClass = `${base}-title ${base}-title_pos${num}`;
+  const itemClass  = `${base}-item ${base}-item_pos${num}`;
+  const linkClass  = `${base}-item__link ${base}-item__link_pos${num}`;
+
   return (
     <section className={baseClass}>
       <h2 className={titleClass}>
         Портфолио
       </h2>
       {PORTFOLIO_DATA.map((item, id) => (
-        <h3 className={itemClass} key={'pft' + id}>
-        {item[0]}
         <Link
-          key={'pfi' + id}
-          className={linkClass}
+          key={'pft' + id}
+          className={itemClass}
           to={item[1]}
           target="_blank"
           rel="noopener noreferrer">
+          {item[0]}
+          <div className={linkClass} ></div>
         </Link>
-      </h3>
       ))}
     </section>
   );
