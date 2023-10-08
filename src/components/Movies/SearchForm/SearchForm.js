@@ -6,7 +6,7 @@ import './SearchForm.css';
 
 function SearchForm({mediaNum, onSubmit}) {
   const base        = 'search';
-  const baseClass   = `${base}`;
+  const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const formClass   = `${base}-form ${base}-form_pos${mediaNum}`;
   const inputClass  = `${base}-form__input ${base}-form__input_pos${mediaNum}`;
   const txtClass    = `${base}-form-input__txt ${base}-form-input__txt_pos${mediaNum}`;

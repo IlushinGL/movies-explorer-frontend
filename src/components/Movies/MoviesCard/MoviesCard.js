@@ -8,11 +8,11 @@ import { getDurationStr } from '../../../utils/customFunction';
 
 function MoviesCard({mediaNum, card}) {
   const base        = 'card';
-  const baseClass   = `${base} ${base}_pos_${mediaNum}`;
-  const imgClass    = `${base}__img ${base}__img_pos_${mediaNum}`;
+  const baseClass   = `${base} ${base}_pos${mediaNum}`;
+  const imgClass    = `${base}__img ${base}__img_pos${mediaNum}`;
   const capClass    = `${base}__caption`;
   const titleClass  = `${base}__caption-title`;
-  const txtClass    = `${base}__caption-txt ${base}__caption-txt_pos_${mediaNum}`;
+  const txtClass    = `${base}__caption-txt ${base}__caption-txt_pos${mediaNum}`;
   const likeClass   = `${base}__caption-img`;
   const timeClass   = `${base}__caption-duration`;
 
@@ -35,7 +35,7 @@ function MoviesCard({mediaNum, card}) {
             onClick={handleSelected}
             className={likeClass}
             src={isSelected ? like_yes : like_no}
-            alt={isSelected ? 'отмечен' : 'не отмечен'} />
+            alt={isSelected ? 'выбран' : 'ожидание'} />
         </div>
         <p className={timeClass}>
           {getDurationStr(card.duration)}
