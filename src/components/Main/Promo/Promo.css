@@ -1,22 +1,21 @@
 .promo {
   display: flex;
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
-  width: 100%;
   flex-direction: column;
   justify-content: flex-start;
   background-color: var(--color-header);
   background-image: url(../../../images/pic_landing.svg);
+  background-size: 320px 320px;
   background-repeat: no-repeat;
 }
 .promo_pos1 {
   height: 524px;
-  background-size: 320px 320px;
   background-position: center 82px;
 }
 .promo_pos2 {
   height: 784px;
-  background-size: 320px 320px;
   background-position: center 224px;
 }
 .promo_pos3 {
@@ -26,7 +25,9 @@
 }
 
  .promo-title {
-  margin: 184px 275px auto 275px;
+  display: block;
+  box-sizing: border-box;
+  margin: 184px 275px auto;
   padding: 0;
   font-size: 50px;
   line-height: 58px;
@@ -37,10 +38,10 @@
   cursor: default;
  }
 .promo-title_pos2 {
-  margin: 326px 19px auto 19px;
+  margin: 326px 19px auto;
 }
 .promo-title_pos3 {
-  margin: 207px 10px auto 10px;
+  margin: 207px 10px auto;
   font-size: 29px;
   line-height: 39px;
 }

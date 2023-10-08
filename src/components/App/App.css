@@ -1,6 +1,7 @@
 .app {
   background-color: var(--color-ground);
   font-family: Inter, Arial, sans-serif;
+  min-height: 100vh;
   font-size: 20px;
   color: var(--color-text-light);
 }
@@ -9,9 +10,8 @@
   display: flex;
   background-color: var(--color-body);
   min-height: 100%;
-  min-width: 320px;
+  /* min-width: 320px; */
   max-width: 1280px;
-  width: 1280px;
   margin: 0 auto;
   padding: 0;
   display: flex;
@@ -21,19 +21,19 @@
   justify-content: flex-start;
 }
 .app-content_pos2 {
-  width: 768px;
+  min-width: 768px;
 }
 .app-content_pos3 {
-  width: 320px;
+  min-width: 320px;
 }
 
 /* @media (max-width: 1279px) {
-  .app__content {
+  .app {
     max-width: 768px;
   }
 }
 @media (max-width: 767px) {
-  .content {
+  .app {
     max-width: 320px;
   }
 } */

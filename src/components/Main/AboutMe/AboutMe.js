@@ -5,7 +5,7 @@ import './AboutMe.css';
 
 function AboutMe({num}) {
   const base             = 'about-me';
-  const aboutClass       = `${base}`;
+  const aboutClass       = `${base} ${base}_pos${num}`;
   const titleClass       = `${base}-title ${base}-title_pos${num}`;
   const blockClass       = `${base}-brief ${base}-brief_pos${num}`;
   const briefClass       = `${base}-brief-text ${base}-brief-text_pos${num}`;

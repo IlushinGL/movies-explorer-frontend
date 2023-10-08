@@ -5,14 +5,12 @@ import { useEscapeKey, useOutsideClick } from '../../utils/customHooks';
 function Navigation({mediaNum, linkMain, linkMovies, linkSavedMovies, linkProfile, isOpened, handleOnClose}) {
   const base        = 'navigation';
   const state       = isOpened ? 'opened' : 'closed'
-  const baseClass   = `${base}__conteiner ${base}__conteiner_pos_${mediaNum}`;
-  const popClass    = `${base}-popup
-                       ${base}-popup_pos_${mediaNum}
-                       ${base}-popup_${state}`;
-  const clsClass    = `${base}__close ${base}__close_pos_${mediaNum}`;
-  const setClass    = `${base}__items-set ${base}__items-set_pos_${mediaNum}`;
-  const itemClass   = `${base}__item ${base}__item_pos_${mediaNum}`;
-  const btnClass    = `${base}__btn ${base}__btn_pos_${mediaNum}`;
+  const baseClass   = `${base}-conteiner`;
+  const popClass    = `${base}-popup ${base}-popup_${state}`;
+  const clsClass    = `${base}-close ${base}-close_pos_${mediaNum}`;
+  const setClass    = `${base}-items ${base}-items_pos_${mediaNum}`;
+  const itemClass   = `${base}-items__item ${base}-items__item_pos_${mediaNum}`;
+  const btnClass    = `${base}-btn ${base}-btn_pos_${mediaNum}`;
   useEscapeKey(handleOnClose);
   useOutsideClick(handleOnClose);
   return (
@@ -22,23 +20,23 @@ function Navigation({mediaNum, linkMain, linkMovies, linkSavedMovies, linkProfil
           className={clsClass}
           onClick={handleOnClose}>
         </div>
-        <div className={setClass}>
+        <nav className={setClass}>
           <NavLink to={linkMain}
-            className={itemClass}
+            className={({isActive}) => `${itemClass} ${isActive ? `${`${base}-items__item`}_active` : ""}`}
             onClick={handleOnClose}>
             Главная
           </NavLink>
           <NavLink to={linkMovies}
-            className={({isActive}) => `${itemClass} ${isActive ? `${`${base}__item`}_active` : ""}`}
+            className={({isActive}) => `${itemClass} ${isActive ? `${`${base}-items__item`}_active` : ""}`}
             onClick={handleOnClose}>
             Фильмы
           </NavLink>
           <NavLink to={linkSavedMovies}
-            className={({isActive}) => `${itemClass} ${isActive ? `${`${base}__item`}_active` : ""}`}
+            className={({isActive}) => `${itemClass} ${isActive ? `${`${base}-items__item`}_active` : ""}`}
             onClick={handleOnClose}>
             Сохранённые фильмы
           </NavLink>
-        </div>
+        </nav>
         <NavLink to={linkProfile}
           className={btnClass}
           onClick={handleOnClose}>

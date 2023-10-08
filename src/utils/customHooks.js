@@ -33,7 +33,7 @@ export function useOutsideClick(handleClose) {
 
 export function useMedia(points, hanleMediaChanged) {
   const mQuerys = points.map((point) => {
-    return window.matchMedia(`(min-width: ${point}px)`);
+    return window.matchMedia(`(max-width: ${point}px)`);
   });
   const handleMedia = useCallback((event) => {
     hanleMediaChanged(event);

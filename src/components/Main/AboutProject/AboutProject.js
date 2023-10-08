@@ -2,7 +2,7 @@ import './AboutProject.css';
 
 function AboutProject({num}) {
   const base               = 'about-project';
-  const aboutClass         = `${base}`;
+  const aboutClass         = `${base} ${base}_pos${num}`;
   const titleClass         = `${base}-title ${base}-title_pos${num}`;
   const sectionClass       = `${base}-brief ${base}-brief_pos${num}`;
   const briefClass         = `${base}-brief-text ${base}-brief-text_pos${num}`;

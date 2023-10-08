@@ -1,6 +1,6 @@
-export const MEDIA_POINT1 = 1280;
-export const MEDIA_POINT2 = 768;
-export const MEDIA_POINT3 = 320;
+export const MEDIA_POINT1 = 1280 + 14;
+export const MEDIA_POINT2 = 768 + 14;
+export const MEDIA_POINT3 = 320 + 14;
 export const TECHS_NAMES = [
   ['HTML', 'https://ru.wikipedia.org/wiki/HTML'],
   ['CSS', 'https://ru.wikipedia.org/wiki/CSS'],

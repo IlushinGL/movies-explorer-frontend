@@ -9,15 +9,9 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: 768px;
+  width: 100%;
   background-color: var(--color-popup-ground);
   transition: opacity 0.5s , visibility 0.5s;
-}
-.navigation-popup_pos_1 {
-  width: 1280px;
-}
-.navigation-popup_pos_3 {
-  width: 320px;
 }
 .navigation-popup_opened {
   visibility: visible;
@@ -28,7 +22,7 @@
   opacity: 0;
 }
 
-.navigation__conteiner {
+.navigation-conteiner {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -36,53 +30,49 @@
   margin: 0;
   padding: 0;
   height: 100%;
-  min-width: 520px;
+  width: calc(320px + 0.4464 * (100% - 320px));
   background-color: var(--color-body);
 }
-.navigation__conteiner_pos_3 {
-  min-width: 320px;
-}
 
-.navigation__close {
+.navigation-close {
   position: absolute;
   margin: 0;
   padding: 0;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   top: 22px;
   right: 22px;
   opacity: 1;
   border: none;
   background-color: transparent;
-  background-image: url(../../images/close.png);
+  background-image: url(../../images/close.svg);
   background-size: 30px 30px;
   cursor: pointer;
 }
-.navigation__close:hover {
+.navigation-close:hover {
   opacity: 70%;
 }
-.navigation__close_pos_3 {
+.navigation-close_pos_3 {
   top: 13px;
   right: 13px;
 }
 
-.navigation__items-set {
+.navigation-items {
   display: flex;
   padding: 0;
   margin: 0;
   margin-top: 159px;
   flex-direction: column;
 }
-.navigation__items-set_pos_3 {
+.navigation-items_pos_3 {
   margin-top: 144px;
 }
 
-.navigation__item {
+.navigation-items__item {
   display: block;
   padding: 0;
   padding-bottom: 4px;
   margin: 0 auto 22px;
-  /* min-height: 26px; */
   font-weight: 500;
   font-size: 18px;
   line-height: 21.78px;
@@ -91,24 +81,22 @@
   border-bottom: 2px solid var(--color-body);
   color: var(--color-text-dark);
   cursor: pointer;
-  /* opacity: 100%; */
 }
-.navigation__item_active {
+.navigation-items__item_active {
   font-weight: 900;
 }
-.navigation__item:last-child {
+.navigation-items__item:last-child {
   margin-bottom: 0;
 }
-.navigation__item:hover {
-  /* opacity: 70%; */
+.navigation-items__item:hover {
   border-bottom: 2px solid var(--color-text-dark);
 }
-.navigation__item_pos_3 {
+.navigation-items__item_pos_3 {
   padding-bottom: 7px;
   margin-bottom: 15px;
 }
 
-.navigation__btn {
+.navigation-btn {
   display: flex;
   padding: 8px 20px;
   justify-content: center;
@@ -125,9 +113,9 @@
   cursor: pointer;
   opacity: 100%;
 }
-.navigation__btn:hover {
+.navigation-btn:hover {
   opacity: 70%;
 }
-.navigation__btn_pos_3 {
+.navigation-btn_pos_3 {
   margin-top: 437px;
 }

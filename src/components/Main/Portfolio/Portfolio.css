@@ -1,23 +1,26 @@
 .portfolio {
   display: flex;
+  box-sizing: border-box;
   padding: 0;
+  margin: 0;
   flex-direction: column;
   background-color: var(--color-body);
   color: var(--color-text-dark);
   cursor: default;
 }
 .portfolio_pos1 {
-  margin: 100px 70px 106px;
+  margin: 100px 0 106px;
 }
 .portfolio_pos2 {
-  margin: 72px 50px 71px;
+  margin: 72px 0 71px;
 }
 .portfolio_pos3 {
-  margin: 0 14px 51px;
+  margin: 0 0 51px;
 }
 
 .portfolio-title {
   display: block;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   margin-bottom: 30px;
@@ -35,6 +38,7 @@
 
 .portfolio-item {
   display: block;
+  box-sizing: border-box;
   position: relative;
   margin: 0;
   padding: 0;
@@ -58,12 +62,10 @@
   opacity: 50%;
 }
 .portfolio-item_pos2 {
-  /* max-width: 668px; */
   font-size: 28px;
   line-height: 50px;
 }
 .portfolio-item_pos3 {
-  /* max-width: 292px; */
   font-size: 18px;
   line-height: 28px;
 }
@@ -71,6 +73,7 @@
 .portfolio-item__link {
   position: absolute;
   display: block;
+  box-sizing: border-box;
   width: 29px;
   height: 60px;
   background-image: url(../../../images/go_to.svg);

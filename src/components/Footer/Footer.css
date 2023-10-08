@@ -1,22 +1,28 @@
 .footer {
   display: flex;
-  padding: 0;
+  box-sizing: border-box;
   margin: 0;
-  width: 100%;
   flex-direction: column;
   align-content: flex-start;
   background-color: var(--color-body);
   cursor: default;
 }
 .footer_pos1 {
+  padding: 0 70px;
   background-color: var(--color-footer);
+}
+.footer_pos2 {
+  padding: 0 30px;
+}
+.footer_pos3 {
+  padding: 0 10px;
 }
 
 .footer-title {
   display: block;
-  margin: 79px 70px 20px;
+  box-sizing: border-box;
+  margin: 79px 0 20px;
   padding: 0 0 20px;
-  width: 1140px;
   color: var(--color-text-dark);
   border-bottom: 1px solid var(--color-tech-ground);
   font-weight: 400;
@@ -25,39 +31,30 @@
   text-align: center;
   color: var(--color-text-gray);
 }
-.footer-title_pos2 {
-  margin: 79px 30px 20px;
-  width: 708px;
-}
 .footer-title_pos3 {
-  margin: 79px 10px 30px;
-  width: 300px;
+  margin-bottom: 30px;
   font-size: 12px;
   line-height: 14.25px;
 }
 
 .footer-info {
   display: flex;
+  box-sizing: border-box;
   flex-direction: row;
-  margin: 0 70px 20px;
   padding: 0;
-  width: 1140px;
+  margin: 0;
+  margin-bottom: 20px;
   justify-content: space-between;
   align-items: flex-start;
   color: var(--color-text-dark);
 }
-.footer-info_pos2 {
-  margin: 0 30px 20px;
-  width: 708px;
-}
 .footer-info_pos3 {
   flex-direction: column-reverse;
-  margin: 0 10px 20px;
-  width: 300px;
 }
 
 .footer-info-copyright {
   display: block;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-weight: 400;
@@ -69,33 +66,31 @@
   content: '\00A9';
 }
 .footer-info-copyright_pos3 {
-  margin-bottom: 0;
   font-size: 12px;
   line-height: 14.52px;
-  margin: 0 auto;
+  margin: 30px auto 0;
   color: var(--color-text-gray);
 }
 
 .footer-info-links {
   display: flex;
+  box-sizing: border-box;
   flex-direction: row;
   margin: 0;
   padding: 0;
-  width: 182px;
-  align-items: center;
-  justify-content: space-between;
 }
 .footer-info-links_pos3 {
   flex-direction: column;
-  margin-bottom: 18px;
-  align-content: space-between;
-  width: 300px;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .footer-info-links__item {
   display: block;
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
+  margin-right: 20px;
   font-weight: 400;
   font-size: 13px;
   line-height: 15.73px;
@@ -111,4 +106,8 @@
   margin-bottom: 12px;
   font-size: 12px;
   line-height: 14.25px;
+}
+.footer-info-links__item:last-child {
+  margin-right: 0;
+  margin-bottom: 0;
 }

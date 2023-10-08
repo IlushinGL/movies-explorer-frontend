@@ -5,14 +5,14 @@ import { useFormAndValidation } from '../../../utils/customHooks';
 
 function Login({mediaNum, onSubmit, linkMain, linkSignUp}) {
   const base        = 'login';
-  const baseClass   = `${base}`;
+  const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const headerClass = `${base}-header ${base}-header_pos${mediaNum}`;
-  const imgClass    = `${base}-header__img ${base}-header__img_pos${mediaNum}`;
+  const imgClass    = `${base}-header__img`;
   const titleClass  = `${base}-header__title ${base}-header__title_pos${mediaNum}`;
   const formClass   = `${base}-form ${base}-form_pos${mediaNum}`;
-  const lblClass    = `${base}-form__lbl ${base}-form__lbl_pos${mediaNum}`;
-  const inputClass  = `${base}-form__input ${base}-form__input_pos${mediaNum}`;
-  const errClass    = `${base}-form__err ${base}-form__err_pos${mediaNum}`;
+  const lblClass    = `${base}-form__lbl`;
+  const inputClass  = `${base}-form__input`;
+  const errClass    = `${base}-form__err`;
   const ctlClass    = `${base}-control ${base}-control_pos${mediaNum}`;
   const btnClass    = `${base}-control__btn ${base}-control__btn_pos${mediaNum}`;
   const blockClass  = `${base}-control__block ${base}-control__block_pos${mediaNum}`;

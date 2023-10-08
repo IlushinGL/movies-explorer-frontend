@@ -1,17 +1,27 @@
 .about-me {
   display: flex;
-  padding: 0;
+  box-sizing: border-box;
   margin: 0;
-  width: 100%;
   flex-direction: column;
   align-content: flex-start;
   background-color: var(--color-body);
   color: var(--color-text-dark);
   cursor: default;
 }
+.about-me_pos1 {
+  padding: 0 70px;
+}
+.about-me_pos2 {
+  padding: 0 50px;
+}
+.about-me_pos3 {
+  padding: 0 14px;
+}
+
 
 .about-me-title {
   display: block;
+  box-sizing: border-box;
   padding: 0;
   padding-bottom: 23px;
   font-size: 22px;
@@ -23,55 +33,49 @@
   text-align: left;
 }
 .about-me-title_pos1 {
-  width: 1140px;
-  margin: 110px 70px 66px;
+  margin: 110px 0 66px;
 }
 .about-me-title_pos2 {
-  margin: 90px 50px 66px;
-  width: 668px;
+  margin: 90px 0 66px;
 }
 .about-me-title_pos3 {
-  margin: 70px 14px 60px;
+  margin: 70px 0 60px;
   padding-bottom: 28px;
-  width: 292px;
   font-size: 18px;
   line-height: 21.78px;
 }
 
 .about-me-brief {
   display: flex;
+  box-sizing: border-box;
   flex-direction: row;
   justify-content: space-between;
   padding: 0;
-  margin: 0 70px;
-  /* width: 1140px; */
-}
-.about-me-brief_pos2 {
-  margin: 0 50px;
+  margin: 0;
 }
 .about-me-brief_pos3 {
-  margin: 0 14px;
   flex-direction: column-reverse;
 }
 
 .about-me-brief-text {
   display: flex;
+  box-sizing: border-box;
   flex-direction: column;
   padding: 0;
   margin: 0;
-  width: 600px;
+  margin-right: 270px;
   text-align: left;
 }
 .about-me-brief-text_pos2 {
-  width: 364px;
+  margin-right: 49px;
 }
 .about-me-brief-text_pos3 {
-  margin-top: 40px;
-  width: 292px;
+  margin: 40px auto 0;
 }
 
 .about-me-brief-text__title {
   display: block;
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
   margin-bottom: 18px;
@@ -94,6 +98,7 @@
 
 .about-me-brief-text__subtitle {
   display: block;
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
   margin-bottom: 26px;
@@ -115,6 +120,7 @@
 
 .about-me-brief-text__info {
   display: block;
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
   font-size: 14px;
@@ -133,6 +139,7 @@
 
 .about-me-brief-text__other {
   display: block;
+  box-sizing: border-box;
   padding: 0;
   margin: auto auto 0 0;
   font-size: 14px;
@@ -152,8 +159,9 @@
 
 .about-me-brief-img {
   display: block;
+  box-sizing: border-box;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
   width: 270px;
   height: 327px;
   border: 1px solid var(--color-body);
