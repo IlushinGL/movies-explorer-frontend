@@ -15,7 +15,7 @@ function Login({mediaNum, onSubmit, linkMain, linkSignUp}) {
   const errClass    = `${base}-form__err`;
   const ctlClass    = `${base}-control ${base}-control_pos${mediaNum}`;
   const btnClass    = `${base}-control__btn ${base}-control__btn_pos${mediaNum}`;
-  const blockClass  = `${base}-control__block ${base}-control__block_pos${mediaNum}`;
+  const blockClass  = `${base}-control-block ${base}-control-block_pos${mediaNum}`;
   const infoClass   = `${base}-control-block__info ${base}-control-block__info_pos${mediaNum}`;
   const actClass    = `${base}-control-block__action ${base}-control-block__action_pos${mediaNum}`;
 

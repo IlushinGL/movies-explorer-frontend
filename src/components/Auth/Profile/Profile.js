@@ -12,7 +12,7 @@ function Profile({mediaNum, onOutClick, onEditClick}) {
   const itemClass      = `${base}-data-set-item`;
   const lblClass       = `${base}-data-set-item__lbl`;
   const inputClass     = `${base}-data-set-item__input`;
-  const errClass       = `${base}-data-set-item__err ${base}-data-set-item__err_pos${mediaNum}`;
+  const errClass       = `${base}-data-set-item-err ${base}-data-set-item-err_pos${mediaNum}`;
   const crlClass       = `${base}-control ${base}-control_pos${mediaNum}`;
   const crlItemClass   = `${base}-control__item ${base}-control__item_pos${mediaNum}`;
 

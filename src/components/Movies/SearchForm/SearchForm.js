@@ -9,8 +9,8 @@ function SearchForm({mediaNum, onSubmit}) {
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const formClass   = `${base}-form ${base}-form_pos${mediaNum}`;
   const inputClass  = `${base}-form__input ${base}-form__input_pos${mediaNum}`;
-  const txtClass    = `${base}-form-input__txt ${base}-form-input__txt_pos${mediaNum}`;
-  const btnClass    = `${base}-form-input__btn`;
+  const txtClass    = `${base}-form-input-txt ${base}-form-input-txt_pos${mediaNum}`;
+  const btnClass    = `${base}-form-input-btn`;
   const optClass    = `${base}-form-option ${base}-form-option_pos${mediaNum}`;
   const itemClass   = `${base}-form-option__item ${base}-form-option__item_pos${mediaNum}`;
   const [isShortFilmsSelected, setShortFilmsSelected] = React.useState(false);

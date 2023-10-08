@@ -184,7 +184,7 @@
   cursor: default;
 }
 
-.login-control__block {
+.login-control-block {
   display: flex;
   box-sizing: border-box;
   flex-direction: row;
@@ -195,7 +195,7 @@
   justify-content: center;
   align-items: center;
 }
-.login-control__block_pos3 {
+.login-control-block_pos3 {
   margin-top: 14px;
 }
 
