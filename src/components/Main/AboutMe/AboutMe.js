@@ -16,10 +16,10 @@ function AboutMe({num}) {
   const briefImgClass    = `${base}-brief-img ${base}-brief-img_pos${num}`;
   return (
     <section id="about-me-project" className={aboutClass}>
-      <h1 className={titleClass}>Студент</h1>
+      <h2 className={titleClass}>Студент</h2>
       <div className={blockClass}>
         <div className={briefClass}>
-          <h2 className={briefTltClass}>Львович</h2>
+          <h3 className={briefTltClass}>Львович</h3>
           <h3 className={briefSubTltClass}>
             Агностик, 40 лет минимум
           </h3>

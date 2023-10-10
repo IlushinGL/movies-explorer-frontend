@@ -3,22 +3,25 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  max-width: 100%;
   flex-direction: column;
-  justify-content: flex-start;
   background-color: var(--color-header);
   background-image: url(../../../images/pic_landing.svg);
   background-size: 320px 320px;
   background-repeat: no-repeat;
 }
-.promo_pos1 {
+.promo_posa {
+  padding: 184px 275px 0;
   height: 524px;
   background-position: center 82px;
 }
-.promo_pos2 {
+.promo_posb {
+  padding: 326px 19px 0;
   height: 784px;
   background-position: center 224px;
 }
-.promo_pos3 {
+.promo_posc {
+  padding: 207px 10px 0;
   height: 570px;
   background-size: 248px 248px;
   background-position: center 142px;
@@ -27,21 +30,17 @@
  .promo-title {
   display: block;
   box-sizing: border-box;
-  margin: 184px 275px auto;
+  margin: 0;
   padding: 0;
   font-size: 50px;
   line-height: 58px;
   font-weight: 400;
-  letter-spacing: -4%;
+  letter-spacing: -0.04em;
   color: var(--color-text-light);
   text-align: center;
   cursor: default;
  }
-.promo-title_pos2 {
-  margin: 326px 19px auto;
-}
-.promo-title_pos3 {
-  margin: 207px 10px auto;
+.promo-title_posc {
   font-size: 29px;
   line-height: 39px;
 }

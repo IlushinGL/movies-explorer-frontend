@@ -1,3 +1,4 @@
+import './Main.css';
 import Promo from '../Main/Promo/Promo';
 import NavTab from '../Main/NavTab/NavTab';
 import AboutProject from '../Main/AboutProject/AboutProject';
@@ -7,7 +8,7 @@ import Footer from '../Footer/Footer';
 
 function Main({mediaNum}) {
   return (
-    <main>
+    <main className='main'>
       <>
         <Promo num={mediaNum} />
         <NavTab num={mediaNum} />

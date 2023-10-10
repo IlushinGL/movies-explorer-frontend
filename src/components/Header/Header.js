@@ -27,7 +27,7 @@ function Header({
           <NavLink className={logoClass} to={linkMain}>
             <img src={logo} alt="логотип" />
           </NavLink>
-          {mediaNum <= 2 ?
+          {mediaNum !== 'c' ?
           (
             <>
               <NavLink to={linkMovies}

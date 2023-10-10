@@ -15,10 +15,10 @@
     'cap';
   gap: 0;
 }
-.card_pos2 {
+.card_posb {
   grid-template-columns: 339px;
 }
-.card_pos3 {
+.card_posc {
   grid-template-columns: 300px;
 }
 
@@ -36,10 +36,10 @@
   opacity: 100%;
   cursor: pointer;
 }
-.card__img_pos2 {
+.card__img_posb {
   height: 190px;
 }
-.card__img_pos3 {
+.card__img_posc {
   height: 168px;
 }
 .card__img:hover {
@@ -81,10 +81,10 @@
   text-align: left;
   cursor: default;
 }
-.card__caption-txt_pos2 {
+.card__caption-txt_posb {
   max-width: 287px;
 }
-.card__caption-txt_pos3 {
+.card__caption-txt_posc {
   max-width: 248px;
 }
 

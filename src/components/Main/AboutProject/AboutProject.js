@@ -38,7 +38,7 @@ function AboutProject({num}) {
       </div>
       <section className={tblClass}>
         <div className={tblHAClass}>10.09-12.09</div>
-        <div className={tblHBClass}>Осталось 4.5 недели</div>
+        <div className={tblHBClass}>Осталась 1 неделя</div>
         <div className={tblDAClass}>Back-end</div>
         <div className={tblDBClass}>Front-end</div>
       </section>

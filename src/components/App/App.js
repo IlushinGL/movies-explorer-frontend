@@ -22,6 +22,7 @@ import { useMedia } from '../../utils/customHooks';
 
 const movieSet = getMoveSet(19);
 const savedMovieSet = getMoveSet(3);
+const mediaLeter = ['?', 'a', 'b', 'c'];
 
 
 function App() {
@@ -35,7 +36,7 @@ function App() {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
 
   const base = 'app-content';
-  const contentClass = `${base} ${base}_pos${mediaNum}`;
+  const contentClass = `${base} ${base}_pos${mediaLeter[mediaNum]}`;
 
   const navigate = useNavigate();
 
@@ -43,15 +44,19 @@ function App() {
 
 
   function hanleMediaChanged(event) {
-    let num = getMediaBreakNumber();
-    if (event.matches && num === mediaNum) {
-      num += 1;
-    } else if (!event.matches && num === mediaNum) {
-      num -= 1;
+    // получить параметр медиа-запроса
+    const winW = parseInt(event.media.split(' ')[1], 10);
+    // получить номер медиа-запроса
+    const num = getMediaBreakNumber(winW);
+    if (num) {
+      if (mediaNum === getMediaBreakArea().length && num < mediaNum) {
+        setMediaNum(num);
+      } else if (num !== mediaNum) {
+        setMediaNum(num);
+      } else {
+        setMediaNum(num - 1);
+      }
     }
-    if (num > 3) {num = 3;}
-    else if (num < 1) {num = 1;}
-    setMediaNum(num);
   }
 
   function hanleSignIn() {
@@ -100,7 +105,7 @@ function App() {
               element={
                 <>
                 <Header
-                  mediaNum={mediaNum}
+                  mediaNum={mediaLeter[mediaNum]}
                   isLight={false}
                   isAuthorized={isUserKnown}
                   linkMain={'/'}
@@ -110,7 +115,7 @@ function App() {
                   onMenuClick={hanleMenuClick}
                   linkSignUp={'/signup'}
                   onSignInClick={hanleSignIn}/>
-                <Main mediaNum={mediaNum} />
+                <Main mediaNum={mediaLeter[mediaNum]} />
                 </>
               }
             />
@@ -118,7 +123,7 @@ function App() {
               path="/signin"
               element={
                 <Login
-                  mediaNum={mediaNum}
+                  mediaNum={mediaLeter[mediaNum]}
                   linkMain={'/'}
                   onSubmit={hanleLogIn}
                   linkSignUp={'/signup'}/>
@@ -128,7 +133,7 @@ function App() {
               path="/signup"
               element={
                 <Register
-                  mediaNum={mediaNum}
+                  mediaNum={mediaLeter[mediaNum]}
                   linkMain={'/'}
                   onSubmit={hanleRegister}
                   linkSignIn={'/signin'}/>
@@ -139,7 +144,7 @@ function App() {
               element={
                 <>
                 <Header
-                  mediaNum={mediaNum}
+                  mediaNum={mediaLeter[mediaNum]}
                   isLight={true}
                   isAuthorized={true}
                   linkMain={'/'}
@@ -147,7 +152,7 @@ function App() {
                   linkSavedMovies={'/saved-movies'}
                   linkProfile={'/profile'}
                   onMenuClick={hanleMenuClick}/>
-                <Movies mediaNum={mediaNum} movieCards={movieSet} />
+                <Movies mediaNum={mediaLeter[mediaNum]} movieCards={movieSet} />
                 </>
               }
             />
@@ -156,7 +161,7 @@ function App() {
               element={
                 <>
                 <Header
-                  mediaNum={mediaNum}
+                  mediaNum={mediaLeter[mediaNum]}
                   isLight={true}
                   isAuthorized={true}
                   linkMain={'/'}
@@ -164,7 +169,7 @@ function App() {
                   linkSavedMovies={'/saved-movies'}
                   linkProfile={'/profile'}
                   onMenuClick={hanleMenuClick}/>
-                <SavedMovies mediaNum={mediaNum} movieCards={savedMovieSet} />
+                <SavedMovies mediaNum={mediaLeter[mediaNum]} movieCards={savedMovieSet} />
                 </>
               }
             />
@@ -173,7 +178,7 @@ function App() {
               element={
                 <>
                 <Header
-                  mediaNum={mediaNum}
+                  mediaNum={mediaLeter[mediaNum]}
                   isLight={true}
                   isAuthorized={true}
                   linkMain={'/'}
@@ -182,7 +187,7 @@ function App() {
                   linkProfile={'/profile'}
                   onMenuClick={hanleMenuClick}/>
                 <Profile
-                  mediaNum={mediaNum}
+                  mediaNum={mediaLeter[mediaNum]}
                   onOutClick={hanleLogOut}
                   onEditClick={hanleRegister}/>
                 </>
@@ -197,13 +202,13 @@ function App() {
             <Route
               path="/*"
               element={
-                <NotFound mediaNum={mediaNum} />
+                <NotFound mediaNum={mediaLeter[mediaNum]} />
               }
             />
           </Routes>
 
           <Navigation
-            mediaNum={mediaNum}
+            mediaNum={mediaLeter[mediaNum]}
             linkMain={'/'}
             linkMovies={'/movies'}
             linkSavedMovies={'/saved-movies'}

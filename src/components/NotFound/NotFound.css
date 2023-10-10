@@ -16,10 +16,10 @@
   line-height: 169.43px;
   color: var(--color-text-dark);
 }
-.notfound-title_pos2 {
+.notfound-title_posb {
   margin-top: 408px;
 }
-.notfound-title_pos3 {
+.notfound-title_posc {
   margin-top: 329px;
   font-size: 80px;
   line-height: 96.82px;
@@ -34,7 +34,7 @@
   line-height: 19.36px;
   color: var(--color-text-dark);
 }
-.notfound-subtitle_pos3 {
+.notfound-subtitle_posc {
   margin-top: 10px;
   font-size: 12px;
   line-height: 14.52px;
@@ -57,10 +57,10 @@
 .notfound-action:hover {
   opacity: 80%;
 }
-.notfound-action_pos2 {
+.notfound-action_posb {
   margin-bottom: 222px;
 }
-.notfound-action_pos3 {
+.notfound-action_posc {
   margin-bottom: 30px;
   font-size: 12px;
   line-height: 14.52px;

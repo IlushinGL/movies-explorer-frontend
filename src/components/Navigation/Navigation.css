@@ -1,7 +1,7 @@
 .navigation-popup {
   display: flex;
   visibility: hidden;
-  position: absolute;
+  position: fixed;
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-start;
@@ -32,6 +32,7 @@
   height: 100%;
   width: calc(320px + 0.4464 * (100% - 320px));
   background-color: var(--color-body);
+
 }
 
 .navigation-close {
@@ -52,7 +53,7 @@
 .navigation-close:hover {
   opacity: 70%;
 }
-.navigation-close_pos_3 {
+.navigation-close_posc {
   top: 13px;
   right: 13px;
 }
@@ -64,7 +65,7 @@
   margin-top: 159px;
   flex-direction: column;
 }
-.navigation-items_pos_3 {
+.navigation-items_posc {
   margin-top: 144px;
 }
 
@@ -91,7 +92,7 @@
 .navigation-items__item:hover {
   border-bottom: 2px solid var(--color-text-dark);
 }
-.navigation-items__item_pos_3 {
+.navigation-items__item_posc {
   padding-bottom: 7px;
   margin-bottom: 15px;
 }
@@ -116,6 +117,6 @@
 .navigation-btn:hover {
   opacity: 70%;
 }
-.navigation-btn_pos_3 {
+.navigation-btn_posc {
   margin-top: 437px;
 }

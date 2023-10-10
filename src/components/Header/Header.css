@@ -8,13 +8,13 @@
   align-items: center;
   background-color: var(--color-header);
 }
-.header_pos1 {
+.header_posa {
   padding: 15px 70px;
 }
-.header_pos2 {
+.header_posb {
   padding: 15px 30px;
 }
-.header_pos3 {
+.header_posc {
   padding: 15px 14px;
 }
 .header_light {
@@ -81,13 +81,10 @@
   margin: 0;
   box-sizing: border-box;
   height: 32px;
-  min-width: 100px;
   border-radius: 20px;
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;
-  justify-content: center;
-  align-items: center;
   text-decoration: none;
   border: none;
   color: var(--color-text-dark);
@@ -108,7 +105,7 @@
   cursor: pointer;
   opacity: 100%;
 }
-.header-menu_pos3 {
+.header-menu_posc {
   width: 40px;
   height: 43px;
 }
@@ -131,7 +128,7 @@
   cursor: pointer;
   opacity: 100%;
 }
-.header-auth-btn_pos3 {
+.header-auth-btn_posc {
   padding: 5px 12px;
   font-size: 10px;
 }
@@ -152,7 +149,7 @@
   margin-right: 30px;
   opacity: 100%;
 }
-.header-nav__link-auth_pos3 {
+.header-nav__link-auth_posc {
   font-size: 10px;
   margin-right: 14px;
 }

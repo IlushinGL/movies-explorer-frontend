@@ -80,18 +80,19 @@ function Profile({mediaNum, onOutClick, onEditClick}) {
           <span className={errClass}>{ errors.email || ' ' }</span>
         </div>
       </form>
-      <div className={crlClass}>
-        <div
+      <section className={crlClass}>
+        <button
           onClick={isValid ? handleSubmit : undefined}
           className={crlItemClass + (!isValid ? ` ${base}-control__item_disabled` : '')}>
           Редактировать
-        </div>
-        <div
+        </button>
+        <button
           onClick={onOutClick}
+          type="button"
           className={crlItemClass + ` ${base}-control__item_att`}>
           Выйти из аккаунта
-        </div>
-      </div>
+        </button>
+      </section>
     </main>
   );
 }

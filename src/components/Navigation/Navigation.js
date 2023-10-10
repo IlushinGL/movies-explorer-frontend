@@ -7,10 +7,10 @@ function Navigation({mediaNum, linkMain, linkMovies, linkSavedMovies, linkProfil
   const state       = isOpened ? 'opened' : 'closed'
   const baseClass   = `${base}-conteiner`;
   const popClass    = `${base}-popup ${base}-popup_${state}`;
-  const clsClass    = `${base}-close ${base}-close_pos_${mediaNum}`;
-  const setClass    = `${base}-items ${base}-items_pos_${mediaNum}`;
-  const itemClass   = `${base}-items__item ${base}-items__item_pos_${mediaNum}`;
-  const btnClass    = `${base}-btn ${base}-btn_pos_${mediaNum}`;
+  const clsClass    = `${base}-close ${base}-close_pos${mediaNum}`;
+  const setClass    = `${base}-items ${base}-items_pos${mediaNum}`;
+  const itemClass   = `${base}-items__item ${base}-items__item_pos${mediaNum}`;
+  const btnClass    = `${base}-btn ${base}-btn_pos${mediaNum}`;
   useEscapeKey(handleOnClose);
   useOutsideClick(handleOnClose);
   return (
