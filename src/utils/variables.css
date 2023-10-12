@@ -1,0 +1,23 @@
+:root {
+  /* цвета */
+  --color-ground: #E5E5E5;
+  --color-header: #465DFF;
+  --color-body: #FFF;
+  --color-footer: #FAFAFA;
+  --color-text-dark: #000;
+  --color-text-light: #FFF;
+  --color-text-gray: #A0A0A0;
+  --color-btn-light: #F9F9F9;
+  --color-btn-auth: #2BE080;
+  --color-nav: #F5F5F5;
+  --color-tbl-b: #F2F2F2;
+  --color-tech-ground: #E8E8E8;
+  --color-control: #FF6838;
+  --color-err: #EE3465;
+  --color-shadow: #0000000D;
+  --color-shadow-like: #00000017;
+  --color-popup-ground: rgb(0 0 0 / .3);
+}
+.outline {
+  border: 1px solid red;
+}

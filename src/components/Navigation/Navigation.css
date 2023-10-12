@@ -1,0 +1,122 @@
+.navigation-popup {
+  display: flex;
+  visibility: hidden;
+  position: fixed;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-popup-ground);
+  transition: opacity 0.5s , visibility 0.5s;
+}
+.navigation-popup_opened {
+  visibility: visible;
+  opacity: 1;
+}
+.navigation-popup_closed {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.navigation-conteiner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: calc(320px + 0.4464 * (100% - 320px));
+  background-color: var(--color-body);
+
+}
+
+.navigation-close {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  top: 22px;
+  right: 22px;
+  opacity: 1;
+  border: none;
+  background-color: transparent;
+  background-image: url(../../images/close.svg);
+  background-size: 30px 30px;
+  cursor: pointer;
+}
+.navigation-close:hover {
+  opacity: 70%;
+}
+.navigation-close_posc {
+  top: 13px;
+  right: 13px;
+}
+
+.navigation-items {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  margin-top: 159px;
+  flex-direction: column;
+}
+.navigation-items_posc {
+  margin-top: 144px;
+}
+
+.navigation-items__item {
+  display: block;
+  padding: 0;
+  padding-bottom: 4px;
+  margin: 0 auto 22px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21.78px;
+  text-align: top center;
+  text-decoration: none;
+  border-bottom: 2px solid var(--color-body);
+  color: var(--color-text-dark);
+  cursor: pointer;
+}
+.navigation-items__item_active {
+  font-weight: 900;
+}
+.navigation-items__item:last-child {
+  margin-bottom: 0;
+}
+.navigation-items__item:hover {
+  border-bottom: 2px solid var(--color-text-dark);
+}
+.navigation-items__item_posc {
+  padding-bottom: 7px;
+  margin-bottom: 15px;
+}
+
+.navigation-btn {
+  display: flex;
+  padding: 8px 20px;
+  justify-content: center;
+  align-items: center;
+  margin: 617px auto auto;
+  border-radius: 20px;
+  background-color: var(--color-btn-light);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  text-decoration: none;
+  border: none;
+  color: var(--color-text-dark);
+  cursor: pointer;
+  opacity: 100%;
+}
+.navigation-btn:hover {
+  opacity: 70%;
+}
+.navigation-btn_posc {
+  margin-top: 437px;
+}

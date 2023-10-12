@@ -1,0 +1,29 @@
+.app {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: var(--color-ground);
+  font-family: Inter, Arial, sans-serif;
+}
+
+.app-content {
+  display: flex;
+  box-sizing: border-box;
+  background-color: var(--color-body);
+  width: 100%;
+  min-height: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+}
+.app-content_posb {
+  min-width: 753px;
+}
+.app-content_posc {
+  min-width: 305px;
+}

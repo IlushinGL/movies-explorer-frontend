@@ -1,0 +1,114 @@
+.footer {
+  display: flex;
+  box-sizing: border-box;
+  margin: 0;
+  width: 100%;
+  flex-direction: column;
+  align-content: flex-start;
+  background-color: var(--color-body);
+  cursor: default;
+}
+.footer_posa {
+  padding: 0 70px;
+  background-color: var(--color-footer);
+}
+.footer_posb {
+  padding: 0 30px;
+}
+.footer_posc {
+  padding: 0 10px;
+}
+
+.footer-title {
+  display: block;
+  box-sizing: border-box;
+  margin: 79px 0 20px;
+  padding: 0 0 20px;
+  color: var(--color-text-dark);
+  border-bottom: 1px solid var(--color-tech-ground);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15.73px;
+  text-align: center;
+  color: var(--color-text-gray);
+}
+.footer-title_posc {
+  margin-bottom: 30px;
+  font-size: 12px;
+  line-height: 14.25px;
+}
+
+.footer-info {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: row;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+  color: var(--color-text-dark);
+}
+.footer-info_posc {
+  flex-direction: column-reverse;
+}
+
+.footer-info-copyright {
+  display: block;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15.73px;
+  color: var(--color-text-dark);
+}
+.footer-info-copyright::before {
+  content: '\00A9';
+}
+.footer-info-copyright_posc {
+  font-size: 12px;
+  line-height: 14.52px;
+  margin: 30px auto 0;
+  color: var(--color-text-gray);
+}
+
+.footer-info-links {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+}
+.footer-info-links_posc {
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.footer-info-links__item {
+  display: block;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  margin-right: 20px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15.73px;
+  text-decoration: none;
+  color: var(--color-text-dark);
+  opacity: 100%;
+  cursor: pointer;
+}
+.footer-info-links__item:hover {
+  opacity: 70%;
+}
+.footer-info-links__item_posc {
+  margin-bottom: 12px;
+  font-size: 12px;
+  line-height: 14.25px;
+}
+.footer-info-links__item:last-child {
+  margin-right: 0;
+  margin-bottom: 0;
+}
