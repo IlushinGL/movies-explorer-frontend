@@ -6,13 +6,17 @@
 Клонирование и установка зависимостей:
 
 `git clone https://github.com/IlushinGL/movies-explorer-frontend.git`
+
 `cd movies-explorer-frontend`
+
 `git switch level-3`
+
 `npm install`
 
 Команды:
 
 `npm run start` — запуск приложение в режиме разработки
+
 `npm run build` — создание оптимизированной сборки приложения
 
 Откройте [http://localhost:3000](http://localhost:3000) чтобы увидеть результат в браузере.

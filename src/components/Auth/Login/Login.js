@@ -1,9 +1,11 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
+import Preloader from '../../Preloader/Preloader';
 import logo from '../../../images/logo.svg';
 import './Login.css';
 import { useFormAndValidation } from '../../../utils/customHooks';
 
-function Login({mediaNum, onSubmit, linkMain, linkSignUp}) {
+function Login({mediaNum, onSubmit, linkMain, linkSignUp, message}) {
   const base        = 'login';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const headerClass = `${base}-header ${base}-header_pos${mediaNum}`;
@@ -14,21 +16,24 @@ function Login({mediaNum, onSubmit, linkMain, linkSignUp}) {
   const inputClass  = `${base}-form__input`;
   const errClass    = `${base}-form__err`;
   const ctlClass    = `${base}-control ${base}-control_pos${mediaNum}`;
+  const msgClass    = `${base}-control__msg ${base}-control__msg_pos${mediaNum}`;
   const btnClass    = `${base}-control__btn ${base}-control__btn_pos${mediaNum}`;
   const blockClass  = `${base}-control-block ${base}-control-block_pos${mediaNum}`;
   const infoClass   = `${base}-control-block__info ${base}-control-block__info_pos${mediaNum}`;
   const actClass    = `${base}-control-block__action ${base}-control-block__action_pos${mediaNum}`;
 
+  const [isCheckIn, setCheckIn] = React.useState(false);
   const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
-    // Передать значения управляемых компонентов во внешний обработчик
+    setCheckIn(true);
     onSubmit({
       email: values.email,
       password: values.password,
     });
-    resetForm();
+    setCheckIn(false);
+    // resetForm();
   }
 
   return (
@@ -73,7 +78,10 @@ function Login({mediaNum, onSubmit, linkMain, linkSignUp}) {
         />
         <span className={errClass}>{ errors.password || ' ' }</span>
       </form>
-      <div className={ctlClass}>
+      <section className={ctlClass}>
+        <div className={msgClass}>
+          {isCheckIn ? <Preloader />: (message || ' ')}
+        </div>
         <button
           className={btnClass + (!isValid ? ` ${base}-control__btn_disabled` : '')}
           type="button"
@@ -87,7 +95,7 @@ function Login({mediaNum, onSubmit, linkMain, linkSignUp}) {
             Регистрация
           </NavLink>
         </div>
-      </div>
+      </section>
     </main>
   );
 }

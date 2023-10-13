@@ -1,6 +1,15 @@
 export const MEDIA_POINT1 = 1279;
 export const MEDIA_POINT2 = 767;
 export const MEDIA_POINT3 = 319;
+
+export const AUTH_DATA = {
+  server: 'http://movies-api.iknow.studio',
+  signUp: '/signup',
+  signIn: '/signin',
+  user:   '/users/me',
+  movies: '/movies',
+};
+
 export const TECHS_NAMES = [
   ['HTML', 'https://ru.wikipedia.org/wiki/HTML'],
   ['CSS', 'https://ru.wikipedia.org/wiki/CSS'],

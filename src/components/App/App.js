@@ -3,6 +3,7 @@ import React from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { apiUserAuth } from '../../utils/MainApi';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Login from '../Auth/Login/Login';
@@ -15,7 +16,7 @@ import NotFound from '../NotFound/NotFound';
 
 import getMoveSet from '../../utils/generateMovie';
 
-import Preloader from '../Movies/Preloader/Preloader';
+import Preloader from '../Preloader/Preloader';
 
 import { getMediaBreakArea, getMediaBreakNumber} from '../../utils/customFunction';
 import { useMedia } from '../../utils/customHooks';
@@ -34,6 +35,7 @@ function App() {
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
   const [isUserKnown, setUserKnown] = React.useState(false);
   const [isMenuOpen, setMenuOpen] = React.useState(false);
+  const [message, setMessage] = React.useState(' ');
 
   const base = 'app-content';
   const contentClass = `${base} ${base}_pos${mediaLeter[mediaNum]}`;
@@ -42,6 +44,26 @@ function App() {
 
   useMedia(getMediaBreakArea(), hanleMediaChanged);
 
+  React.useEffect(() =>  {
+    const jwt = localStorage.getItem('jwt');
+
+    if (jwt) {
+      apiUserAuth.checkToken(jwt)
+      .then((res) => {
+        setCurrentUser(res);
+        setMessage(res);
+        setUserKnown(true);
+        navigate('/movies', {replace: true});
+      })
+      .catch((err) => {
+        setMessage(`${err}: Токен просрочен. Нужно вспомнить регистрационные данные.`);
+        setUserKnown(false);
+      });
+    } else {
+      setMessage('Токен не найден. Нужно вспомнить регистрационные данные.');
+      setUserKnown(false);
+    }
+  }, [navigate]);
 
   function hanleMediaChanged(event) {
     // получить параметр медиа-запроса
@@ -68,10 +90,18 @@ function App() {
     }
   }
 
-  function hanleLogIn() {
+  function hanleLogIn({email, password}) {
     // юзер авторизуется
-    setUserKnown(true);
-    navigate('/movies', {replace: true});
+    apiUserAuth.login({email, password})
+    .then((res) => {
+      localStorage.setItem('jwt', res.token);
+      setUserKnown(true);
+      navigate('/movies', {replace: true});
+    })
+    .catch((err) => {
+      setUserKnown(false);
+      setMessage(`${err} <Неудачная попытка авторизации.>`);
+    });
   }
 
   function hanleRegister({name, email}) {
@@ -126,7 +156,8 @@ function App() {
                   mediaNum={mediaLeter[mediaNum]}
                   linkMain={'/'}
                   onSubmit={hanleLogIn}
-                  linkSignUp={'/signup'}/>
+                  linkSignUp={'/signup'}
+                  message={message}/>
               }
             />
             <Route
@@ -136,6 +167,7 @@ function App() {
                   mediaNum={mediaLeter[mediaNum]}
                   linkMain={'/'}
                   onSubmit={hanleRegister}
+                  userApi={apiUserAuth}
                   linkSignIn={'/signin'}/>
               }
             />

@@ -2,10 +2,9 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from '../../../images/logo.svg';
 import '../Login/Login.css';
-import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 import { useFormAndValidation } from '../../../utils/customHooks';
 
-function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
+function Register({mediaNum, onSubmit, linkMain, linkSignIn, userApi, message}) {
   const base        = 'login';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const headerClass = `${base}-header ${base}-header_pos${mediaNum}`;
@@ -15,32 +14,36 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
   const lblClass    = `${base}-form__lbl ${base}-form__lbl_pos${mediaNum}`;
   const inputClass  = `${base}-form__input ${base}-form__input_pos${mediaNum}`;
   const errClass    = `${base}-form__err ${base}-form__err_pos${mediaNum}`;
-  const ctlClass    = `${base}-control ${base}-control_pos${mediaNum} ${base}-control_pos${mediaNum}reg`;
+  const ctlClass    = `${base}-control ${base}-control_pos${mediaNum}`;
+  const msgClass    = `${base}-control__msg ${base}-control__msg_pos${mediaNum}  ${base}-control__msg_pos${mediaNum}reg`;
   const btnClass    = `${base}-control__btn ${base}-control__btn_pos${mediaNum}`;
   const blockClass  = `${base}-control-block ${base}-control-block_pos${mediaNum}`;
   const infoClass   = `${base}-control-block__info ${base}-control-block__info_pos${mediaNum}`;
   const actClass    = `${base}-control-block__action ${base}-control-block__action_pos${mediaNum}`;
 
-  const currentUser = React.useContext(CurrentUserContext);
-  const {values, setValues, handleChange, errors, isValid, resetForm} = useFormAndValidation();
-
-  React.useEffect(() => {
-    resetForm();
-    setValues({
-      name: currentUser.name,
-      email: currentUser.email,
-    });
-  }, [resetForm, setValues, currentUser]);
+  const [comment, setComment] = React.useState(message || ' ');
+  const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
-    // Передать значения управляемых компонентов во внешний обработчик
-    onSubmit({
-      name: values.name,
-      email: values.email,
-      password: values.password,
+    // setCheckIn(true);
+    userApi.register({name: values.name, email: values.email, password: values.password})
+    .then(() => {
+      userApi.login({email: values.email, password: values.password});
+    })
+    .then((res) => {
+      localStorage.setItem('jwt', res.token);
+      // Передать значения управляемых компонентов во внешний обработчик
+      onSubmit({
+        name: values.name,
+        email: values.email,
+      });
+      resetForm();
+    })
+    .catch((err) => {
+      setComment(`${err} <Неудачная попытка регистрации.>`);
     });
-    resetForm();
+    // setCheckIn(false);
   }
 
   return (
@@ -98,7 +101,8 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
         />
         <span className={errClass}>{ errors.password || ' ' }</span>
       </form>
-      <div className={ctlClass}>
+      <section className={ctlClass}>
+      <p className={msgClass}>{comment}</p>
         <button
           className={btnClass + (!isValid ? ` ${base}-control__btn_disabled` : '')}
           onClick={handleSubmit}
@@ -111,7 +115,7 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
             Войти
           </NavLink>
         </div>
-      </div>
+      </section>
     </main>
   );
 }
