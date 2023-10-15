@@ -10,8 +10,8 @@ class Auth {
     this._user    = user;
     this._movies  = movies;
     this._headers = {
-      'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': '',
     };
   }
 
@@ -19,16 +19,15 @@ class Auth {
     if (response.ok) {
       return response.json();
     }
-    return Promise.reject(`AuthErr_${errTitle}=${response.status}`);
+    // return Promise.reject(`AuthErr_${errTitle}=${response.status}`);
+    return Promise.reject(response.status);
   }
 
   register({name, email, password}) {
-    console.log(name, email, password);
     return fetch(
       this._baseURL + this._signUp,
       {
       method: 'POST',
-      mode: 'no-cors',
       headers: this._headers,
       body: JSON.stringify({
         name: name,
@@ -36,16 +35,14 @@ class Auth {
         password: password
       })
     })
-    .then((res) => {return this._handleResponse(res, 'register')});
+    .catch((err) => {return this._handleResponse(err, 'register')});
   }
 
   login({email, password}) {
-    console.log(this._baseURL + this._signIn, email, password);
     return fetch(
       this._baseURL + this._signIn,
       {
       method: 'POST',
-      mode: 'no-cors',
       headers: this._headers,
       body: JSON.stringify({
         password: password,
@@ -55,17 +52,30 @@ class Auth {
     .then((res) => {return this._handleResponse(res, 'login')});
   }
 
-
+  update({name, email, jwt}) {
+    return fetch(
+      this._baseURL + this._user,
+      {
+      method: 'PATCH',
+      headers: {...this._headers, ...{ Authorization : jwt }},
+      body: JSON.stringify({
+        name: name,
+        email: email
+      })
+    })
+    .then((res) => {return this._handleResponse(res, 'update')});
+  }
 
   checkToken(jwt) {
     return fetch(
       this._baseURL + this._user,
       {
       method: 'GET',
-      headers: {...this._headers, ...{ Authorization : `Bearer ${jwt}` }},
+      headers: {...this._headers, ...{ Authorization : jwt }},
     })
     .then((res) => {return this._handleResponse(res, 'checkToken')});
   }
+
 }
 
 export const apiUserAuth = new Auth(AUTH_DATA);

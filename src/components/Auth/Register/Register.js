@@ -1,10 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import Preloader from '../../Preloader/Preloader';
 import logo from '../../../images/logo.svg';
 import '../Login/Login.css';
 import { useFormAndValidation } from '../../../utils/customHooks';
 
-function Register({mediaNum, onSubmit, linkMain, linkSignIn, userApi, message}) {
+function Register({mediaNum, onSubmit, linkMain, onSignIn, message}) {
   const base        = 'login';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const headerClass = `${base}-header ${base}-header_pos${mediaNum}`;
@@ -21,29 +22,22 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn, userApi, message}) 
   const infoClass   = `${base}-control-block__info ${base}-control-block__info_pos${mediaNum}`;
   const actClass    = `${base}-control-block__action ${base}-control-block__action_pos${mediaNum}`;
 
-  const [comment, setComment] = React.useState(message || ' ');
-  const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
+  const [isCheckIn, setCheckIn] = React.useState(false);
+  const {values, handleChange, errors, isValid} = useFormAndValidation();
+
+  // React.useEffect(() => {
+
+  // });
 
   function handleSubmit(e) {
-    e.preventDefault();
-    // setCheckIn(true);
-    userApi.register({name: values.name, email: values.email, password: values.password})
-    .then(() => {
-      userApi.login({email: values.email, password: values.password});
-    })
-    .then((res) => {
-      localStorage.setItem('jwt', res.token);
-      // Передать значения управляемых компонентов во внешний обработчик
-      onSubmit({
-        name: values.name,
-        email: values.email,
-      });
-      resetForm();
-    })
-    .catch((err) => {
-      setComment(`${err} <Неудачная попытка регистрации.>`);
+    // e.preventDefault();
+    setCheckIn(true);
+    onSubmit({
+      name: values.name,
+      email: values.email,
+      password: values.password,
     });
-    // setCheckIn(false);
+    setCheckIn(false);
   }
 
   return (
@@ -102,7 +96,9 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn, userApi, message}) 
         <span className={errClass}>{ errors.password || ' ' }</span>
       </form>
       <section className={ctlClass}>
-      <p className={msgClass}>{comment}</p>
+        <div className={msgClass}>
+          {isCheckIn ? <Preloader />: (message || ' ')}
+        </div>
         <button
           className={btnClass + (!isValid ? ` ${base}-control__btn_disabled` : '')}
           onClick={handleSubmit}
@@ -110,10 +106,13 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn, userApi, message}) 
           Зарегистрироваться
         </button>
         <div className={blockClass}>
-          <div className={infoClass}>Уже зарегистрированы?</div>
-          <NavLink className={actClass} to={linkSignIn}>
+          <p className={infoClass}>Уже зарегистрированы?</p>
+          <button
+            className={actClass}
+            type="button"
+            onClick={onSignIn}>
             Войти
-          </NavLink>
+          </button>
         </div>
       </section>
     </main>

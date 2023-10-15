@@ -25,17 +25,18 @@ const movieSet = getMoveSet(19);
 const savedMovieSet = getMoveSet(3);
 const mediaLeter = ['?', 'a', 'b', 'c'];
 
-
 function App() {
   const [currentUser, setCurrentUser] = React.useState({
     _id: '-1',
     name: null,
     email: null,
   });
+
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
-  const [isUserKnown, setUserKnown] = React.useState(false);
+  const [isUserKnown, setUserKnown] = React.useState(localStorage.getItem('jwt'));
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   const [message, setMessage] = React.useState(' ');
+  const [waitNum, setWaitNum] = React.useState(0);
 
   const base = 'app-content';
   const contentClass = `${base} ${base}_pos${mediaLeter[mediaNum]}`;
@@ -45,25 +46,19 @@ function App() {
   useMedia(getMediaBreakArea(), hanleMediaChanged);
 
   React.useEffect(() =>  {
-    const jwt = localStorage.getItem('jwt');
-
-    if (jwt) {
-      apiUserAuth.checkToken(jwt)
-      .then((res) => {
-        setCurrentUser(res);
-        setMessage(res);
-        setUserKnown(true);
-        navigate('/movies', {replace: true});
-      })
-      .catch((err) => {
-        setMessage(`${err}: Токен просрочен. Нужно вспомнить регистрационные данные.`);
-        setUserKnown(false);
-      });
-    } else {
-      setMessage('Токен не найден. Нужно вспомнить регистрационные данные.');
-      setUserKnown(false);
+    setMessage(' ');
+    if (isUserKnown) {
+      apiUserAuth.checkToken(isUserKnown)
+      .then((res)  => { setCurrentUser(res); })
+      .catch((err) => { setMessage(err); });
     }
-  }, [navigate]);
+  }, [isUserKnown]);
+
+  function errMessage(err) {
+    return `Во время запроса произошла ошибка ${err}. ` +
+      'Возможно, проблема с соединением или сервер недоступен. ' +
+      'Подождите немного и попробуйте ещё раз.';
+  }
 
   function hanleMediaChanged(event) {
     // получить параметр медиа-запроса
@@ -82,38 +77,81 @@ function App() {
   }
 
   function hanleSignIn() {
-    // если юзер известен, то по клику на войти сразу ведём на список карточек
-    if (isUserKnown) {
-      navigate('/movies', {replace: true});
-    } else {
-      navigate('/signin', {replace: true});
-    }
+    setMessage(' ');
+    navigate('/signin', {replace: true});
   }
 
   function hanleLogIn({email, password}) {
-    // юзер авторизуется
+    setWaitNum(1);
+    setUserKnown(undefined);
     apiUserAuth.login({email, password})
     .then((res) => {
       localStorage.setItem('jwt', res.token);
-      setUserKnown(true);
+      setUserKnown(res.token);
+
       navigate('/movies', {replace: true});
     })
     .catch((err) => {
-      setUserKnown(false);
-      setMessage(`${err} <Неудачная попытка авторизации.>`);
+      if (Number(err) < 500) {
+        setMessage('Почта или пароль указаны неверно');
+      } else {
+        errMessage(err);
+      }
+    });
+    setWaitNum(0);
+  }
+
+  function hanleSignUp() {
+    setMessage(' ');
+    navigate('/signup', {replace: true});
+  }
+
+  function hanleRegister({name, email, password}) {
+    setWaitNum(2);
+    setUserKnown(undefined);
+    apiUserAuth.register({name, email, password})
+    .then(() => {
+      apiUserAuth.login({email, password})
+      .then((res) => {
+        localStorage.setItem('jwt', res.token);
+        setUserKnown(res.token);
+        navigate('/movies', {replace: true});
+      })
+      .catch((err) => {
+        if (Number(err) < 500) {
+          setMessage('Почта или пароль указаны неверно');
+        } else {
+          errMessage(err);
+        }
+      })
+    })
+    .catch((err) => {
+      if (Number(err) < 500) {
+        setMessage('Почта указана неверно или вы уже проходили процедуру регистрации.');
+      } else {
+        errMessage(err);
+      }
+    });
+    setWaitNum(0);
+  }
+
+  function hanleProfile({name, email}) {
+    // юзер меняет данные
+    console.log(isUserKnown);
+    apiUserAuth.update({name, email, isUserKnown})
+    .then((res) => {
+      console.log(res);
+      setCurrentUser(res);
+      navigate('/movies', {replace: true});
+    })
+    .catch((err) => {
+      setMessage(`${err} Что-то пошло не так...`);
     });
   }
 
-  function hanleRegister({name, email}) {
-    // юзер регестрируется и авторизуется
-    setCurrentUser({name, email})
-    setUserKnown(true);
-    navigate('/movies', {replace: true});
-  }
-
   function hanleLogOut() {
-    // юзер деавторизуется в форме профиля при клике на выйти из аккаунта
-    setUserKnown(false);
+    localStorage.removeItem('jwt');
+    setUserKnown(undefined);
     navigate('/', {replace: true});
   }
 
@@ -156,8 +194,9 @@ function App() {
                   mediaNum={mediaLeter[mediaNum]}
                   linkMain={'/'}
                   onSubmit={hanleLogIn}
-                  linkSignUp={'/signup'}
-                  message={message}/>
+                  onSignUp={hanleSignUp}
+                  message={message}
+                  isWait={waitNum === 1 ? true: false}/>
               }
             />
             <Route
@@ -167,8 +206,9 @@ function App() {
                   mediaNum={mediaLeter[mediaNum]}
                   linkMain={'/'}
                   onSubmit={hanleRegister}
-                  userApi={apiUserAuth}
-                  linkSignIn={'/signin'}/>
+                  onSignIn={hanleSignIn}
+                  message={message}
+                  isWait={waitNum === 2 ? true: false}/>
               }
             />
             <Route
@@ -221,7 +261,7 @@ function App() {
                 <Profile
                   mediaNum={mediaLeter[mediaNum]}
                   onOutClick={hanleLogOut}
-                  onEditClick={hanleRegister}/>
+                  onEditClick={hanleProfile}/>
                 </>
               }
             />

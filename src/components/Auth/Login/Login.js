@@ -5,7 +5,7 @@ import logo from '../../../images/logo.svg';
 import './Login.css';
 import { useFormAndValidation } from '../../../utils/customHooks';
 
-function Login({mediaNum, onSubmit, linkMain, linkSignUp, message}) {
+function Login({mediaNum, onSubmit, linkMain, onSignUp, message, isWait}) {
   const base        = 'login';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const headerClass = `${base}-header ${base}-header_pos${mediaNum}`;
@@ -22,17 +22,15 @@ function Login({mediaNum, onSubmit, linkMain, linkSignUp, message}) {
   const infoClass   = `${base}-control-block__info ${base}-control-block__info_pos${mediaNum}`;
   const actClass    = `${base}-control-block__action ${base}-control-block__action_pos${mediaNum}`;
 
-  const [isCheckIn, setCheckIn] = React.useState(false);
-  const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
+  // const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
+  const {values, handleChange, errors, isValid} = useFormAndValidation();
 
   function handleSubmit(e) {
-    e.preventDefault();
-    setCheckIn(true);
+    // e.preventDefault();
     onSubmit({
       email: values.email,
       password: values.password,
     });
-    setCheckIn(false);
     // resetForm();
   }
 
@@ -80,7 +78,7 @@ function Login({mediaNum, onSubmit, linkMain, linkSignUp, message}) {
       </form>
       <section className={ctlClass}>
         <div className={msgClass}>
-          {isCheckIn ? <Preloader />: (message || ' ')}
+          {isWait ? <Preloader />: (message || ' ')}
         </div>
         <button
           className={btnClass + (!isValid ? ` ${base}-control__btn_disabled` : '')}
@@ -90,10 +88,13 @@ function Login({mediaNum, onSubmit, linkMain, linkSignUp, message}) {
           Войти
         </button>
         <div className={blockClass}>
-          <div className={infoClass}>Ещё не зарегистрированы?</div>
-          <NavLink className={actClass} to={linkSignUp}>
+          <p className={infoClass}>Ещё не зарегистрированы?</p>
+          <button
+            className={actClass}
+            type="button"
+            onClick={onSignUp}>
             Регистрация
-          </NavLink>
+          </button>
         </div>
       </section>
     </main>
