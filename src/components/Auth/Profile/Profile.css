@@ -78,7 +78,8 @@
   display: block;
   padding: 0;
   margin: 0;
-  max-width: 122px;
+  /* max-width: 122px; */
+  width: calc(100% - 80px);
   font-weight: 400;
   font-size: 11px;
   line-height: 13.31px;
@@ -110,6 +111,23 @@
   cursor: default;
 }
 .profile-data-set-item-err_posc {
+  max-width: 260px;
+}
+
+.profile-err {
+  display: block;
+  padding: 0;
+  margin: 15px auto 0;
+  max-width: 410px;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13.31px;
+  text-align: left;
+  white-space: pre-wrap;
+  color: var(--color-err);
+  cursor: default;
+}
+.profile-err_posc {
   max-width: 260px;
 }
 

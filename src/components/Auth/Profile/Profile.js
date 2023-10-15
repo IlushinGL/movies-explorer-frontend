@@ -3,7 +3,7 @@ import './Profile.css';
 import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 import { useFormAndValidation } from '../../../utils/customHooks';
 
-function Profile({mediaNum, onOutClick, onEditClick}) {
+function Profile({mediaNum, onOutClick, onEditClick, message}) {
   const base           = 'profile';
   const baseClass      = `${base} ${base}_pos${mediaNum}`;
   const titleClass     = `${base}-title ${base}-title_pos${mediaNum}`;
@@ -13,6 +13,7 @@ function Profile({mediaNum, onOutClick, onEditClick}) {
   const lblClass       = `${base}-data-set-item__lbl`;
   const inputClass     = `${base}-data-set-item__input`;
   const errClass       = `${base}-data-set-item-err ${base}-data-set-item-err_pos${mediaNum}`;
+  const alertClass     = `${base}-err ${base}-err_pos${mediaNum}`;
   const crlClass       = `${base}-control ${base}-control_pos${mediaNum}`;
   const crlItemClass   = `${base}-control__item ${base}-control__item_pos${mediaNum}`;
 
@@ -80,6 +81,7 @@ function Profile({mediaNum, onOutClick, onEditClick}) {
           <span className={errClass}>{ errors.email || ' ' }</span>
         </div>
       </form>
+      <p className={alertClass}>{ message || ' ' }</p>
       <section className={crlClass}>
         <button
           onClick={isValid ? handleSubmit : undefined}

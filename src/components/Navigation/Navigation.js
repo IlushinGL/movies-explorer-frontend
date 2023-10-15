@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import './Navigation.css';
 import { useEscapeKey, useOutsideClick } from '../../utils/customHooks';
 
-function Navigation({mediaNum, linkMain, linkMovies, linkSavedMovies, linkProfile, isOpened, handleOnClose}) {
+function Navigation({mediaNum, linkMain, linkMovies, linkSavedMovies, onEditProfile, isOpened, handleOnClose}) {
   const base        = 'navigation';
   const state       = isOpened ? 'opened' : 'closed'
   const baseClass   = `${base}-conteiner`;
@@ -37,11 +37,17 @@ function Navigation({mediaNum, linkMain, linkMovies, linkSavedMovies, linkProfil
             Сохранённые фильмы
           </NavLink>
         </nav>
-        <NavLink to={linkProfile}
+        <button
+          className={btnClass}
+          type="button"
+          onClick={onEditProfile}>
+          Аккаунт
+        </button>
+        {/* <NavLink to={linkProfile}
           className={btnClass}
           onClick={handleOnClose}>
           Аккаунт
-        </NavLink>
+        </NavLink> */}
       </div>
 
     </div>

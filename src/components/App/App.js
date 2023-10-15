@@ -135,10 +135,16 @@ function App() {
     setWaitNum(0);
   }
 
+  function hanleEditIn() {
+    setMenuOpen(false);
+    setMessage(' ');
+    navigate('/profile', {replace: true});
+  }
+
   function hanleProfile({name, email}) {
     // юзер меняет данные
-    console.log(isUserKnown);
-    apiUserAuth.update({name, email, isUserKnown})
+
+    apiUserAuth.update({name, email, jwt: isUserKnown})
     .then((res) => {
       console.log(res);
       setCurrentUser(res);
@@ -179,7 +185,7 @@ function App() {
                   linkMain={'/'}
                   linkMovies={'/movies'}
                   linkSavedMovies={'/saved-movies'}
-                  linkProfile={'/profile'}
+                  onEditProfile={hanleEditIn}
                   onMenuClick={hanleMenuClick}
                   linkSignUp={'/signup'}
                   onSignInClick={hanleSignIn}/>
@@ -222,7 +228,7 @@ function App() {
                   linkMain={'/'}
                   linkMovies={'/movies'}
                   linkSavedMovies={'/saved-movies'}
-                  linkProfile={'/profile'}
+                  onEditProfile={hanleEditIn}
                   onMenuClick={hanleMenuClick}/>
                 <Movies mediaNum={mediaLeter[mediaNum]} movieCards={movieSet} />
                 </>
@@ -239,7 +245,7 @@ function App() {
                   linkMain={'/'}
                   linkMovies={'/movies'}
                   linkSavedMovies={'/saved-movies'}
-                  linkProfile={'/profile'}
+                  onEditProfile={hanleEditIn}
                   onMenuClick={hanleMenuClick}/>
                 <SavedMovies mediaNum={mediaLeter[mediaNum]} movieCards={savedMovieSet} />
                 </>
@@ -256,12 +262,13 @@ function App() {
                   linkMain={'/'}
                   linkMovies={'/movies'}
                   linkSavedMovies={'/saved-movies'}
-                  linkProfile={'/profile'}
+                  onEditProfile={hanleEditIn}
                   onMenuClick={hanleMenuClick}/>
                 <Profile
                   mediaNum={mediaLeter[mediaNum]}
                   onOutClick={hanleLogOut}
-                  onEditClick={hanleProfile}/>
+                  onEditClick={hanleProfile}
+                  message={message}/>
                 </>
               }
             />
@@ -284,7 +291,7 @@ function App() {
             linkMain={'/'}
             linkMovies={'/movies'}
             linkSavedMovies={'/saved-movies'}
-            linkProfile={'/profile'}
+            onEditProfile={hanleEditIn}
             isOpened={isMenuOpen}
             handleOnClose={hanleNavigationCloseClick} />
 

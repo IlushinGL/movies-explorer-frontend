@@ -5,7 +5,7 @@ import logo from '../../../images/logo.svg';
 import '../Login/Login.css';
 import { useFormAndValidation } from '../../../utils/customHooks';
 
-function Register({mediaNum, onSubmit, linkMain, onSignIn, message}) {
+function Register({mediaNum, onSubmit, linkMain, onSignIn, message, isWait}) {
   const base        = 'login';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const headerClass = `${base}-header ${base}-header_pos${mediaNum}`;
@@ -22,22 +22,15 @@ function Register({mediaNum, onSubmit, linkMain, onSignIn, message}) {
   const infoClass   = `${base}-control-block__info ${base}-control-block__info_pos${mediaNum}`;
   const actClass    = `${base}-control-block__action ${base}-control-block__action_pos${mediaNum}`;
 
-  const [isCheckIn, setCheckIn] = React.useState(false);
   const {values, handleChange, errors, isValid} = useFormAndValidation();
-
-  // React.useEffect(() => {
-
-  // });
 
   function handleSubmit(e) {
     // e.preventDefault();
-    setCheckIn(true);
     onSubmit({
       name: values.name,
       email: values.email,
       password: values.password,
     });
-    setCheckIn(false);
   }
 
   return (
@@ -97,7 +90,7 @@ function Register({mediaNum, onSubmit, linkMain, onSignIn, message}) {
       </form>
       <section className={ctlClass}>
         <div className={msgClass}>
-          {isCheckIn ? <Preloader />: (message || ' ')}
+          {isWait ? <Preloader />: (message || ' ')}
         </div>
         <button
           className={btnClass + (!isValid ? ` ${base}-control__btn_disabled` : '')}

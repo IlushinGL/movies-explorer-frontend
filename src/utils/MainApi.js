@@ -53,11 +53,12 @@ class Auth {
   }
 
   update({name, email, jwt}) {
+    this._headers.Authorization = jwt;
     return fetch(
       this._baseURL + this._user,
       {
       method: 'PATCH',
-      headers: {...this._headers, ...{ Authorization : jwt }},
+      headers: this._headers,
       body: JSON.stringify({
         name: name,
         email: email
@@ -67,6 +68,7 @@ class Auth {
   }
 
   checkToken(jwt) {
+
     return fetch(
       this._baseURL + this._user,
       {
