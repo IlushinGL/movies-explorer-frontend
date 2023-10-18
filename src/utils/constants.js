@@ -18,8 +18,12 @@ export const ME_DATA = {
 export const REG_PATTERNS = {
   EMAIL: '^[^@]+@[^@]+.[a-zA-Z]{2,5}$',
   USERNAME: '^[A-Za-zА-Яа-яЁё\\-\\s]+$',
-}
-
+};
+export const CARDS_TBL =[
+  [270, 20, 70, 4, 1],
+  [339, 30, 30, 4, 1],
+  [300, 20, 10, 5, 2],
+]
 export const TECHS_NAMES = [
   ['HTML', 'https://ru.wikipedia.org/wiki/HTML'],
   ['CSS', 'https://ru.wikipedia.org/wiki/CSS'],

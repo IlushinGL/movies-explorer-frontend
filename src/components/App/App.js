@@ -5,6 +5,8 @@ import './App.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { apiUserAuth } from '../../utils/MainApi';
 import { apiMovies } from '../../utils/MoviesApi';
+import { moviesPaging } from '../../utils/MoviesPaginator';
+
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Login from '../Auth/Login/Login';
@@ -35,6 +37,7 @@ function App() {
     email: null,
   });
   const [cards, setCards] = React.useState([]);
+  const [cardCount, setCardCout] = React.useState(0);
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
   const [isUserKnown, setUserKnown] = React.useState(localStorage.getItem('jwt'));
   const [isMenuOpen, setMenuOpen] = React.useState(false);
@@ -46,32 +49,29 @@ function App() {
 
   const navigate = useNavigate();
 
-  useMedia(getMediaBreakArea(), hanleMediaChanged);
+  useMedia(getMediaBreakArea(), handleMediaChanged);
+  window.addEventListener("resize", handleWindowSize);
 
   React.useEffect(() => {
     if (isUserKnown) {
       Promise.all([apiUserAuth.checkToken(isUserKnown), apiMovies.getAll()])
-      .then(([userInfo, allCards]) => {
+      .then(([userInfo, data]) => {
         setCurrentUser(userInfo);
-        setCards(Array.from(allCards));
+        setCards(Array.from(data));
+        moviesPaging.setLength(cards.length);
+        // moviesPaging.setMedia(mediaNum);
+        // setCardCout(moviesPaging.getStartCount());
       })
       .catch((err) => {
         console.log(`${err} <Не удалось собрать информацию>`);
       });
     }
-  }, [isUserKnown]);
+  }, [isUserKnown, mediaNum, cards.length]);
 
-  // React.useEffect(() =>  {
-  //   setMessage(' ');
-  //   if (isUserKnown) {
-  //     apiUserAuth.checkToken(isUserKnown)
-  //     .then((res)  => {
-  //       setCurrentUser(res);
-  //       setCards(Array.from(movieSet));
-  //     })
-  //     .catch((err) => { setMessage(err); });
-  //   }
-  // }, [isUserKnown]);
+  React.useEffect(() =>  {
+    moviesPaging.setMedia(mediaNum);
+    setCardCout(moviesPaging.getStartCount());
+  }, [mediaNum]);
 
   function errMessage(err) {
     return `Во время запроса произошла ошибка ${err}. ` +
@@ -79,11 +79,16 @@ function App() {
       'Подождите немного и попробуйте ещё раз.';
   }
 
-  function hanleClick() {
+  function handleWindowSize() {
+    setTimeout(() => {setCardCout(moviesPaging.getStartCount())}, 1000);
+  }
+
+
+  function handleClick() {
     setMessage(' ');
   }
 
-  function hanleMediaChanged(event) {
+  function handleMediaChanged(event) {
     // получить параметр медиа-запроса
     const winW = parseInt(event.media.split(' ')[1], 10);
     // получить номер медиа-запроса
@@ -99,12 +104,12 @@ function App() {
     }
   }
 
-  function hanleSignIn() {
+  function handleSignIn() {
     setMessage(' ');
     navigate('/signin', {replace: true});
   }
 
-  function hanleLogIn({email, password}) {
+  function handleLogIn({email, password}) {
     setWaitNum(1);
     setUserKnown(undefined);
     apiUserAuth.login({email, password})
@@ -125,12 +130,12 @@ function App() {
     });
   }
 
-  function hanleSignUp() {
+  function handleSignUp() {
     setMessage(' ');
     navigate('/signup', {replace: true});
   }
 
-  function hanleRegister({name, email, password}) {
+  function handleRegister({name, email, password}) {
     setWaitNum(2);
     setUserKnown(undefined);
     apiUserAuth.register({name, email, password})
@@ -155,13 +160,13 @@ function App() {
     });
   }
 
-  function hanleEditIn() {
+  function handleEditIn() {
     setMenuOpen(false);
     setMessage(' ');
     navigate('/profile', {replace: true});
   }
 
-  function hanleProfile({name, email}) {
+  function handleProfile({name, email}) {
     setWaitNum(3);
     apiUserAuth.update({name, email, jwt: isUserKnown})
     .then((res) => {
@@ -180,17 +185,17 @@ function App() {
     });
   }
 
-  function hanleLogOut() {
+  function handleLogOut() {
     localStorage.removeItem('jwt');
     setUserKnown(undefined);
     navigate('/', {replace: true});
   }
 
-  function hanleMenuClick() {
+  function handleMenuClick() {
     setMenuOpen(true);
   }
 
-  function hanleNavigationCloseClick() {
+  function handleNavigationCloseClick() {
     setMenuOpen(false);
   }
 
@@ -210,10 +215,10 @@ function App() {
                   linkMain={'/'}
                   linkMovies={'/movies'}
                   linkSavedMovies={'/saved-movies'}
-                  onEditProfile={hanleEditIn}
-                  onMenuClick={hanleMenuClick}
+                  onEditProfile={handleEditIn}
+                  onMenuClick={handleMenuClick}
                   linkSignUp={'/signup'}
-                  onSignInClick={hanleSignIn}/>
+                  onSignInClick={handleSignIn}/>
                 <Main mediaNum={mediaLeter[mediaNum]} />
                 </>
               }
@@ -224,11 +229,11 @@ function App() {
                 <Login
                   mediaNum={mediaLeter[mediaNum]}
                   linkMain={'/'}
-                  onSubmit={hanleLogIn}
-                  onSignUp={hanleSignUp}
+                  onSubmit={handleLogIn}
+                  onSignUp={handleSignUp}
                   message={message}
                   isWait={waitNum === 1 ? true: false}
-                  onClick={hanleClick}/>
+                  onClick={handleClick}/>
               }
             />
             <Route
@@ -237,11 +242,11 @@ function App() {
                 <Register
                   mediaNum={mediaLeter[mediaNum]}
                   linkMain={'/'}
-                  onSubmit={hanleRegister}
-                  onSignIn={hanleSignIn}
+                  onSubmit={handleRegister}
+                  onSignIn={handleSignIn}
                   message={message}
                   isWait={waitNum === 2 ? true: false}
-                  onClick={hanleClick}/>
+                  onClick={handleClick}/>
               }
             />
             <Route
@@ -255,9 +260,9 @@ function App() {
                   linkMain={'/'}
                   linkMovies={'/movies'}
                   linkSavedMovies={'/saved-movies'}
-                  onEditProfile={hanleEditIn}
-                  onMenuClick={hanleMenuClick}/>
-                <Movies mediaNum={mediaLeter[mediaNum]} movieCards={cards} />
+                  onEditProfile={handleEditIn}
+                  onMenuClick={handleMenuClick}/>
+                <Movies mediaNum={mediaLeter[mediaNum]} movieCards={cards.slice(0, cardCount)} />
                 </>
               }
             />
@@ -272,8 +277,8 @@ function App() {
                   linkMain={'/'}
                   linkMovies={'/movies'}
                   linkSavedMovies={'/saved-movies'}
-                  onEditProfile={hanleEditIn}
-                  onMenuClick={hanleMenuClick}/>
+                  onEditProfile={handleEditIn}
+                  onMenuClick={handleMenuClick}/>
                 <SavedMovies mediaNum={mediaLeter[mediaNum]} movieCards={savedMovieSet} />
                 </>
               }
@@ -289,15 +294,15 @@ function App() {
                   linkMain={'/'}
                   linkMovies={'/movies'}
                   linkSavedMovies={'/saved-movies'}
-                  onEditProfile={hanleEditIn}
-                  onMenuClick={hanleMenuClick}/>
+                  onEditProfile={handleEditIn}
+                  onMenuClick={handleMenuClick}/>
                 <Profile
                   mediaNum={mediaLeter[mediaNum]}
-                  onOutClick={hanleLogOut}
-                  onEditClick={hanleProfile}
+                  onOutClick={handleLogOut}
+                  onEditClick={handleProfile}
                   message={message}
                   isWait={waitNum === 3 ? true: false}
-                  onClick={hanleClick}/>
+                  onClick={handleClick}/>
                 </>
               }
             />
@@ -320,9 +325,9 @@ function App() {
             linkMain={'/'}
             linkMovies={'/movies'}
             linkSavedMovies={'/saved-movies'}
-            onEditProfile={hanleEditIn}
+            onEditProfile={handleEditIn}
             isOpened={isMenuOpen}
-            handleOnClose={hanleNavigationCloseClick} />
+            handleOnClose={handleNavigationCloseClick} />
 
         </div>
 
