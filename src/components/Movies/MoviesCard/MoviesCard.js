@@ -27,7 +27,7 @@ function MoviesCard({mediaNum, card}) {
       <img
         className={imgClass}
         src={card.image}
-        alt={'фильм'+ card.moveId} />
+        alt={'фильм'+ card.id} />
       <div className={capClass}>
         <div className={titleClass}>
           <h2 className={txtClass}>{card.nameRU}</h2>

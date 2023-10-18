@@ -2,13 +2,23 @@ export const MEDIA_POINT1 = 1279;
 export const MEDIA_POINT2 = 767;
 export const MEDIA_POINT3 = 319;
 
-export const AUTH_DATA = {
+export const MOVIES_DATA = {
+  server: 'https://api.nomoreparties.co',
+  movies: '/beatfilm-movies',
+};
+
+export const ME_DATA = {
   server: 'http://movies-api.iknow.studio',
   signUp: '/signup',
   signIn: '/signin',
   user:   '/users/me',
   movies: '/movies',
 };
+
+export const REG_PATTERNS = {
+  EMAIL: '^[^@]+@[^@]+.[a-zA-Z]{2,5}$',
+  USERNAME: '^[A-Za-zА-Яа-яЁё\\-\\s]+$',
+}
 
 export const TECHS_NAMES = [
   ['HTML', 'https://ru.wikipedia.org/wiki/HTML'],

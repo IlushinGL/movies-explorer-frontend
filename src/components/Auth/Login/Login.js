@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import {REG_PATTERNS} from '../../../utils/constants';
 import Preloader from '../../Preloader/Preloader';
 import logo from '../../../images/logo.svg';
 import './Login.css';
 import { useFormAndValidation } from '../../../utils/customHooks';
 
-function Login({mediaNum, onSubmit, linkMain, onSignUp, message, isWait}) {
+function Login({mediaNum, onSubmit, linkMain, onSignUp, message, isWait, onClick}) {
   const base        = 'login';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const headerClass = `${base}-header ${base}-header_pos${mediaNum}`;
@@ -52,8 +53,10 @@ function Login({mediaNum, onSubmit, linkMain, onSignUp, message, isWait}) {
           type="email"
           value={values.email || ''}
           onChange={handleChange}
+          onClick={onClick}
           minLength="5"
           maxLength="40"
+          pattern={REG_PATTERNS.EMAIL}
           placeholder='укажите почтовый адрес'
           autoComplete="off"
           required
@@ -68,6 +71,7 @@ function Login({mediaNum, onSubmit, linkMain, onSignUp, message, isWait}) {
           type="password"
           value={values.password || ''}
           onChange={handleChange}
+          onClick={onClick}
           minLength="8"
           maxLength="12"
           placeholder='укажите пароль'

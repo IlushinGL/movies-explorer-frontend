@@ -4,6 +4,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { apiUserAuth } from '../../utils/MainApi';
+import { apiMovies } from '../../utils/MoviesApi';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Login from '../Auth/Login/Login';
@@ -21,7 +22,9 @@ import Preloader from '../Preloader/Preloader';
 import { getMediaBreakArea, getMediaBreakNumber} from '../../utils/customFunction';
 import { useMedia } from '../../utils/customHooks';
 
-const movieSet = getMoveSet(19);
+// const movieSet = getMoveSet(19);
+// const movieSet = apiMovies.getAll();
+// console.log(movieSet);
 const savedMovieSet = getMoveSet(3);
 const mediaLeter = ['?', 'a', 'b', 'c'];
 
@@ -31,7 +34,7 @@ function App() {
     name: null,
     email: null,
   });
-
+  const [cards, setCards] = React.useState([]);
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
   const [isUserKnown, setUserKnown] = React.useState(localStorage.getItem('jwt'));
   const [isMenuOpen, setMenuOpen] = React.useState(false);
@@ -45,19 +48,39 @@ function App() {
 
   useMedia(getMediaBreakArea(), hanleMediaChanged);
 
-  React.useEffect(() =>  {
-    setMessage(' ');
+  React.useEffect(() => {
     if (isUserKnown) {
-      apiUserAuth.checkToken(isUserKnown)
-      .then((res)  => { setCurrentUser(res); })
-      .catch((err) => { setMessage(err); });
+      Promise.all([apiUserAuth.checkToken(isUserKnown), apiMovies.getAll()])
+      .then(([userInfo, allCards]) => {
+        setCurrentUser(userInfo);
+        setCards(Array.from(allCards));
+      })
+      .catch((err) => {
+        console.log(`${err} <Не удалось собрать информацию>`);
+      });
     }
   }, [isUserKnown]);
+
+  // React.useEffect(() =>  {
+  //   setMessage(' ');
+  //   if (isUserKnown) {
+  //     apiUserAuth.checkToken(isUserKnown)
+  //     .then((res)  => {
+  //       setCurrentUser(res);
+  //       setCards(Array.from(movieSet));
+  //     })
+  //     .catch((err) => { setMessage(err); });
+  //   }
+  // }, [isUserKnown]);
 
   function errMessage(err) {
     return `Во время запроса произошла ошибка ${err}. ` +
       'Возможно, проблема с соединением или сервер недоступен. ' +
       'Подождите немного и попробуйте ещё раз.';
+  }
+
+  function hanleClick() {
+    setMessage(' ');
   }
 
   function hanleMediaChanged(event) {
@@ -88,7 +111,6 @@ function App() {
     .then((res) => {
       localStorage.setItem('jwt', res.token);
       setUserKnown(res.token);
-
       navigate('/movies', {replace: true});
     })
     .catch((err) => {
@@ -97,8 +119,10 @@ function App() {
       } else {
         errMessage(err);
       }
+    })
+    .finally(() => {
+      setWaitNum(0);
     });
-    setWaitNum(0);
   }
 
   function hanleSignUp() {
@@ -110,29 +134,25 @@ function App() {
     setWaitNum(2);
     setUserKnown(undefined);
     apiUserAuth.register({name, email, password})
-    .then(() => {
+    .then((res) => {
+      setMessage(' ');
       apiUserAuth.login({email, password})
       .then((res) => {
         localStorage.setItem('jwt', res.token);
         setUserKnown(res.token);
         navigate('/movies', {replace: true});
       })
-      .catch((err) => {
-        if (Number(err) < 500) {
-          setMessage('Почта или пароль указаны неверно');
-        } else {
-          errMessage(err);
-        }
-      })
     })
     .catch((err) => {
       if (Number(err) < 500) {
-        setMessage('Почта указана неверно или вы уже проходили процедуру регистрации.');
+        setMessage('Проверьте адрес почты. Если вы уже проходили процедуру регистрации нажмите Войти.');
       } else {
         errMessage(err);
       }
+    })
+    .finally(() => {
+      setWaitNum(0);
     });
-    setWaitNum(0);
   }
 
   function hanleEditIn() {
@@ -142,16 +162,21 @@ function App() {
   }
 
   function hanleProfile({name, email}) {
-    // юзер меняет данные
-
+    setWaitNum(3);
     apiUserAuth.update({name, email, jwt: isUserKnown})
     .then((res) => {
-      console.log(res);
       setCurrentUser(res);
       navigate('/movies', {replace: true});
     })
     .catch((err) => {
-      setMessage(`${err} Что-то пошло не так...`);
+      if (Number(err) < 500) {
+        setMessage('Вы не можете использовать этот email адрес.');
+      } else {
+        errMessage(err);
+      }
+    })
+    .finally(() => {
+      setWaitNum(0);
     });
   }
 
@@ -202,7 +227,8 @@ function App() {
                   onSubmit={hanleLogIn}
                   onSignUp={hanleSignUp}
                   message={message}
-                  isWait={waitNum === 1 ? true: false}/>
+                  isWait={waitNum === 1 ? true: false}
+                  onClick={hanleClick}/>
               }
             />
             <Route
@@ -214,7 +240,8 @@ function App() {
                   onSubmit={hanleRegister}
                   onSignIn={hanleSignIn}
                   message={message}
-                  isWait={waitNum === 2 ? true: false}/>
+                  isWait={waitNum === 2 ? true: false}
+                  onClick={hanleClick}/>
               }
             />
             <Route
@@ -230,7 +257,7 @@ function App() {
                   linkSavedMovies={'/saved-movies'}
                   onEditProfile={hanleEditIn}
                   onMenuClick={hanleMenuClick}/>
-                <Movies mediaNum={mediaLeter[mediaNum]} movieCards={movieSet} />
+                <Movies mediaNum={mediaLeter[mediaNum]} movieCards={cards} />
                 </>
               }
             />
@@ -268,7 +295,9 @@ function App() {
                   mediaNum={mediaLeter[mediaNum]}
                   onOutClick={hanleLogOut}
                   onEditClick={hanleProfile}
-                  message={message}/>
+                  message={message}
+                  isWait={waitNum === 3 ? true: false}
+                  onClick={hanleClick}/>
                 </>
               }
             />

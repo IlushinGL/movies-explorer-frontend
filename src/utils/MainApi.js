@@ -1,4 +1,4 @@
-import { AUTH_DATA } from './constants';
+import { ME_DATA } from './constants';
 
 class Auth {
   constructor({server, signUp, signIn, user, movies}) {
@@ -35,7 +35,7 @@ class Auth {
         password: password
       })
     })
-    .catch((err) => {return this._handleResponse(err, 'register')});
+    .then((res) => {return this._handleResponse(res, 'register')});
   }
 
   login({email, password}) {
@@ -68,16 +68,16 @@ class Auth {
   }
 
   checkToken(jwt) {
-
+    this._headers.Authorization = jwt;
     return fetch(
       this._baseURL + this._user,
       {
       method: 'GET',
-      headers: {...this._headers, ...{ Authorization : jwt }},
+      headers: this._headers,
     })
     .then((res) => {return this._handleResponse(res, 'checkToken')});
   }
 
 }
 
-export const apiUserAuth = new Auth(AUTH_DATA);
+export const apiUserAuth = new Auth(ME_DATA);

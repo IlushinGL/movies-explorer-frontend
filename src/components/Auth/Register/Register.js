@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import {REG_PATTERNS} from '../../../utils/constants';
 import Preloader from '../../Preloader/Preloader';
 import logo from '../../../images/logo.svg';
 import '../Login/Login.css';
 import { useFormAndValidation } from '../../../utils/customHooks';
 
-function Register({mediaNum, onSubmit, linkMain, onSignIn, message, isWait}) {
+function Register({mediaNum, onSubmit, linkMain, onSignIn, message, isWait, onClick}) {
   const base        = 'login';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const headerClass = `${base}-header ${base}-header_pos${mediaNum}`;
@@ -25,7 +26,7 @@ function Register({mediaNum, onSubmit, linkMain, onSignIn, message, isWait}) {
   const {values, handleChange, errors, isValid} = useFormAndValidation();
 
   function handleSubmit(e) {
-    // e.preventDefault();
+    e.preventDefault();
     onSubmit({
       name: values.name,
       email: values.email,
@@ -48,10 +49,12 @@ function Register({mediaNum, onSubmit, linkMain, onSignIn, message, isWait}) {
         <input
           className={inputClass}
           onChange={handleChange}
+          onClick={onClick}
           type="text"
           name="name"
           minLength="2"
           maxLength="40"
+          pattern={REG_PATTERNS.USERNAME}
           placeholder='укажите своё имя'
           autoComplete="off"
           required
@@ -63,10 +66,12 @@ function Register({mediaNum, onSubmit, linkMain, onSignIn, message, isWait}) {
         <input
           className={inputClass}
           onChange={handleChange}
+          onClick={onClick}
           type="email"
           name="email"
           minLength="5"
           maxLength="40"
+          pattern={REG_PATTERNS.EMAIL}
           placeholder='актуальный почтовый адрес'
           autoComplete="off"
           required
@@ -78,6 +83,7 @@ function Register({mediaNum, onSubmit, linkMain, onSignIn, message, isWait}) {
         <input
           className={inputClass}
           onChange={handleChange}
+          onClick={onClick}
           type="password"
           name="password"
           minLength="8"

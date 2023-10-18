@@ -1,9 +1,11 @@
 import React from 'react';
 import './Profile.css';
+import {REG_PATTERNS} from '../../../utils/constants';
+import Preloader from '../../Preloader/Preloader';
 import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 import { useFormAndValidation } from '../../../utils/customHooks';
 
-function Profile({mediaNum, onOutClick, onEditClick, message}) {
+function Profile({mediaNum, onOutClick, onEditClick, message, isWait, onClick}) {
   const base           = 'profile';
   const baseClass      = `${base} ${base}_pos${mediaNum}`;
   const titleClass     = `${base}-title ${base}-title_pos${mediaNum}`;
@@ -18,25 +20,23 @@ function Profile({mediaNum, onOutClick, onEditClick, message}) {
   const crlItemClass   = `${base}-control__item ${base}-control__item_pos${mediaNum}`;
 
   const currentUser = React.useContext(CurrentUserContext);
-  const {values, setValues, handleChange, errors, isValid, resetForm} = useFormAndValidation();
+  const {values, setValues, handleChange, errors, isValid} = useFormAndValidation();
 
   function handleSubmit(e) {
-    e.preventDefault();
+    // e.preventDefault();
     // Передать значения управляемых компонентов во внешний обработчик
     onEditClick({
       name: values.name,
       email: values.email,
     });
-    resetForm();
   }
 
   React.useEffect(() => {
-    resetForm();
     setValues({
       name: currentUser.name,
       email: currentUser.email,
     });
-  }, [resetForm, setValues, currentUser]);
+  }, [setValues, currentUser]);
 
   return (
     <main className={baseClass}>
@@ -50,11 +50,13 @@ function Profile({mediaNum, onOutClick, onEditClick, message}) {
             <input
               className={inputClass}
               onChange={handleChange}
+              onClick={onClick}
               type="text"
               name="name"
               value={values.name || ''}
               minLength="2"
               maxLength="40"
+              pattern={REG_PATTERNS.USERNAME}
               placeholder='ваше имя'
               autoComplete="off"
               required
@@ -68,11 +70,13 @@ function Profile({mediaNum, onOutClick, onEditClick, message}) {
             <input
               className={inputClass}
               onChange={handleChange}
+              onClick={onClick}
               type="email"
               name="email"
               value={values.email || ''}
               minLength="5"
               maxLength="40"
+              pattern={REG_PATTERNS.EMAIL}
               placeholder='актуальный адрес'
               autoComplete="off"
               required
@@ -81,7 +85,9 @@ function Profile({mediaNum, onOutClick, onEditClick, message}) {
           <span className={errClass}>{ errors.email || ' ' }</span>
         </div>
       </form>
-      <p className={alertClass}>{ message || ' ' }</p>
+      <div className={alertClass}>
+        {isWait ? <Preloader />: (message || ' ')}
+      </div>
       <section className={crlClass}>
         <button
           onClick={isValid ? handleSubmit : undefined}
