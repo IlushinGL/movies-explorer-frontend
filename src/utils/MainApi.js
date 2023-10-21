@@ -78,6 +78,29 @@ class Auth {
     .then((res) => {return this._handleResponse(res, 'checkToken')});
   }
 
+  addMovie(data, jwt) {
+    this._headers.Authorization = jwt;
+    return fetch(
+      this._baseURL + this._movies,
+      {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify(data)
+    })
+    .then((res) => {return this._handleResponse(res, 'addMovie')});
+  }
+
+  getAll(jwt) {
+    this._headers.Authorization = jwt;
+    return fetch(
+      this._baseURL + this._movies,
+      {
+      method: 'GET',
+      headers: this._headers
+    })
+    .then((res) => {return this._handleResponse(res, 'getAllMovies')});
+  }
+
 }
 
 export const apiUserAuth = new Auth(ME_DATA);

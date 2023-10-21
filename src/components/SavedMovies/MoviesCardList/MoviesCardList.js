@@ -12,7 +12,7 @@ function MoviesCardList({mediaNum, movieCards}) {
       <div className={listClass}>
         {movieCards.map((card) => (
           <MoviesCard
-            key={'' + card.id}
+            key={'' + card._id}
             mediaNum={mediaNum}
             card={card}
           />

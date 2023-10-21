@@ -23,7 +23,14 @@ class MoviesPaginator {
     this._mediaNum = num - 1;
   }
   getStartCount() {
-    const count = this._getElementsInRow() * this._tbl[this._mediaNum][3];
+    const countInRow = this._getElementsInRow();
+    let count;
+    if (countInRow > 1 ) {
+      count = countInRow * 4;
+    } else {
+      count = 5;
+    }
+
     if (count > this._dataLen) {
       this._visibleCount = this._dataLen;
     } else {

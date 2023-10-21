@@ -6,7 +6,7 @@ import like_yes from '../../../images/like_yes.svg';
 import like_no from '../../../images/like_no.svg';
 import { getDurationStr } from '../../../utils/customFunction';
 
-function MoviesCard({mediaNum, card}) {
+function MoviesCard({mediaNum, card, onSelect}) {
   const base        = 'card';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const imgClass    = `${base}__img ${base}__img_pos${mediaNum}`;
@@ -19,7 +19,11 @@ function MoviesCard({mediaNum, card}) {
   const [isSelected, setSelected] = React.useState(false);
 
   function handleSelected() {
-    setSelected(!isSelected);
+    if (!isSelected) {
+      onSelect(card, true);
+      setSelected(!isSelected);
+    }
+
   }
 
   return (

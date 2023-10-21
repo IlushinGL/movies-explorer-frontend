@@ -31,6 +31,8 @@ class Movies {
     .then((res) => {
       return res.map((item) => {
         item.image = this._baseURL + item.image.url;
+        item.movieId = item.id;
+        item.thumbnail = item.image;
         return item;
       })
     })

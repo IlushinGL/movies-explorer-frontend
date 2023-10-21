@@ -17,17 +17,12 @@ import Profile from '../Auth/Profile/Profile';
 import Navigation from '../Navigation/Navigation';
 import NotFound from '../NotFound/NotFound';
 
-import getMoveSet from '../../utils/generateMovie';
+// import getMoveSet from '../../utils/generateMovie';
 
 import Preloader from '../Preloader/Preloader';
 
 import { getMediaBreakArea, getMediaBreakNumber} from '../../utils/customFunction';
 import { useMedia } from '../../utils/customHooks';
-
-// const movieSet = getMoveSet(19);
-// const movieSet = apiMovies.getAll();
-// console.log(movieSet);
-const savedMovieSet = getMoveSet(3);
 const mediaLeter = ['?', 'a', 'b', 'c'];
 
 function App() {
@@ -37,7 +32,8 @@ function App() {
     email: null,
   });
   const [cards, setCards] = React.useState([]);
-  const [cardCount, setCardCout] = React.useState(0);
+  const [savedCards, setSavedCards] = React.useState([]);
+  const [cardCount, setCardCout] = React.useState(5);
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
   const [isUserKnown, setUserKnown] = React.useState(localStorage.getItem('jwt'));
   const [isMenuOpen, setMenuOpen] = React.useState(false);
@@ -50,28 +46,32 @@ function App() {
   const navigate = useNavigate();
 
   useMedia(getMediaBreakArea(), handleMediaChanged);
-  window.addEventListener("resize", handleWindowSize);
+  // window.addEventListener("resize", handleWindowSize);
 
   React.useEffect(() => {
     if (isUserKnown) {
-      Promise.all([apiUserAuth.checkToken(isUserKnown), apiMovies.getAll()])
-      .then(([userInfo, data]) => {
-        setCurrentUser(userInfo);
-        setCards(Array.from(data));
-        moviesPaging.setLength(cards.length);
-        // moviesPaging.setMedia(mediaNum);
-        // setCardCout(moviesPaging.getStartCount());
+      apiUserAuth.checkToken(isUserKnown)
+      .then((res) => {
+        setCurrentUser(res);
+        apiUserAuth.getAll(isUserKnown)
+        .then((res) => {
+          setSavedCards(Array.from(res));
+          console.log(Array.from(res));
+        })
+        .catch((err) => {
+          console.log(`${err} <Не удалось получить карточки пользователя>`);
+        })
       })
       .catch((err) => {
-        console.log(`${err} <Не удалось собрать информацию>`);
-      });
+        console.log(`${err} <Не удалось получить информацию о пользователе>`);
+      })
     }
-  }, [isUserKnown, mediaNum, cards.length]);
+  }, [isUserKnown]);
 
-  React.useEffect(() =>  {
-    moviesPaging.setMedia(mediaNum);
-    setCardCout(moviesPaging.getStartCount());
-  }, [mediaNum]);
+  // React.useEffect(() =>  {
+  //   moviesPaging.setMedia(mediaNum);
+  //   setCardCout(moviesPaging.getStartCount());
+  // }, [mediaNum]);
 
   function errMessage(err) {
     return `Во время запроса произошла ошибка ${err}. ` +
@@ -79,9 +79,9 @@ function App() {
       'Подождите немного и попробуйте ещё раз.';
   }
 
-  function handleWindowSize() {
-    setTimeout(() => {setCardCout(moviesPaging.getStartCount())}, 1000);
-  }
+  // function handleWindowSize() {
+  //   setTimeout(() => {setCardCout(moviesPaging.getStartCount())}, 1000);
+  // }
 
 
   function handleClick() {
@@ -199,6 +199,23 @@ function App() {
     setMenuOpen(false);
   }
 
+  function handleSelectCard(data, add) {
+    setWaitNum(4);
+    data.owner = currentUser._id
+    if (add) {
+
+      apiUserAuth.addMovie(data, isUserKnown)
+      .then((res) => {
+        console.log(res);
+        setSavedCards([res, ...savedCards]); })
+      .catch((err) => {
+        console.log(err, data);
+        setMessage(err.message) })
+      .finally(()  => { setWaitNum(0); })
+    }
+
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
@@ -262,7 +279,10 @@ function App() {
                   linkSavedMovies={'/saved-movies'}
                   onEditProfile={handleEditIn}
                   onMenuClick={handleMenuClick}/>
-                <Movies mediaNum={mediaLeter[mediaNum]} movieCards={cards.slice(0, cardCount)} />
+                <Movies
+                  mediaNum={mediaLeter[mediaNum]}
+                  movieCards={cards.slice(0, cardCount)}
+                  onSelect={handleSelectCard}/>
                 </>
               }
             />
@@ -279,7 +299,7 @@ function App() {
                   linkSavedMovies={'/saved-movies'}
                   onEditProfile={handleEditIn}
                   onMenuClick={handleMenuClick}/>
-                <SavedMovies mediaNum={mediaLeter[mediaNum]} movieCards={savedMovieSet} />
+                <SavedMovies mediaNum={mediaLeter[mediaNum]} movieCards={savedCards} />
                 </>
               }
             />

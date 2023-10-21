@@ -1,7 +1,7 @@
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
-function MoviesCardList({mediaNum, movieCards}) {
+function MoviesCardList({mediaNum, movieCards, onSelect}) {
   const base        = 'cards';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const listClass   = `${base}__list ${base}__list_pos${mediaNum}`;
@@ -12,9 +12,10 @@ function MoviesCardList({mediaNum, movieCards}) {
       <div className={listClass}>
         {movieCards.map((card) => (
           <MoviesCard
-            key={'' + card.id}
+            key={'' + card._id}
             mediaNum={mediaNum}
             card={card}
+            onSelect={onSelect}
           />
         ))}
       </div>
