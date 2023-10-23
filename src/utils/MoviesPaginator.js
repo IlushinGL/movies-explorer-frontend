@@ -9,34 +9,44 @@ class MoviesPaginator {
   }
 
   _getElementsInRow() {
-    const winWight = document.documentElement.clientWidth;
-    return Math.floor(
-      (winWight - this._tbl[this._mediaNum][1] - 2 * this._tbl[this._mediaNum][2]) /
-      (this._tbl[this._mediaNum][0] + this._tbl[this._mediaNum][1])
-    );
+    const winWight = window.innerWidth;
+    const count = (winWight + 2 * this._tbl[this._mediaNum][1] - 2 * this._tbl[this._mediaNum][2]) /
+                  (this._tbl[this._mediaNum][0] + 2 * this._tbl[this._mediaNum][1]);
+    // console.log(count, Math.floor(count), winWight, this._mediaNum);
+    console.log(count);
+    return Math.floor(count);
   }
 
   setLength(num) {
     this._dataLen = num;
+    this._visibleCount = 0;
   }
   setMedia(num) {
     this._mediaNum = num - 1;
   }
-  getStartCount() {
+  getCount() {
     const countInRow = this._getElementsInRow();
-    let count;
-    if (countInRow > 1 ) {
-      count = countInRow * 4;
-    } else {
-      count = 5;
-    }
+    let countVisible = this._visibleCount;
+    if (countVisible === 0) {
+      let count;
+      if (countInRow > 1 ) {
+        count = countInRow * 4;
+      } else {
+        count = 5;
+      }
 
-    if (count > this._dataLen) {
-      this._visibleCount = this._dataLen;
+      if (count > this._dataLen) {
+        this._visibleCount = this._dataLen;
+      } else {
+        this._visibleCount = count;
+      }
+      countVisible = this._visibleCount;
+    } else if (countVisible < this._dataLen) {
+      countVisible = Math.floor(countVisible/countInRow) * countInRow;
     } else {
-      this._visibleCount = count;
+      countVisible = this._dataLen
     }
-    return this._visibleCount;
+    return countVisible;
   }
   haveMore() {
     return this._visibleCount < this._dataLen;

@@ -20,7 +20,7 @@ function MoviesCard({mediaNum, card, onSelect}) {
 
   function handleSelected() {
     if (!isSelected) {
-      onSelect(card, true);
+      onSelect({data: card, add: true});
       setSelected(!isSelected);
     }
 
@@ -39,7 +39,7 @@ function MoviesCard({mediaNum, card, onSelect}) {
             onClick={handleSelected}
             className={likeClass}
             src={isSelected ? like_yes : like_no}
-            alt={isSelected ? 'выбран' : 'ожидание'} />
+            alt={isSelected ? 'да' : 'нет'} />
         </div>
         <p className={timeClass}>
           {getDurationStr(card.duration)}

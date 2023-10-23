@@ -18,20 +18,31 @@ function SearchForm({mediaNum, onSubmit}) {
   function handleShortFilmsSelected() {
     setShortFilmsSelected(!isShortFilmsSelected);
   }
+  function handleSubmit(e) {
+    e.preventDefault();
+    // Передать значения управляемых компонентов во внешний обработчик
+    onSubmit({
+      search: e.target.query.value,
+      short: isShortFilmsSelected
+    });
+  }
 
   return (
     <section className={baseClass}>
-      <form className={formClass}>
+      <form className={formClass} onSubmit={handleSubmit}>
         <div className={inputClass}>
           <input
             name="query"
             type="text"
             className={txtClass}
+            autoComplete="off"
             required
             placeholder="Фильм"
           />
-          <button className={btnClass} onClick={onSubmit} type='button'></button>
-          {/* <div className={btnClass} onClick={onSubmit}></div> */}
+          <button
+            className={btnClass}
+            type='submit'>
+          </button>
         </div>
         <div className={optClass}>
           <img

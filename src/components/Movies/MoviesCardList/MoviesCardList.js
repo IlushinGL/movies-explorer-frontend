@@ -12,7 +12,7 @@ function MoviesCardList({mediaNum, movieCards, onSelect}) {
       <div className={listClass}>
         {movieCards.map((card) => (
           <MoviesCard
-            key={'' + card._id}
+            key={'' + card.id}
             mediaNum={mediaNum}
             card={card}
             onSelect={onSelect}

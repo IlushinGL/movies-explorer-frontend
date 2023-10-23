@@ -33,7 +33,7 @@ function App() {
   });
   const [cards, setCards] = React.useState([]);
   const [savedCards, setSavedCards] = React.useState([]);
-  const [cardCount, setCardCout] = React.useState(5);
+  const [cardCount, setCardCout] = React.useState(0);
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
   const [isUserKnown, setUserKnown] = React.useState(localStorage.getItem('jwt'));
   const [isMenuOpen, setMenuOpen] = React.useState(false);
@@ -46,7 +46,7 @@ function App() {
   const navigate = useNavigate();
 
   useMedia(getMediaBreakArea(), handleMediaChanged);
-  // window.addEventListener("resize", handleWindowSize);
+  window.addEventListener("resize", handleWindowSize);
 
   React.useEffect(() => {
     if (isUserKnown) {
@@ -55,8 +55,8 @@ function App() {
         setCurrentUser(res);
         apiUserAuth.getAll(isUserKnown)
         .then((res) => {
+          console.log(res);
           setSavedCards(Array.from(res));
-          console.log(Array.from(res));
         })
         .catch((err) => {
           console.log(`${err} <Не удалось получить карточки пользователя>`);
@@ -68,10 +68,9 @@ function App() {
     }
   }, [isUserKnown]);
 
-  // React.useEffect(() =>  {
-  //   moviesPaging.setMedia(mediaNum);
-  //   setCardCout(moviesPaging.getStartCount());
-  // }, [mediaNum]);
+  React.useEffect(() =>  {
+    moviesPaging.setMedia(mediaNum);
+  }, [mediaNum]);
 
   function errMessage(err) {
     return `Во время запроса произошла ошибка ${err}. ` +
@@ -79,9 +78,11 @@ function App() {
       'Подождите немного и попробуйте ещё раз.';
   }
 
-  // function handleWindowSize() {
-  //   setTimeout(() => {setCardCout(moviesPaging.getStartCount())}, 1000);
-  // }
+  function handleWindowSize() {
+    setTimeout(() => {
+      setCardCout(moviesPaging.getCount());
+    }, 1000);
+  }
 
 
   function handleClick() {
@@ -199,20 +200,37 @@ function App() {
     setMenuOpen(false);
   }
 
-  function handleSelectCard(data, add) {
+  function handleSelectCard({data, add}) {
     setWaitNum(4);
-    data.owner = currentUser._id
+    console.log(data, add);
+    data.owner = currentUser._id;
     if (add) {
 
       apiUserAuth.addMovie(data, isUserKnown)
       .then((res) => {
-        console.log(res);
+
         setSavedCards([res, ...savedCards]); })
       .catch((err) => {
-        console.log(err, data);
+        console.log(err);
         setMessage(err.message) })
       .finally(()  => { setWaitNum(0); })
     }
+
+  }
+
+  function handleSearchMovies({search, short}) {
+    setWaitNum(5);
+
+    apiMovies.getAll()
+    .then((res) => {
+      moviesPaging.setLength(res.length);
+      setCardCout(moviesPaging.getCount());
+      setCards(res);
+    })
+    .catch((err) => {
+      errMessage(err);
+    })
+    .finally(()  => { setWaitNum(0); })
 
   }
 
@@ -282,6 +300,7 @@ function App() {
                 <Movies
                   mediaNum={mediaLeter[mediaNum]}
                   movieCards={cards.slice(0, cardCount)}
+                  onSubmit={handleSearchMovies}
                   onSelect={handleSelectCard}/>
                 </>
               }
