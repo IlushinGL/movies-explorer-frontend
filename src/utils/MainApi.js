@@ -80,14 +80,27 @@ class Auth {
 
   addMovie(data, jwt) {
     this._headers.Authorization = jwt;
+    const {id: _, ...newData} = data;
     return fetch(
       this._baseURL + this._movies,
       {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify(data)
+      body: JSON.stringify(newData)
     })
     .then((res) => {return this._handleResponse(res, 'addMovie')});
+  }
+
+  deleteMovie(data, jwt) {
+    this._headers.Authorization = jwt;
+    return fetch(
+      this._baseURL + this._movies + '/' + data._id,
+      {
+      method: 'DELETE',
+      headers: this._headers,
+      body: JSON.stringify({owner: data.owner})
+    })
+    .then((res) => {return this._handleResponse(res, 'deleteMovie')});
   }
 
   getAll(jwt) {

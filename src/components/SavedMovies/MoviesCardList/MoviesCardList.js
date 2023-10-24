@@ -1,11 +1,10 @@
 import MoviesCard from '../MoviesCard/MoviesCard';
 import '../../Movies/MoviesCardList/MoviesCardList.css';
 
-function MoviesCardList({mediaNum, movieCards}) {
+function MoviesCardList({mediaNum, movieCards, onDelete}) {
   const base        = 'cards';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const listClass   = `${base}__list ${base}__list_pos${mediaNum}`;
-  const btnClass    = `${base}__more-btn`;
 
   return (
     <section className={baseClass}>
@@ -14,13 +13,11 @@ function MoviesCardList({mediaNum, movieCards}) {
           <MoviesCard
             key={'' + card._id}
             mediaNum={mediaNum}
+            onDelete={onDelete}
             card={card}
           />
         ))}
       </div>
-      <button className={btnClass}>
-        Ещё
-      </button>
     </section>
   );
 }

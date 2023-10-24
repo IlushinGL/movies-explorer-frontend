@@ -30,6 +30,7 @@ function App() {
     _id: '-1',
     name: null,
     email: null,
+
   });
   const [cards, setCards] = React.useState([]);
   const [savedCards, setSavedCards] = React.useState([]);
@@ -55,7 +56,6 @@ function App() {
         setCurrentUser(res);
         apiUserAuth.getAll(isUserKnown)
         .then((res) => {
-          console.log(res);
           setSavedCards(Array.from(res));
         })
         .catch((err) => {
@@ -76,6 +76,12 @@ function App() {
     return `Во время запроса произошла ошибка ${err}. ` +
       'Возможно, проблема с соединением или сервер недоступен. ' +
       'Подождите немного и попробуйте ещё раз.';
+  }
+
+  function savedMoviesIdSet(array) {
+    return array.map((item) => {
+      return item.movieId;
+    });
   }
 
   function handleWindowSize() {
@@ -123,7 +129,7 @@ function App() {
       if (Number(err) < 500) {
         setMessage('Почта или пароль указаны неверно');
       } else {
-        errMessage(err);
+        setMessage(errMessage(err));
       }
     })
     .finally(() => {
@@ -153,7 +159,7 @@ function App() {
       if (Number(err) < 500) {
         setMessage('Проверьте адрес почты. Если вы уже проходили процедуру регистрации нажмите Войти.');
       } else {
-        errMessage(err);
+        setMessage(errMessage(err));
       }
     })
     .finally(() => {
@@ -178,7 +184,7 @@ function App() {
       if (Number(err) < 500) {
         setMessage('Вы не можете использовать этот email адрес.');
       } else {
-        errMessage(err);
+        setMessage(errMessage(err));
       }
     })
     .finally(() => {
@@ -202,25 +208,39 @@ function App() {
 
   function handleSelectCard({data, add}) {
     setWaitNum(4);
-    console.log(data, add);
     data.owner = currentUser._id;
     if (add) {
-
       apiUserAuth.addMovie(data, isUserKnown)
       .then((res) => {
-
         setSavedCards([res, ...savedCards]); })
       .catch((err) => {
-        console.log(err);
+        setMessage(err.message) })
+      .finally(()  => { setWaitNum(0); })
+    } else {
+      const element = savedCards.filter((item) => item.movieId === data.id)[0];
+      apiUserAuth.deleteMovie(element, isUserKnown)
+      .then((res) => {
+        setSavedCards((state) => state.filter((item) => item._id !== res._id)); })
+      .catch((err) => {
         setMessage(err.message) })
       .finally(()  => { setWaitNum(0); })
     }
+  }
 
+  function handleDeleteSavedCard(data) {
+    setWaitNum(6);
+    data.owner = currentUser._id;
+    apiUserAuth.deleteMovie(data, isUserKnown)
+    .then((res) => {
+      setSavedCards((state) => state.filter((item) => item._id !== res._id)); })
+    .catch((err) => {
+      setMessage(err.message) })
+    .finally(()  => { setWaitNum(0); })
   }
 
   function handleSearchMovies({search, short}) {
     setWaitNum(5);
-
+    setMessage('');
     apiMovies.getAll()
     .then((res) => {
       moviesPaging.setLength(res.length);
@@ -228,7 +248,7 @@ function App() {
       setCards(res);
     })
     .catch((err) => {
-      errMessage(err);
+      setMessage(errMessage(err));
     })
     .finally(()  => { setWaitNum(0); })
 
@@ -300,6 +320,9 @@ function App() {
                 <Movies
                   mediaNum={mediaLeter[mediaNum]}
                   movieCards={cards.slice(0, cardCount)}
+                  selectionSet={savedMoviesIdSet(savedCards)}
+                  message={message}
+                  isWait={waitNum === 5 ? true: false}
                   onSubmit={handleSearchMovies}
                   onSelect={handleSelectCard}/>
                 </>
@@ -318,7 +341,10 @@ function App() {
                   linkSavedMovies={'/saved-movies'}
                   onEditProfile={handleEditIn}
                   onMenuClick={handleMenuClick}/>
-                <SavedMovies mediaNum={mediaLeter[mediaNum]} movieCards={savedCards} />
+                <SavedMovies
+                  mediaNum={mediaLeter[mediaNum]}
+                  onDelete={handleDeleteSavedCard}
+                  movieCards={savedCards} />
                 </>
               }
             />

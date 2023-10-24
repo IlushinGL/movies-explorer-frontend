@@ -1,11 +1,9 @@
-import React from 'react';
-// import { CurrentUserContext } from '../contexts/CurrentUserContext';
-
+import { Link } from 'react-router-dom';
 import '../../Movies/MoviesCard/MoviesCard.css';
 import delicon from '../../../images/delete.svg';
 import { getDurationStr } from '../../../utils/customFunction';
 
-function MoviesCard({mediaNum, card}) {
+function MoviesCard({mediaNum, card, onDelete}) {
   const base        = 'card';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const imgClass    = `${base}__img ${base}__img_pos${mediaNum}`;
@@ -15,25 +13,34 @@ function MoviesCard({mediaNum, card}) {
   const likeClass   = `${base}__caption-img`;
   const timeClass   = `${base}__caption-duration`;
 
+  function handleClick() {
+    onDelete(card);
+  }
+
   return (
     <div className={baseClass}>
-      <img
-        className={imgClass}
-        src={card.image}
-        alt={'фильм'+ card.movieId} />
+      <Link
+        to={card.trailerLink}
+        target="_blank"
+        rel="noopener noreferrer">
+          <img
+          className={imgClass}
+          src={card.image}
+          alt={'фильм'+ card.id} />
+      </Link>
       <div className={capClass}>
         <div className={titleClass}>
           <h2 className={txtClass}>{card.nameRU}</h2>
           <img
             className={likeClass}
             src={delicon}
+            onClick={handleClick}
             alt={'удалить'} />
         </div>
         <p className={timeClass}>
           {getDurationStr(card.duration)}
         </p>
       </div>
-      {/* {isOwn && <button type="button" className='elements__element-trash' onClick={handleDeleteClick} />} */}
     </div>
   );
 }

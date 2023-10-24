@@ -12,8 +12,6 @@ class MoviesPaginator {
     const winWight = window.innerWidth;
     const count = (winWight + 2 * this._tbl[this._mediaNum][1] - 2 * this._tbl[this._mediaNum][2]) /
                   (this._tbl[this._mediaNum][0] + 2 * this._tbl[this._mediaNum][1]);
-    // console.log(count, Math.floor(count), winWight, this._mediaNum);
-    console.log(count);
     return Math.floor(count);
   }
 
