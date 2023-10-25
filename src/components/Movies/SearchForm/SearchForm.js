@@ -1,5 +1,4 @@
 import React from 'react';
-// import { NavLink } from 'react-router-dom';
 import switchY from '../../../images/switch_yes.svg';
 import switchN from '../../../images/switch_no.svg';
 import './SearchForm.css';
@@ -16,6 +15,10 @@ function SearchForm({mediaNum, onSubmit}) {
   const [isShortFilmsSelected, setShortFilmsSelected] = React.useState(false);
 
   function handleShortFilmsSelected() {
+    onSubmit({
+      search: document.querySelector('input').value,
+      short: !isShortFilmsSelected
+    });
     setShortFilmsSelected(!isShortFilmsSelected);
   }
   function handleSubmit(e) {

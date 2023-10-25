@@ -2,7 +2,8 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 import Preloader from '../../Preloader/Preloader';
 
-function MoviesCardList({mediaNum, movieCards, onSelect, isWait, message, selectionSet}) {
+function MoviesCardList({
+  mediaNum, movieCards, onSelect, isWait, message, selectionSet, hasMore, onShowMore}) {
   const base        = 'cards';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const listClass   = `${base}__list ${base}__list_pos${mediaNum}`;
@@ -23,9 +24,13 @@ function MoviesCardList({mediaNum, movieCards, onSelect, isWait, message, select
               />))
             }
           </div>
-          <button className={btnClass}>
-            Ещё
-          </button>
+          {hasMore ?
+            <button className={btnClass} onClick={onShowMore}>
+              Ещё
+            </button>
+          :
+          ''}
+
         </>
       )}
     </section>

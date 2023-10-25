@@ -17,26 +17,23 @@ import Profile from '../Auth/Profile/Profile';
 import Navigation from '../Navigation/Navigation';
 import NotFound from '../NotFound/NotFound';
 
-// import getMoveSet from '../../utils/generateMovie';
-
-import Preloader from '../Preloader/Preloader';
-
 import { getMediaBreakArea, getMediaBreakNumber} from '../../utils/customFunction';
 import { useMedia } from '../../utils/customHooks';
+
 const mediaLeter = ['?', 'a', 'b', 'c'];
 
 function App() {
-  const [currentUser, setCurrentUser] = React.useState({
-    _id: '-1',
-    name: null,
-    email: null,
-
-  });
-  const [cards, setCards] = React.useState([]);
-  const [savedCards, setSavedCards] = React.useState([]);
-  const [cardCount, setCardCout] = React.useState(0);
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
-  const [isUserKnown, setUserKnown] = React.useState(localStorage.getItem('jwt'));
+
+
+  const [currentUser, setCurrentUser] = React.useState('');
+  const [userToken, setUserToken] = React.useState('');
+  const [userQuery, setUserQuery] = React.useState({search: '', short: false});
+
+  const [cards, setCards] = React.useState([]);
+  const [cardCount, setCardCount] = React.useState(0);
+  const [savedCards, setSavedCards] = React.useState([]);
+
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   const [message, setMessage] = React.useState(' ');
   const [waitNum, setWaitNum] = React.useState(0);
@@ -50,27 +47,73 @@ function App() {
   window.addEventListener("resize", handleWindowSize);
 
   React.useEffect(() => {
-    if (isUserKnown) {
-      apiUserAuth.checkToken(isUserKnown)
-      .then((res) => {
-        setCurrentUser(res);
-        apiUserAuth.getAll(isUserKnown)
-        .then((res) => {
-          setSavedCards(Array.from(res));
-        })
-        .catch((err) => {
-          console.log(`${err} <Не удалось получить карточки пользователя>`);
-        })
-      })
+    storedUser();
+    if (currentUser) {
+      const data = storedData(currentUser);
+      setCards(data);
+    }
+  }, [currentUser]);
+
+  React.useEffect(() => {
+    if (cards.length < cardCount) {
+      moviesPaging.setMedia(mediaNum);
+      moviesPaging.setLength(cards.length);
+      setCardCount(moviesPaging.getCount());
+      console.log(cards);
+
+    } else {
+      setMessage('Ничего не найдено.');
+    }
+  }, [mediaNum, cards]);
+
+  React.useEffect(() => {
+    if (userToken) {
+      apiUserAuth.getAll(userToken)
+      .then((res) => { setSavedCards(res); })
       .catch((err) => {
-        console.log(`${err} <Не удалось получить информацию о пользователе>`);
+        console.log(`${err} Не удалось получить карточки пользователя.`);
       })
     }
-  }, [isUserKnown]);
+  }, [userToken]);
 
   React.useEffect(() =>  {
     moviesPaging.setMedia(mediaNum);
   }, [mediaNum]);
+
+
+  function storedUser()  {
+    // вспомнить пользователя
+    let jwt = localStorage.getItem('jwt');
+    if (!jwt) {jwt = ''};
+    apiUserAuth.checkToken(jwt)
+    .then((res) => {
+      return ({
+        _id:   res._id,
+        name:  res.name,
+        email: res.email,
+        jwt:   jwt,
+      });
+    })
+    .then((res) => {
+      // вспомнить последний запрос пользователя
+      // если данные чужие - очистить
+      const store = localStorage.getItem('data');
+      if (store) {
+        const data = JSON.parse(store);
+        if (data['owner'] === res['_id']) {
+          res.data = data;
+        } else {
+          localStorage.removeItem('data');
+        }
+      }
+      return res;
+    })
+    .catch((err) => {
+      // console.log(`${err} Не удалось подтвердить токен.`);
+      localStorage.removeItem('jwt');
+      return {};
+    })
+  }
 
   function errMessage(err) {
     return `Во время запроса произошла ошибка ${err}. ` +
@@ -86,10 +129,37 @@ function App() {
 
   function handleWindowSize() {
     setTimeout(() => {
-      setCardCout(moviesPaging.getCount());
+      setCardCount(moviesPaging.getCount());
     }, 1000);
   }
 
+  // function drawCards(data) {
+  //   // разместить выбранные карточки
+  //   // console.log(data);
+  //   if (data.length === 0) {
+  //     setMessage('Ничего не найдено.');
+  //   }
+  //   moviesPaging.setLength(data.length);
+  //   setCardCout(moviesPaging.getCount());
+  //   setCards(data);
+  // }
+
+  function isMatсh(card, search, short) {
+    // проверить карточку на текст и длительность
+    const shortLen = 40;
+    const strSearch = search.trim().toLowerCase();
+    let res;
+    if (strSearch) {
+      const strIn = (card.nameRU + card.nameEN).split(' ').join('');
+      res = strIn.toLowerCase().indexOf(strSearch) >= 0;
+    } else {
+      res = true;
+    }
+    if (short) {
+      res = (card.duration <= shortLen) && res;
+    }
+    return res;
+  }
 
   function handleClick() {
     setMessage(' ');
@@ -118,11 +188,11 @@ function App() {
 
   function handleLogIn({email, password}) {
     setWaitNum(1);
-    setUserKnown(undefined);
+    // setUserToken(undefined);
     apiUserAuth.login({email, password})
     .then((res) => {
       localStorage.setItem('jwt', res.token);
-      setUserKnown(res.token);
+      setUserToken(res.token);
       navigate('/movies', {replace: true});
     })
     .catch((err) => {
@@ -144,14 +214,14 @@ function App() {
 
   function handleRegister({name, email, password}) {
     setWaitNum(2);
-    setUserKnown(undefined);
+    // setUserToken(undefined);
     apiUserAuth.register({name, email, password})
     .then((res) => {
       setMessage(' ');
       apiUserAuth.login({email, password})
       .then((res) => {
         localStorage.setItem('jwt', res.token);
-        setUserKnown(res.token);
+        setUserToken(res.token);
         navigate('/movies', {replace: true});
       })
     })
@@ -175,7 +245,7 @@ function App() {
 
   function handleProfile({name, email}) {
     setWaitNum(3);
-    apiUserAuth.update({name, email, jwt: isUserKnown})
+    apiUserAuth.update({name, email, jwt: userToken})
     .then((res) => {
       setCurrentUser(res);
       navigate('/movies', {replace: true});
@@ -194,7 +264,7 @@ function App() {
 
   function handleLogOut() {
     localStorage.removeItem('jwt');
-    setUserKnown(undefined);
+    setUserToken(undefined);
     navigate('/', {replace: true});
   }
 
@@ -210,7 +280,7 @@ function App() {
     setWaitNum(4);
     data.owner = currentUser._id;
     if (add) {
-      apiUserAuth.addMovie(data, isUserKnown)
+      apiUserAuth.addMovie(data, userToken)
       .then((res) => {
         setSavedCards([res, ...savedCards]); })
       .catch((err) => {
@@ -218,7 +288,7 @@ function App() {
       .finally(()  => { setWaitNum(0); })
     } else {
       const element = savedCards.filter((item) => item.movieId === data.id)[0];
-      apiUserAuth.deleteMovie(element, isUserKnown)
+      apiUserAuth.deleteMovie(element, userToken)
       .then((res) => {
         setSavedCards((state) => state.filter((item) => item._id !== res._id)); })
       .catch((err) => {
@@ -230,7 +300,7 @@ function App() {
   function handleDeleteSavedCard(data) {
     setWaitNum(6);
     data.owner = currentUser._id;
-    apiUserAuth.deleteMovie(data, isUserKnown)
+    apiUserAuth.deleteMovie(data, userToken)
     .then((res) => {
       setSavedCards((state) => state.filter((item) => item._id !== res._id)); })
     .catch((err) => {
@@ -243,15 +313,28 @@ function App() {
     setMessage('');
     apiMovies.getAll()
     .then((res) => {
-      moviesPaging.setLength(res.length);
-      setCardCout(moviesPaging.getCount());
-      setCards(res);
+      const data = res.filter((item) => isMatсh(item, search, short));
+      localStorage.setItem('data',
+        JSON.stringify(
+          {
+            owner: currentUser._id,
+            search: search,
+            short: short,
+            cards: data,
+          }
+        )
+      )
+      // drawCards(data);
+      setCards(data);
     })
     .catch((err) => {
       setMessage(errMessage(err));
     })
     .finally(()  => { setWaitNum(0); })
+  }
 
+  function handleMoreCards() {
+    setCardCount(moviesPaging.getMore());
   }
 
   return (
@@ -266,7 +349,7 @@ function App() {
                 <Header
                   mediaNum={mediaLeter[mediaNum]}
                   isLight={false}
-                  isAuthorized={isUserKnown}
+                  isAuthorized={userToken}
                   linkMain={'/'}
                   linkMovies={'/movies'}
                   linkSavedMovies={'/saved-movies'}
@@ -319,8 +402,11 @@ function App() {
                   onMenuClick={handleMenuClick}/>
                 <Movies
                   mediaNum={mediaLeter[mediaNum]}
-                  movieCards={cards.slice(0, cardCount)}
+                  // movieCards={cards.slice(0, cardCount)}
+                  movieCards={cards}
                   selectionSet={savedMoviesIdSet(savedCards)}
+                  hasMore={moviesPaging.hasMore()}
+                  onShowMore={handleMoreCards}
                   message={message}
                   isWait={waitNum === 5 ? true: false}
                   onSubmit={handleSearchMovies}
@@ -371,12 +457,7 @@ function App() {
                 </>
               }
             />
-            <Route
-              path="/pre"
-              element={
-                <Preloader />
-              }
-            />
+
             <Route
               path="/*"
               element={

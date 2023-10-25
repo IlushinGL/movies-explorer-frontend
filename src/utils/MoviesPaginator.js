@@ -46,7 +46,15 @@ class MoviesPaginator {
     }
     return countVisible;
   }
-  haveMore() {
+  // setVisibleCount(num) {
+  //   if (this._dataLen > num) {
+  //     this._visibleCount = num;
+  //   }
+  // }
+  // getVisibleCount() {
+  //   return this._visibleCount;
+  // }
+  hasMore() {
     return this._visibleCount < this._dataLen;
   }
   getMore() {
