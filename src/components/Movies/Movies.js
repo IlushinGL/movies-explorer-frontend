@@ -3,11 +3,18 @@ import Footer from '../Footer/Footer';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 
 function Movies({
-  mediaNum, movieCards, onSelect, onSubmit, isWait, message, selectionSet, hasMore, onShowMore}) {
-
+  mediaNum, movieCards, onSelect,
+  onSubmit, isWait, message,
+  selectionSet, hasMore, onShowMore, movieQuery
+  })
+{
   return (
     <>
-      <SearchForm mediaNum={mediaNum} name='movies' onSubmit={onSubmit} />
+      <SearchForm
+        mediaNum={mediaNum}
+        name='movies'
+        onSubmit={onSubmit}
+        movieQuery={movieQuery} />
       <MoviesCardList
         mediaNum={mediaNum}
         movieCards={movieCards}

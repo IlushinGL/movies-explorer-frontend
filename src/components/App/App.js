@@ -25,6 +25,7 @@ const mediaLeter = ['?', 'a', 'b', 'c'];
 function App() {
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
 
+  const [appInit, setAppInit] = React.useState(true);
 
   const [currentUser, setCurrentUser] = React.useState('');
   const [userToken, setUserToken] = React.useState('');
@@ -47,24 +48,45 @@ function App() {
   window.addEventListener("resize", handleWindowSize);
 
   React.useEffect(() => {
-    storedUser();
-    if (currentUser) {
-      const data = storedData(currentUser);
-      setCards(data);
+    if (appInit) {
+      getStoredUser()
+      .then((res) => {
+        if (res) {
+          setCurrentUser({
+            _id:   res._id,
+            name:  res.name,
+            email: res.email,
+          });
+          setUserToken(res.jwt);
+          if (res.data) {
+            setUserQuery({
+              search: res.data.search,
+              short: res.data.short,
+            });
+            setCards(res.data.cards);
+            console.log(`${res.data.search} ${res.data.short} ${res.data.cards} результат.`)
+          }
+        }
+      })
+      // .catch((err) => {
+      //    console.log(`${err} ошибка.`)
+      // })
+      .finally(() => {
+        setAppInit(false);
+        navigate('/', {replace: true});
+      });
+      //  navigate('/', {replace: true});
     }
-  }, [currentUser]);
+  }, [appInit, navigate]);
 
   React.useEffect(() => {
-    if (cards.length < cardCount) {
-      moviesPaging.setMedia(mediaNum);
+    if (cards.length > 0) {
       moviesPaging.setLength(cards.length);
       setCardCount(moviesPaging.getCount());
-      console.log(cards);
-
     } else {
       setMessage('Ничего не найдено.');
     }
-  }, [mediaNum, cards]);
+  }, [cards]);
 
   React.useEffect(() => {
     if (userToken) {
@@ -81,12 +103,14 @@ function App() {
   }, [mediaNum]);
 
 
-  function storedUser()  {
+  function getStoredUser()  {
     // вспомнить пользователя
     let jwt = localStorage.getItem('jwt');
+
     if (!jwt) {jwt = ''};
-    apiUserAuth.checkToken(jwt)
+    return apiUserAuth.checkToken(jwt)
     .then((res) => {
+
       return ({
         _id:   res._id,
         name:  res.name,
@@ -102,16 +126,20 @@ function App() {
         const data = JSON.parse(store);
         if (data['owner'] === res['_id']) {
           res.data = data;
+          // console.log(res.data);
         } else {
           localStorage.removeItem('data');
+          res.data = '';
         }
+      } else {
+        res.data = '';
       }
       return res;
     })
     .catch((err) => {
       // console.log(`${err} Не удалось подтвердить токен.`);
       localStorage.removeItem('jwt');
-      return {};
+      return '';
     })
   }
 
@@ -324,7 +352,12 @@ function App() {
           }
         )
       )
+      setUserQuery({
+        search: search,
+        short: short,
+      });
       // drawCards(data);
+      console.log(data);
       setCards(data);
     })
     .catch((err) => {
@@ -402,8 +435,9 @@ function App() {
                   onMenuClick={handleMenuClick}/>
                 <Movies
                   mediaNum={mediaLeter[mediaNum]}
-                  // movieCards={cards.slice(0, cardCount)}
-                  movieCards={cards}
+                  movieQuery={userQuery}
+                  movieCards={cards.slice(0, cardCount)}
+                  // movieCards={cards}
                   selectionSet={savedMoviesIdSet(savedCards)}
                   hasMore={moviesPaging.hasMore()}
                   onShowMore={handleMoreCards}

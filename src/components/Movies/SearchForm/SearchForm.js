@@ -3,7 +3,7 @@ import switchY from '../../../images/switch_yes.svg';
 import switchN from '../../../images/switch_no.svg';
 import './SearchForm.css';
 
-function SearchForm({mediaNum, onSubmit}) {
+function SearchForm({mediaNum, onSubmit, movieQuery, name}) {
   const base        = 'search';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const formClass   = `${base}-form ${base}-form_pos${mediaNum}`;
@@ -12,15 +12,18 @@ function SearchForm({mediaNum, onSubmit}) {
   const btnClass    = `${base}-form-input-btn`;
   const optClass    = `${base}-form-option ${base}-form-option_pos${mediaNum}`;
   const itemClass   = `${base}-form-option__item ${base}-form-option__item_pos${mediaNum}`;
-  const [isShortFilmsSelected, setShortFilmsSelected] = React.useState(false);
+
+  const isShortFilmsSelected = movieQuery? movieQuery.short : false;
 
   function handleShortFilmsSelected() {
+    // Передать значения управляемых компонентов во внешний обработчик
+    console.log('SearchForm', movieQuery, isShortFilmsSelected, name);
     onSubmit({
       search: document.querySelector('input').value,
       short: !isShortFilmsSelected
     });
-    setShortFilmsSelected(!isShortFilmsSelected);
   }
+
   function handleSubmit(e) {
     e.preventDefault();
     // Передать значения управляемых компонентов во внешний обработчик
@@ -37,6 +40,7 @@ function SearchForm({mediaNum, onSubmit}) {
           <input
             name="query"
             type="text"
+            defaultValue={movieQuery? movieQuery.search : ''}
             className={txtClass}
             autoComplete="off"
             required
