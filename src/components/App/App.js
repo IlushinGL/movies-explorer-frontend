@@ -28,7 +28,6 @@ function App() {
   const [appInit, setAppInit] = React.useState(true);
 
   const [currentUser, setCurrentUser] = React.useState('');
-  const [userToken, setUserToken] = React.useState('');
   const [userQuery, setUserQuery] = React.useState({search: '', short: false});
 
   const [cards, setCards] = React.useState([]);
@@ -48,129 +47,109 @@ function App() {
   window.addEventListener("resize", handleWindowSize);
 
   React.useEffect(() => {
-    if (appInit) {
-      getStoredUser()
-      .then((res) => {
-        if (res) {
-          setCurrentUser({
-            _id:   res._id,
-            name:  res.name,
-            email: res.email,
-          });
-          setUserToken(res.jwt);
-          if (res.data) {
-            setUserQuery({
-              search: res.data.search,
-              short: res.data.short,
-            });
-            setCards(res.data.cards);
-            console.log(`${res.data.search} ${res.data.short} ${res.data.cards} результат.`)
-          }
-        }
-      })
-      // .catch((err) => {
-      //    console.log(`${err} ошибка.`)
-      // })
-      .finally(() => {
-        setAppInit(false);
-        navigate('/', {replace: true});
-      });
-      //  navigate('/', {replace: true});
-    }
-  }, [appInit, navigate]);
+    // вспоминаем последний сеанс
+    initUser();
+    initUserCollection();
+  }, []);
 
   React.useEffect(() => {
-    if (cards.length > 0) {
+    // при загрузке приложения на промо страницу
+    if (appInit) {
+      setAppInit(false);
+      navigate('/', {replace: true});
+    }
+  }, [appInit, navigate])
+
+  React.useEffect(() => {
+    // нарисовать отфильтрованные фильмы библиотеки
+    if (cardCount === 0) {
+      setMessage('');
+      moviesPaging.setMedia(mediaNum);
       moviesPaging.setLength(cards.length);
-      setCardCount(moviesPaging.getCount());
-    } else {
+    }
+    setCardCount(moviesPaging.getCount());
+    // если набор пустой - сообщаем
+    if (cardCount === 0 && cards.length === 0) {
       setMessage('Ничего не найдено.');
     }
-  }, [cards]);
+  }, [cards, mediaNum, cardCount]);
 
-  React.useEffect(() => {
-    if (userToken) {
-      apiUserAuth.getAll(userToken)
-      .then((res) => { setSavedCards(res); })
-      .catch((err) => {
-        console.log(`${err} Не удалось получить карточки пользователя.`);
-      })
-    }
-  }, [userToken]);
-
-  React.useEffect(() =>  {
-    moviesPaging.setMedia(mediaNum);
-  }, [mediaNum]);
-
-
-  function getStoredUser()  {
-    // вспомнить пользователя
-    let jwt = localStorage.getItem('jwt');
-
-    if (!jwt) {jwt = ''};
-    return apiUserAuth.checkToken(jwt)
+  function initUser() {
+    // смотрим на локальное хранилище
+    apiUserAuth.getStoredData()
     .then((res) => {
-
-      return ({
-        _id:   res._id,
-        name:  res.name,
-        email: res.email,
-        jwt:   jwt,
-      });
-    })
-    .then((res) => {
-      // вспомнить последний запрос пользователя
-      // если данные чужие - очистить
-      const store = localStorage.getItem('data');
-      if (store) {
-        const data = JSON.parse(store);
-        if (data['owner'] === res['_id']) {
-          res.data = data;
-          // console.log(res.data);
+      if (res) {
+        // если результат не пустой пытаемся разместить юзера
+        // в переменных состояния
+        setCurrentUser({
+          _id:   res.profile._id,
+          name:  res.profile.name,
+          email: res.profile.email,
+        });
+        if (res.storage) {
+          setUserQuery({
+            search: res.storage.search,
+            short: res.storage.short,
+          });
+          setCards(res.storage.cards);
         } else {
-          localStorage.removeItem('data');
-          res.data = '';
+          setUserQuery({
+            search: '',
+            short: false,
+          });
+          setCards([]);
         }
+        setCardCount(0);
       } else {
-        res.data = '';
+        // если результат пустой
+        setCurrentUser('');
       }
-      return res;
     })
     .catch((err) => {
-      // console.log(`${err} Не удалось подтвердить токен.`);
-      localStorage.removeItem('jwt');
-      return '';
+      setCurrentUser('');
+      console.log(err, 'Ошибка размещения пользователя.');
     })
   }
 
-  function errMessage(err) {
-    return `Во время запроса произошла ошибка ${err}. ` +
-      'Возможно, проблема с соединением или сервер недоступен. ' +
-      'Подождите немного и попробуйте ещё раз.';
+   function initUserCollection() {
+    // пробуем достать с сервера
+    // коллекцию юзера и рзместить ее в переменной состояния
+    apiUserAuth.getAll()
+    .then((res) => {
+      setSavedCards(res);
+    })
+    .catch((err) => {
+      setSavedCards([]);
+      console.log(err, 'Ошибка размещения коллекции.');
+    })
+   }
+
+  function errMessage(err, text) {
+    if (err < 500) {
+      setMessage(text);
+    } else {
+      setMessage(
+        `Во время запроса произошла ошибка ${err}. ` +
+        'Возможно, проблема с соединением или сервер недоступен. ' +
+        'Подождите немного и попробуйте ещё раз.'
+      );
+    }
   }
 
   function savedMoviesIdSet(array) {
+    // возвращаем массив индексов сохраненных фильмов
     return array.map((item) => {
       return item.movieId;
     });
   }
 
   function handleWindowSize() {
+    // перерисовываем набор отфильтрованных фильмов библиотеки
+    // при изменении ширины окна
     setTimeout(() => {
       setCardCount(moviesPaging.getCount());
     }, 1000);
   }
-
-  // function drawCards(data) {
-  //   // разместить выбранные карточки
-  //   // console.log(data);
-  //   if (data.length === 0) {
-  //     setMessage('Ничего не найдено.');
-  //   }
-  //   moviesPaging.setLength(data.length);
-  //   setCardCout(moviesPaging.getCount());
-  //   setCards(data);
-  // }
 
   function isMatсh(card, search, short) {
     // проверить карточку на текст и длительность
@@ -189,11 +168,10 @@ function App() {
     return res;
   }
 
-  function handleClick() {
-    setMessage(' ');
-  }
+
 
   function handleMediaChanged(event) {
+    // ЦЕНТРАЛЬНЫЙ ОБРАБОТЧИК брекпоинтов адатвной верстки
     // получить параметр медиа-запроса
     const winW = parseInt(event.media.split(' ')[1], 10);
     // получить номер медиа-запроса
@@ -209,26 +187,31 @@ function App() {
     }
   }
 
+  function handleClick() {
+    // скрываем сообщения в формах
+    setMessage(' ');
+  }
+
   function handleSignIn() {
     setMessage(' ');
     navigate('/signin', {replace: true});
   }
 
   function handleLogIn({email, password}) {
+    // обработчик авторизации
     setWaitNum(1);
-    // setUserToken(undefined);
     apiUserAuth.login({email, password})
     .then((res) => {
-      localStorage.setItem('jwt', res.token);
-      setUserToken(res.token);
-      navigate('/movies', {replace: true});
+      if (res) {
+        errMessage(res, 'Почта или пароль указаны неверно.')
+      } else {
+        initUser();
+        initUserCollection();
+        navigate('/movies', {replace: true});
+      }
     })
     .catch((err) => {
-      if (Number(err) < 500) {
-        setMessage('Почта или пароль указаны неверно');
-      } else {
-        setMessage(errMessage(err));
-      }
+      console.log(err, 'Ошибка при авторизации.');
     })
     .finally(() => {
       setWaitNum(0);
@@ -242,14 +225,11 @@ function App() {
 
   function handleRegister({name, email, password}) {
     setWaitNum(2);
-    // setUserToken(undefined);
     apiUserAuth.register({name, email, password})
     .then((res) => {
       setMessage(' ');
       apiUserAuth.login({email, password})
       .then((res) => {
-        localStorage.setItem('jwt', res.token);
-        setUserToken(res.token);
         navigate('/movies', {replace: true});
       })
     })
@@ -267,13 +247,14 @@ function App() {
 
   function handleEditIn() {
     setMenuOpen(false);
-    setMessage(' ');
+    // setMessage(' ');
+    setMessage('');
     navigate('/profile', {replace: true});
   }
 
   function handleProfile({name, email}) {
     setWaitNum(3);
-    apiUserAuth.update({name, email, jwt: userToken})
+    apiUserAuth.update({name, email})
     .then((res) => {
       setCurrentUser(res);
       navigate('/movies', {replace: true});
@@ -291,8 +272,8 @@ function App() {
   }
 
   function handleLogOut() {
-    localStorage.removeItem('jwt');
-    setUserToken(undefined);
+    apiUserAuth.setToken('');
+    setCurrentUser('');
     navigate('/', {replace: true});
   }
 
@@ -308,7 +289,7 @@ function App() {
     setWaitNum(4);
     data.owner = currentUser._id;
     if (add) {
-      apiUserAuth.addMovie(data, userToken)
+      apiUserAuth.addMovie(data)
       .then((res) => {
         setSavedCards([res, ...savedCards]); })
       .catch((err) => {
@@ -316,7 +297,7 @@ function App() {
       .finally(()  => { setWaitNum(0); })
     } else {
       const element = savedCards.filter((item) => item.movieId === data.id)[0];
-      apiUserAuth.deleteMovie(element, userToken)
+      apiUserAuth.deleteMovie(element)
       .then((res) => {
         setSavedCards((state) => state.filter((item) => item._id !== res._id)); })
       .catch((err) => {
@@ -328,7 +309,7 @@ function App() {
   function handleDeleteSavedCard(data) {
     setWaitNum(6);
     data.owner = currentUser._id;
-    apiUserAuth.deleteMovie(data, userToken)
+    apiUserAuth.deleteMovie(data)
     .then((res) => {
       setSavedCards((state) => state.filter((item) => item._id !== res._id)); })
     .catch((err) => {
@@ -344,21 +325,20 @@ function App() {
       const data = res.filter((item) => isMatсh(item, search, short));
       localStorage.setItem('data',
         JSON.stringify(
-          {
-            owner: currentUser._id,
-            search: search,
-            short: short,
-            cards: data,
-          }
+           {
+             owner: currentUser._id,
+             search: search,
+             short: short,
+             cards:data,
+           }
         )
       )
       setUserQuery({
         search: search,
         short: short,
       });
-      // drawCards(data);
-      console.log(data);
       setCards(data);
+      setCardCount(0);
     })
     .catch((err) => {
       setMessage(errMessage(err));
@@ -382,7 +362,7 @@ function App() {
                 <Header
                   mediaNum={mediaLeter[mediaNum]}
                   isLight={false}
-                  isAuthorized={userToken}
+                  isAuthorized={currentUser}
                   linkMain={'/'}
                   linkMovies={'/movies'}
                   linkSavedMovies={'/saved-movies'}

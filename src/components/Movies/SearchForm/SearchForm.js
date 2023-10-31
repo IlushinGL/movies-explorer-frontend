@@ -17,7 +17,7 @@ function SearchForm({mediaNum, onSubmit, movieQuery, name}) {
 
   function handleShortFilmsSelected() {
     // Передать значения управляемых компонентов во внешний обработчик
-    console.log('SearchForm', movieQuery, isShortFilmsSelected, name);
+    // console.log('SearchForm', movieQuery, isShortFilmsSelected, name);
     onSubmit({
       search: document.querySelector('input').value,
       short: !isShortFilmsSelected
