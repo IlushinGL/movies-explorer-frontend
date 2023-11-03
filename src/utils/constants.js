@@ -16,7 +16,7 @@ export const ME_DATA = {
 };
 
 export const REG_PATTERNS = {
-  EMAIL: '^[^@]+@[^@]+.[a-zA-Z]{2,5}$',
+  EMAIL: '^[^@]+@[^@]+\\.[a-zA-Z]{2,5}$',
   USERNAME: '^[A-Za-zА-Яа-яЁё\\-\\s]+$',
 };
 export const CARDS_TBL =[

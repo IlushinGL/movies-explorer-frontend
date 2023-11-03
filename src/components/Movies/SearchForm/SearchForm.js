@@ -3,7 +3,7 @@ import switchY from '../../../images/switch_yes.svg';
 import switchN from '../../../images/switch_no.svg';
 import './SearchForm.css';
 
-function SearchForm({mediaNum, onSubmit, movieQuery}) {
+function SearchForm({mediaNum, onSubmit, movieQuery, onClick}) {
   const base        = 'search';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const formClass   = `${base}-form ${base}-form_pos${mediaNum}`;
@@ -17,7 +17,6 @@ function SearchForm({mediaNum, onSubmit, movieQuery}) {
 
   function handleShortFilmsSelected() {
     // Передать значения управляемых компонентов во внешний обработчик
-    // console.log('SearchForm', movieQuery, isShortFilmsSelected, name);
     onSubmit({
       search: document.querySelector('input').value,
       short: !isShortFilmsSelected
@@ -40,10 +39,10 @@ function SearchForm({mediaNum, onSubmit, movieQuery}) {
           <input
             name="query"
             type="text"
+            onClick={onClick}
             defaultValue={movieQuery? movieQuery.search : ''}
             className={txtClass}
             autoComplete="off"
-            required
             placeholder="Фильм"
           />
           <button

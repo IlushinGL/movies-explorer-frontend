@@ -54,7 +54,7 @@ function Login({mediaNum, onSubmit, linkMain, onSignUp, message, isWait, onClick
           value={values.email || ''}
           onChange={handleChange}
           onClick={onClick}
-          minLength="5"
+          // minLength="5"
           maxLength="40"
           pattern={REG_PATTERNS.EMAIL}
           placeholder='укажите почтовый адрес'

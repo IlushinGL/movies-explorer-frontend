@@ -5,7 +5,8 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 function Movies({
   mediaNum, movieCards, onSelect,
   onSubmit, isWait, message,
-  selectionSet, hasMore, onShowMore, movieQuery
+  selectionSet, hasMore, onShowMore,
+  movieQuery, onClick
   })
 {
   return (
@@ -13,7 +14,8 @@ function Movies({
       <SearchForm
         mediaNum={mediaNum}
         onSubmit={onSubmit}
-        movieQuery={movieQuery} />
+        movieQuery={movieQuery}
+        onClick={onClick} />
       <MoviesCardList
         mediaNum={mediaNum}
         movieCards={movieCards}

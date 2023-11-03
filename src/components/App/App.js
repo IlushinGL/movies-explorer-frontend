@@ -248,8 +248,7 @@ function App() {
       } else {
         currentUser.name = name;
         currentUser.email = email;
-        setMessage('');
-        navigate('/movies', {replace: true});
+        setMessage('Изменения профиля сохранены.');
       }
     })
     .catch((err) => {
@@ -288,7 +287,7 @@ function App() {
   function handleSearchMovies({search, short}) {
     // обработчик поиска в библиотеке
     if (!search) {
-      setMessage('Нужно указать ключевое слово!');
+      setMessage('Нужно указать ключевое слово.');
       return;
     }
     setWaitNum(5);
@@ -344,7 +343,7 @@ function App() {
   }
 
   function handleClick() {
-    // скрываем сообщения в формах авторизации, регистрации и профиля
+    // скрываем сообщение в формах
     setMessage(' ');
   }
 
@@ -459,6 +458,7 @@ function App() {
                   selectionSet={savedMoviesIdSet(savedCards)}
                   hasMore={moviesPaging.hasMore()}
                   onShowMore={handleMoreCards}
+                  onClick={handleClick}
                   message={message}
                   isWait={waitNum === 5 ? true: false}
                   onSubmit={handleSearchMovies}
