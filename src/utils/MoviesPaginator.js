@@ -9,57 +9,46 @@ class MoviesPaginator {
   }
 
   _getElementsInRow() {
-    const winWight = window.innerWidth;
-    const count = (winWight + 2 * this._tbl[this._mediaNum][1] - 2 * this._tbl[this._mediaNum][2]) /
-                  (this._tbl[this._mediaNum][0] + 2 * this._tbl[this._mediaNum][1]);
-    return Math.floor(count);
+    const winWight = document.documentElement.clientWidth;
+    const count = (winWight + this._tbl[this._mediaNum][1] - 2 * this._tbl[this._mediaNum][2]) /
+                  (this._tbl[this._mediaNum][0] + this._tbl[this._mediaNum][1]);
+    return Math.floor(count) || 1;
   }
 
   setLength(num) {
     this._dataLen = num;
     this._visibleCount = 0;
   }
+
   setMedia(num) {
     this._mediaNum = num - 1;
   }
+
   getCount() {
     const countInRow = this._getElementsInRow();
     let countVisible = this._visibleCount;
     if (countVisible === 0) {
-      let count;
-      if (countInRow > 1 ) {
-        count = countInRow * 4;
-      } else {
-        count = 5;
-      }
-
-      if (count > this._dataLen) {
-        this._visibleCount = this._dataLen;
-      } else {
-        this._visibleCount = count;
-      }
-      countVisible = this._visibleCount;
+      let count = 5;
+      if (countInRow > 1 ) {count = countInRow * 4;}
+      if (count > this._dataLen) {count = this._dataLen;}
+      countVisible = count;
     } else if (countVisible < this._dataLen) {
       countVisible = Math.floor(countVisible/countInRow) * countInRow;
     } else {
       countVisible = this._dataLen
     }
-    return countVisible;
+    this._visibleCount = countVisible;
+    return this._visibleCount;
   }
-  // setVisibleCount(num) {
-  //   if (this._dataLen > num) {
-  //     this._visibleCount = num;
-  //   }
-  // }
-  // getVisibleCount() {
-  //   return this._visibleCount;
-  // }
+
   hasMore() {
     return this._visibleCount < this._dataLen;
   }
   getMore() {
     const rest =  this._dataLen - this._visibleCount;
-    const count = this._getElementsInRow() * this._tbl[this._mediaNum][4];
+    const countInRow = this._getElementsInRow();
+    let count = 2;
+    if (countInRow > 1 ) {count = countInRow;}
     this._visibleCount = count > rest? this._dataLen: this._visibleCount + count;
     return this._visibleCount;
   }

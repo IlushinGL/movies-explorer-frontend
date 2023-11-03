@@ -3,7 +3,7 @@ import switchY from '../../../images/switch_yes.svg';
 import switchN from '../../../images/switch_no.svg';
 import './SearchForm.css';
 
-function SearchForm({mediaNum, onSubmit, movieQuery, name}) {
+function SearchForm({mediaNum, onSubmit, movieQuery}) {
   const base        = 'search';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const formClass   = `${base}-form ${base}-form_pos${mediaNum}`;

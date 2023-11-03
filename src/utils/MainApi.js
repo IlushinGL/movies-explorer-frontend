@@ -28,7 +28,6 @@ class Auth {
   getStoredData() {
     // вспомнить пользователя
     const jwt = localStorage.getItem('jwt') || '';
-
     this._headers.Authorization = jwt;
     return fetch(
       this._baseURL + this._user,
@@ -38,7 +37,7 @@ class Auth {
     })
     .then((res) => {
       if (!res.ok) {
-        throw new Error(`${res.status}: Проверить токен. ${res.statusText}.`)
+        throw new Error(`${res.status}: Проверка токена. ${res.statusText}.`)
       }
       return res.json();
     })
@@ -70,8 +69,14 @@ class Auth {
     })
   }
 
+  isAuth() {
+    return this._headers.Authorization ? true : false;
+  }
+
   register({name, email, password}) {
+    // зарегестрировать пользователя
     this.setToken('');
+    let errCode = 0;
     return fetch(
       this._baseURL + this._signUp,
       {
@@ -84,13 +89,20 @@ class Auth {
       })
     })
     .then((res) => {
-      this.login({email, password});
-      return res;
+      if (!res.ok) {
+        errCode = res.status;
+        throw new Error(`${res.status}: Регистрация. ${res.statusText}.`)
+      }
+      return res.json();
     })
-    .catch((err) => {Promise.reject(err);})
+    .then((newUser) => {
+      return this.login({email: newUser.email, password: password});
+    })
+    .catch((err) => {console.log(err); return errCode;})
   }
 
   login({email, password}) {
+    // авторизировать пользователя
     this.setToken('');
     let errCode = 0;
     return fetch(
@@ -118,6 +130,8 @@ class Auth {
   }
 
   update({name, email}) {
+    // обновить профиль пользователя
+    let errCode = 0;
     return fetch(
       this._baseURL + this._user,
       {
@@ -128,11 +142,18 @@ class Auth {
         email: email
       })
     })
-    .then((res) => { return res.json(); })
-    .catch((err) => {Promise.reject(err);})
+    .then((res) => {
+      if (!res.ok) {
+        errCode = res.status;
+        throw new Error(`${res.status}: Изменение профиля. ${res.statusText}.`)
+      }
+      return 0;
+    })
+    .catch((err) => {console.log(err); return errCode;})
   }
 
   addMovie(data) {
+    // добавить фильм в коллекцию
     const {id, ...newData} = data;
     return fetch(
       this._baseURL + this._movies,
@@ -141,11 +162,17 @@ class Auth {
       headers: this._headers,
       body: JSON.stringify(newData)
     })
-    .then((res) => { return res.json(); })
-    .catch((err) => {Promise.reject(err);})
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`${res.status}: Добавить фильм. ${res.statusText}.`)
+      }
+      return res.json();
+    })
+    .catch((err) => {console.log(err); return ''})
   }
 
   deleteMovie(data) {
+    // удалить фильм из коллекции
     return fetch(
       this._baseURL + this._movies + '/' + data._id,
       {
@@ -153,11 +180,17 @@ class Auth {
       headers: this._headers,
       body: JSON.stringify({owner: data.owner})
     })
-    .then((res) => { return res.json(); })
-    .catch((err) => {Promise.reject(err);})
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`${res.status}: Удалить фильм. ${res.statusText}.`)
+      }
+      return res.json();
+    })
+    .catch((err) => {console.log(err); return''})
   }
 
   getAll() {
+    // получить всю коллекцию фильмов пользователя
     return fetch(
       this._baseURL + this._movies,
       {
@@ -169,10 +202,7 @@ class Auth {
         throw new Error(`${res.status}: Получить личную колекцию. ${res.statusText}.`)
       }
       return res.json();})
-    .catch((err) => {
-      console.log(err);
-      return [];
-    })
+    .catch((err) => { console.log(err); return []; })
   }
 }
 

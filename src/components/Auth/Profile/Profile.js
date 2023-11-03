@@ -20,28 +20,21 @@ function Profile({mediaNum, onOutClick, onEditClick, message, isWait, onClick}) 
   const crlItemClass   = `${base}-control__item ${base}-control__item_pos${mediaNum}`;
 
   const currentUser = React.useContext(CurrentUserContext);
-  const {values, setValues, handleChange, errors, isValid} = useFormAndValidation();
+  const {values, handleChange, errors, isValid} = useFormAndValidation();
 
   function handleSubmit(e) {
-    // e.preventDefault();
     // Передать значения управляемых компонентов во внешний обработчик
+    // e.preventDefault();
     onEditClick({
-      name: values.name,
-      email: values.email,
+      name: values.name || currentUser.name,
+      email: values.email || currentUser.email,
     });
   }
-
-  React.useEffect(() => {
-    setValues({
-      name: currentUser.name,
-      email: currentUser.email,
-    });
-  }, [setValues, currentUser]);
 
   return (
     <main className={baseClass}>
       <h1 className={titleClass}>
-        {`Привет, ${currentUser.name}!`}
+        {`Привет, ${currentUser.name || ''}!`}
       </h1>
       <form className={dataClass}>
         <div className={setClass}>
@@ -53,7 +46,7 @@ function Profile({mediaNum, onOutClick, onEditClick, message, isWait, onClick}) 
               onClick={onClick}
               type="text"
               name="name"
-              value={values.name || ''}
+              defaultValue={currentUser.name || ''}
               minLength="2"
               maxLength="40"
               pattern={REG_PATTERNS.USERNAME}
@@ -73,7 +66,7 @@ function Profile({mediaNum, onOutClick, onEditClick, message, isWait, onClick}) 
               onClick={onClick}
               type="email"
               name="email"
-              value={values.email || ''}
+              defaultValue={currentUser.email || ''}
               minLength="5"
               maxLength="40"
               pattern={REG_PATTERNS.EMAIL}
@@ -90,7 +83,8 @@ function Profile({mediaNum, onOutClick, onEditClick, message, isWait, onClick}) 
       </div>
       <section className={crlClass}>
         <button
-          onClick={isValid ? handleSubmit : undefined}
+          type='button'
+          onClick={handleSubmit}
           className={crlItemClass + (!isValid ? ` ${base}-control__item_disabled` : '')}>
           Редактировать
         </button>

@@ -12,7 +12,6 @@ function Movies({
     <>
       <SearchForm
         mediaNum={mediaNum}
-        name='movies'
         onSubmit={onSubmit}
         movieQuery={movieQuery} />
       <MoviesCardList
