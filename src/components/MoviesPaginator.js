@@ -1,4 +1,4 @@
-import { CARDS_TBL } from './constants';
+import { CARDS_TBL } from '../utils/constants';
 
 class MoviesPaginator {
   constructor(tbl) {

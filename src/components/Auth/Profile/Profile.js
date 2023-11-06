@@ -31,6 +31,18 @@ function Profile({mediaNum, onOutClick, onEditClick, message, isWait, onClick}) 
     });
   }
 
+  function isNewData() {
+    const data = {
+      name: values.name || currentUser.name,
+      email: values.email || currentUser.email,
+    }
+    // console.log(data.name, currentUser.name, data.email, currentUser.email)
+    if ((data.name !== currentUser.name || data.email !== currentUser.email) && isValid) {
+      return true;
+    }
+    return false;
+  }
+
   return (
     <main className={baseClass}>
       <h1 className={titleClass}>
@@ -85,7 +97,8 @@ function Profile({mediaNum, onOutClick, onEditClick, message, isWait, onClick}) 
         <button
           type='button'
           onClick={handleSubmit}
-          className={crlItemClass + (!isValid ? ` ${base}-control__item_disabled` : '')}>
+          disabled={!isNewData()}
+          className={crlItemClass}>
           Редактировать
         </button>
         <button

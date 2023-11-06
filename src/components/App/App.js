@@ -1,11 +1,10 @@
 import React from 'react';
-// import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { apiUserAuth } from '../../utils/MainApi';
 import { apiMovies } from '../../utils/MoviesApi';
-import { moviesPaging } from '../../utils/MoviesPaginator';
+import { moviesPaging } from '../MoviesPaginator';
 
 import ProtectedRoute from '../ProtectedRoute';
 import Header from '../Header/Header';
@@ -24,9 +23,12 @@ import { useMedia } from '../../utils/customHooks';
 const mediaLeter = ['?', 'a', 'b', 'c'];
 
 function App() {
+  // const [appInit, setAppInit] = React.useState(true);
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
 
   const [currentUser, setCurrentUser] = React.useState('');
+  const [loggedIn, setLoggedIn] = React.useState();
+
   const [userQuery, setUserQuery] = React.useState({search: '', short: false});
   const [meQuery, setMeQuery] = React.useState({search: '', short: false});
 
@@ -45,12 +47,12 @@ function App() {
 
   useMedia(getMediaBreakArea(), handleMediaChanged);
 
-
   React.useEffect(() => {
     // вспоминаем последний сеанс
     initUser();
     initUserCollection();
-    setMessage('');
+    setLoggedIn(apiUserAuth.isAuth());
+    // setMessage('');
   }, []);
 
   React.useEffect(() => {
@@ -78,14 +80,9 @@ function App() {
       // синхронизируем паджинатор с текущим размером массива
       moviesPaging.setLength(cards.length);
     }
-
-    // если набор пустой, сообщаем об этом
-    if (cards.length === 0) {
-      setMessage('Ничего не найдено.');
-    } else if (moviesPaging.getCount() !== cardCount) {
+    if (moviesPaging.getCount() !== cardCount) {
       // устанавливаем кол-во видимых карточек
       setCardCount(moviesPaging.getCount());
-      setMessage('');
     }
   }, [cards, mediaNum, cardCount]);
 
@@ -135,27 +132,48 @@ function App() {
       } else {
         // если результат пустой, значит юзера нет
         setCurrentUser('');
+        setUserQuery({
+          search: '',
+          short: false,
+        });
+        setCards([]);
+        setCardCount(0);
       }
     })
     .catch((err) => {
       setCurrentUser('');
+      setUserQuery({
+        search: '',
+        short: false,
+      });
+      setCards([]);
+      setCardCount(0);
       console.log(err, 'Ошибка размещения пользователя.');
     })
   }
 
   function initUserCollection() {
+    setMeQuery({search: '', short: false});
     // пробуем достать с сервера
     // коллекцию юзера и разместить ее в переменной состояния
     apiUserAuth.getAll()
     .then((res) => {
       setSavedCards(res);
-      setMeQuery({search: '', short: false});
     })
     .catch((err) => {
       setSavedCards([]);
       console.log(err, 'Ошибка размещения коллекции.');
     })
   }
+
+  // function isUserKnown() {
+  //   if(typeof loggedIn === 'undefined') {//we want it to match
+  //       setTimeout(isUserKnown, 100);//wait 100 millisecnds then recheck
+  //       return;
+  //   }
+  //   console.log(loggedIn);
+  //   return loggedIn;
+  // }
 
   function errMessage(err, text) {
     // генератор сообщения
@@ -311,6 +329,9 @@ function App() {
       });
       setCards(data);
       setCardCount(0);
+      if (data.length === 0) {
+        setMessage('Ничего не найдено.');
+      }
     })
     .catch((err) => {
       errMessage(err);
@@ -336,9 +357,10 @@ function App() {
 
   function handleLogOut() {
     // обработчик выхода пользователя
-    apiUserAuth.setToken('');
-    setCurrentUser('');
     setMessage('');
+    apiUserAuth.setToken('');
+    initUser();
+    initUserCollection();
     navigate('/', {replace: true});
   }
 
@@ -398,7 +420,7 @@ function App() {
                 <Header
                   mediaNum={mediaLeter[mediaNum]}
                   isLight={false}
-                  isAuthorized={currentUser}
+                  isAuthorized={loggedIn}
                   linkMain={'/'}
                   linkMovies={'/movies'}
                   onlinkMovies={handleLinkToMovie}
@@ -439,32 +461,35 @@ function App() {
             />
             <Route
               path="/movies"
-              element={<ProtectedRoute element={
-                <>
-                <Header
-                  mediaNum={mediaLeter[mediaNum]}
-                  isLight={true}
-                  isAuthorized={true}
-                  linkMain={'/'}
-                  linkMovies={'/movies'}
-                  onlinkMovies={handleLinkToMovie}
-                  linkSavedMovies={'/saved-movies'}
-                  onEditProfile={handleEditIn}
-                  onMenuClick={handleMenuClick}/>
-                <Movies
-                  mediaNum={mediaLeter[mediaNum]}
-                  movieQuery={userQuery}
-                  movieCards={cards.slice(0, cardCount)}
-                  selectionSet={savedMoviesIdSet(savedCards)}
-                  hasMore={moviesPaging.hasMore()}
-                  onShowMore={handleMoreCards}
-                  onClick={handleClick}
-                  message={message}
-                  isWait={waitNum === 5 ? true: false}
-                  onSubmit={handleSearchMovies}
-                  onSelect={handleSelectCard}/>
-                </>
-              } loggedIn={apiUserAuth.isAuth()}/>}
+              element={<ProtectedRoute
+                isLogedIn={loggedIn}
+                component={
+                  <>
+                  <Header
+                    mediaNum={mediaLeter[mediaNum]}
+                    isLight={true}
+                    isAuthorized={true}
+                    linkMain={'/'}
+                    linkMovies={'/movies'}
+                    onlinkMovies={handleLinkToMovie}
+                    linkSavedMovies={'/saved-movies'}
+                    onEditProfile={handleEditIn}
+                    onMenuClick={handleMenuClick}/>
+                  <Movies
+                    mediaNum={mediaLeter[mediaNum]}
+                    movieQuery={userQuery}
+                    movieCards={cards.slice(0, cardCount)}
+                    selectionSet={savedMoviesIdSet(savedCards)}
+                    hasMore={moviesPaging.hasMore()}
+                    onShowMore={handleMoreCards}
+                    onClick={handleClick}
+                    message={message}
+                    isWait={waitNum === 5 ? true: false}
+                    onSubmit={handleSearchMovies}
+                    onSelect={handleSelectCard}/>
+                  </>
+                }
+              />}
             />
             <Route
               path="/saved-movies"
@@ -487,7 +512,7 @@ function App() {
                   onSubmit={handleSearchSavedMovies}
                   movieCards={savedCards.filter((item) => isMatсh(item, meQuery.search, meQuery.short))} />
                 </>
-              } loggedIn={apiUserAuth.isAuth()}/>}
+              } loggedIn={apiUserAuth.isAuth()} />}
             />
             <Route
               path="/profile"
@@ -511,7 +536,7 @@ function App() {
                   isWait={waitNum === 3 ? true: false}
                   onClick={handleClick}/>
                 </>
-              } loggedIn={apiUserAuth.isAuth()}/>}
+              } loggedIn={apiUserAuth.isAuth()} />}
             />
 
             <Route
