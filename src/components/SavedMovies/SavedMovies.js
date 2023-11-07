@@ -13,7 +13,7 @@ function SavedMovies({mediaNum, movieCards, onDelete, onSubmit, movieQuery}) {
       <MoviesCardList
         mediaNum={mediaNum}
         movieCards={movieCards}
-        onDelete={onDelete} />
+        onDelete={onDelete}/>
       <Footer num={mediaNum} />
     </>
   );

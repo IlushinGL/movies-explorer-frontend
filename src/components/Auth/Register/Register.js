@@ -52,6 +52,7 @@ function Register({mediaNum, onSubmit, linkMain, onSignIn, message, isWait, onCl
           onClick={onClick}
           type="text"
           name="name"
+          disabled={isWait}
           minLength="2"
           maxLength="40"
           pattern={REG_PATTERNS.USERNAME}
@@ -69,6 +70,7 @@ function Register({mediaNum, onSubmit, linkMain, onSignIn, message, isWait, onCl
           onClick={onClick}
           type="email"
           name="email"
+          disabled={isWait}
           minLength="5"
           maxLength="40"
           pattern={REG_PATTERNS.EMAIL}
@@ -86,6 +88,7 @@ function Register({mediaNum, onSubmit, linkMain, onSignIn, message, isWait, onCl
           onClick={onClick}
           type="password"
           name="password"
+          disabled={isWait}
           minLength="8"
           maxLength="12"
           placeholder='придумайте пароль'
@@ -101,7 +104,7 @@ function Register({mediaNum, onSubmit, linkMain, onSignIn, message, isWait, onCl
         <button
           className={btnClass + (!isValid ? ` ${base}-control__btn_disabled` : '')}
           onClick={handleSubmit}
-          disabled={!isValid}>
+          disabled={!isValid || isWait}>
           Зарегистрироваться
         </button>
         <div className={blockClass}>
@@ -109,6 +112,7 @@ function Register({mediaNum, onSubmit, linkMain, onSignIn, message, isWait, onCl
           <button
             className={actClass}
             type="button"
+            disabled={isWait}
             onClick={onSignIn}>
             Войти
           </button>

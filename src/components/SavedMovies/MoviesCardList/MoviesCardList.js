@@ -6,18 +6,23 @@ function MoviesCardList({mediaNum, movieCards, onDelete}) {
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const listClass   = `${base}__list ${base}__list_pos${mediaNum}`;
 
+  const message = movieCards.length === 0? 'Ничего не найдено' : '';
+
   return (
     <section className={baseClass}>
-      <div className={listClass}>
-        {movieCards.map((card) => (
-          <MoviesCard
-            key={'' + card._id}
-            mediaNum={mediaNum}
-            onDelete={onDelete}
-            card={card}
-          />
-        ))}
-      </div>
+      {message ||
+        <div className={listClass}>
+          {movieCards.map((card) => (
+            <MoviesCard
+              key={'' + card._id}
+              mediaNum={mediaNum}
+              onDelete={onDelete}
+              card={card}
+            />
+          ))}
+        </div>
+      }
+
     </section>
   );
 }

@@ -3,7 +3,7 @@ import switchY from '../../../images/switch_yes.svg';
 import switchN from '../../../images/switch_no.svg';
 import './SearchForm.css';
 
-function SearchForm({mediaNum, onSubmit, movieQuery, onClick}) {
+function SearchForm({mediaNum, onSubmit, movieQuery, isWait}) {
   const base        = 'search';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const formClass   = `${base}-form ${base}-form_pos${mediaNum}`;
@@ -39,7 +39,7 @@ function SearchForm({mediaNum, onSubmit, movieQuery, onClick}) {
           <input
             name="query"
             type="text"
-            onClick={onClick}
+            disabled={isWait}
             defaultValue={movieQuery? movieQuery.search : ''}
             className={txtClass}
             autoComplete="off"
@@ -47,6 +47,7 @@ function SearchForm({mediaNum, onSubmit, movieQuery, onClick}) {
           />
           <button
             className={btnClass}
+            disabled={isWait}
             type='submit'>
           </button>
         </div>
@@ -54,9 +55,11 @@ function SearchForm({mediaNum, onSubmit, movieQuery, onClick}) {
           <img
             className={itemClass}
             onClick={handleShortFilmsSelected}
+            disabled={isWait}
             src={isShortFilmsSelected ? switchY : switchN} alt="переключатель" />
           <div
             className={itemClass}
+            disabled={isWait}
             onClick={handleShortFilmsSelected}>
             Короткометражки
           </div>

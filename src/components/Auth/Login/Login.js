@@ -54,7 +54,8 @@ function Login({mediaNum, onSubmit, linkMain, onSignUp, message, isWait, onClick
           value={values.email || ''}
           onChange={handleChange}
           onClick={onClick}
-          // minLength="5"
+          disabled={isWait}
+          minLength="5"
           maxLength="40"
           pattern={REG_PATTERNS.EMAIL}
           placeholder='укажите почтовый адрес'
@@ -72,6 +73,7 @@ function Login({mediaNum, onSubmit, linkMain, onSignUp, message, isWait, onClick
           value={values.password || ''}
           onChange={handleChange}
           onClick={onClick}
+          disabled={isWait}
           minLength="8"
           maxLength="12"
           placeholder='укажите пароль'
@@ -88,7 +90,7 @@ function Login({mediaNum, onSubmit, linkMain, onSignUp, message, isWait, onClick
           className={btnClass + (!isValid ? ` ${base}-control__btn_disabled` : '')}
           type="button"
           onClick={handleSubmit}
-          disabled={!isValid}>
+          disabled={!isValid || isWait}>
           Войти
         </button>
         <div className={blockClass}>
@@ -96,6 +98,7 @@ function Login({mediaNum, onSubmit, linkMain, onSignUp, message, isWait, onClick
           <button
             className={actClass}
             type="button"
+            disabled={isWait}
             onClick={onSignUp}>
             Регистрация
           </button>

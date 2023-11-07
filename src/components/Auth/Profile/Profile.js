@@ -59,6 +59,7 @@ function Profile({mediaNum, onOutClick, onEditClick, message, isWait, onClick}) 
               type="text"
               name="name"
               defaultValue={currentUser.name || ''}
+              disabled={isWait}
               minLength="2"
               maxLength="40"
               pattern={REG_PATTERNS.USERNAME}
@@ -79,6 +80,7 @@ function Profile({mediaNum, onOutClick, onEditClick, message, isWait, onClick}) 
               type="email"
               name="email"
               defaultValue={currentUser.email || ''}
+              disabled={isWait}
               minLength="5"
               maxLength="40"
               pattern={REG_PATTERNS.EMAIL}
@@ -97,12 +99,13 @@ function Profile({mediaNum, onOutClick, onEditClick, message, isWait, onClick}) 
         <button
           type='button'
           onClick={handleSubmit}
-          disabled={!isNewData()}
+          disabled={!isNewData() || isWait}
           className={crlItemClass}>
           Редактировать
         </button>
         <button
           onClick={onOutClick}
+          disabled={isWait}
           type="button"
           className={crlItemClass + ` ${base}-control__item_att`}>
           Выйти из аккаунта

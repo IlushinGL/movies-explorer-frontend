@@ -27,7 +27,7 @@ function App() {
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
 
   const [currentUser, setCurrentUser] = React.useState('');
-  const [loggedIn, setLoggedIn] = React.useState();
+  // const [loggedIn, setLoggedIn] = React.useState();
 
   const [userQuery, setUserQuery] = React.useState({search: '', short: false});
   const [meQuery, setMeQuery] = React.useState({search: '', short: false});
@@ -51,7 +51,7 @@ function App() {
     // вспоминаем последний сеанс
     initUser();
     initUserCollection();
-    setLoggedIn(apiUserAuth.isAuth());
+    // setLoggedIn(apiUserAuth.isAuth());
     // setMessage('');
   }, []);
 
@@ -214,6 +214,7 @@ function App() {
 
   function handleLogIn({email, password}) {
     // обработчик авторизации
+    handleClick();
     setWaitNum(1);
     apiUserAuth.login({email, password})
     .then((res) => {
@@ -236,6 +237,7 @@ function App() {
 
   function handleRegister({name, email, password}) {
     // обработчик регистрации
+    handleClick();
     setWaitNum(2);
     apiUserAuth.register({name, email, password})
     .then((res) => {
@@ -258,6 +260,7 @@ function App() {
 
   function handleProfile({name, email}) {
     // обработчик изменения данных профиля
+    handleClick();
     setWaitNum(3);
     apiUserAuth.update({name: name, email: email})
     .then((res) => {
@@ -308,8 +311,8 @@ function App() {
       setMessage('Нужно указать ключевое слово.');
       return;
     }
-    setWaitNum(5);
     setMessage('');
+    setWaitNum(5);
     apiMovies.getAll()
     .then((res) => {
       const data = res.filter((item) => isMatсh(item, search, short));
@@ -357,7 +360,7 @@ function App() {
 
   function handleLogOut() {
     // обработчик выхода пользователя
-    setMessage('');
+    handleClick();
     apiUserAuth.setToken('');
     initUser();
     initUserCollection();
@@ -420,7 +423,7 @@ function App() {
                 <Header
                   mediaNum={mediaLeter[mediaNum]}
                   isLight={false}
-                  isAuthorized={loggedIn}
+                  isAuthorized={apiUserAuth.isAuth()}
                   linkMain={'/'}
                   linkMovies={'/movies'}
                   onlinkMovies={handleLinkToMovie}
@@ -462,13 +465,13 @@ function App() {
             <Route
               path="/movies"
               element={<ProtectedRoute
-                isLogedIn={loggedIn}
+                isLogedIn={apiUserAuth.isAuth()}
                 component={
                   <>
                   <Header
                     mediaNum={mediaLeter[mediaNum]}
                     isLight={true}
-                    isAuthorized={true}
+                    isAuthorized={apiUserAuth.isAuth()}
                     linkMain={'/'}
                     linkMovies={'/movies'}
                     onlinkMovies={handleLinkToMovie}
@@ -482,7 +485,6 @@ function App() {
                     selectionSet={savedMoviesIdSet(savedCards)}
                     hasMore={moviesPaging.hasMore()}
                     onShowMore={handleMoreCards}
-                    onClick={handleClick}
                     message={message}
                     isWait={waitNum === 5 ? true: false}
                     onSubmit={handleSearchMovies}
@@ -493,50 +495,56 @@ function App() {
             />
             <Route
               path="/saved-movies"
-              element={<ProtectedRoute element={
-                <>
-                <Header
-                  mediaNum={mediaLeter[mediaNum]}
-                  isLight={true}
-                  isAuthorized={true}
-                  linkMain={'/'}
-                  linkMovies={'/movies'}
-                  onlinkMovies={handleLinkToMovie}
-                  linkSavedMovies={'/saved-movies'}
-                  onEditProfile={handleEditIn}
-                  onMenuClick={handleMenuClick}/>
-                <SavedMovies
-                  mediaNum={mediaLeter[mediaNum]}
-                  movieQuery={meQuery}
-                  onDelete={handleDeleteSavedCard}
-                  onSubmit={handleSearchSavedMovies}
-                  movieCards={savedCards.filter((item) => isMatсh(item, meQuery.search, meQuery.short))} />
-                </>
-              } loggedIn={apiUserAuth.isAuth()} />}
+              element={<ProtectedRoute
+                isLogedIn={apiUserAuth.isAuth()}
+                component={
+                  <>
+                  <Header
+                    mediaNum={mediaLeter[mediaNum]}
+                    isLight={true}
+                    isAuthorized={apiUserAuth.isAuth()}
+                    linkMain={'/'}
+                    linkMovies={'/movies'}
+                    onlinkMovies={handleLinkToMovie}
+                    linkSavedMovies={'/saved-movies'}
+                    onEditProfile={handleEditIn}
+                    onMenuClick={handleMenuClick}/>
+                  <SavedMovies
+                    mediaNum={mediaLeter[mediaNum]}
+                    movieQuery={meQuery}
+                    onDelete={handleDeleteSavedCard}
+                    onSubmit={handleSearchSavedMovies}
+                    movieCards={savedCards.filter((item) => isMatсh(item, meQuery.search, meQuery.short))} />
+                  </>
+                }
+              />}
             />
             <Route
               path="/profile"
-              element={<ProtectedRoute element={
-                <>
-                <Header
-                  mediaNum={mediaLeter[mediaNum]}
-                  isLight={true}
-                  isAuthorized={true}
-                  linkMain={'/'}
-                  linkMovies={'/movies'}
-                  onlinkMovies={handleLinkToMovie}
-                  linkSavedMovies={'/saved-movies'}
-                  onEditProfile={handleEditIn}
-                  onMenuClick={handleMenuClick}/>
-                <Profile
-                  mediaNum={mediaLeter[mediaNum]}
-                  onOutClick={handleLogOut}
-                  onEditClick={handleProfile}
-                  message={message}
-                  isWait={waitNum === 3 ? true: false}
-                  onClick={handleClick}/>
-                </>
-              } loggedIn={apiUserAuth.isAuth()} />}
+              element={<ProtectedRoute
+                isLogedIn={apiUserAuth.isAuth()}
+                component={
+                  <>
+                  <Header
+                    mediaNum={mediaLeter[mediaNum]}
+                    isLight={true}
+                    isAuthorized={apiUserAuth.isAuth()}
+                    linkMain={'/'}
+                    linkMovies={'/movies'}
+                    onlinkMovies={handleLinkToMovie}
+                    linkSavedMovies={'/saved-movies'}
+                    onEditProfile={handleEditIn}
+                    onMenuClick={handleMenuClick}/>
+                  <Profile
+                    mediaNum={mediaLeter[mediaNum]}
+                    onOutClick={handleLogOut}
+                    onEditClick={handleProfile}
+                    message={message}
+                    isWait={waitNum === 3 ? true: false}
+                    onClick={handleClick}/>
+                  </>
+                }
+              />}
             />
 
             <Route

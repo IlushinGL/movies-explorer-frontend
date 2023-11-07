@@ -6,7 +6,7 @@ function Movies({
   mediaNum, movieCards, onSelect,
   onSubmit, isWait, message,
   selectionSet, hasMore, onShowMore,
-  movieQuery, onClick
+  movieQuery
   })
 {
   return (
@@ -15,7 +15,7 @@ function Movies({
         mediaNum={mediaNum}
         onSubmit={onSubmit}
         movieQuery={movieQuery}
-        onClick={onClick} />
+        isWait={isWait} />
       <MoviesCardList
         mediaNum={mediaNum}
         movieCards={movieCards}
