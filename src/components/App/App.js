@@ -1,8 +1,12 @@
 import React from 'react';
-// import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { apiUserAuth } from '../../utils/MainApi';
+import { apiMovies } from '../../utils/MoviesApi';
+import { moviesPaging } from '../MoviesPaginator';
+
+import ProtectedRoute from '../ProtectedRoute';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Login from '../Auth/Login/Login';
@@ -13,37 +17,77 @@ import Profile from '../Auth/Profile/Profile';
 import Navigation from '../Navigation/Navigation';
 import NotFound from '../NotFound/NotFound';
 
-import getMoveSet from '../../utils/generateMovie';
-
-import Preloader from '../Movies/Preloader/Preloader';
-
 import { getMediaBreakArea, getMediaBreakNumber} from '../../utils/customFunction';
 import { useMedia } from '../../utils/customHooks';
 
-const movieSet = getMoveSet(19);
-const savedMovieSet = getMoveSet(3);
 const mediaLeter = ['?', 'a', 'b', 'c'];
 
-
 function App() {
-  const [currentUser, setCurrentUser] = React.useState({
-    _id: '-1',
-    name: null,
-    email: null,
-  });
+  // const [appInit, setAppInit] = React.useState(true);
   const [mediaNum, setMediaNum] = React.useState(getMediaBreakNumber());
-  const [isUserKnown, setUserKnown] = React.useState(false);
+
+  const [currentUser, setCurrentUser] = React.useState('');
+  // const [loggedIn, setLoggedIn] = React.useState();
+
+  const [userQuery, setUserQuery] = React.useState({search: '', short: false});
+  const [meQuery, setMeQuery] = React.useState({search: '', short: false});
+
+  const [cards, setCards] = React.useState([]);
+  const [cardCount, setCardCount] = React.useState(0);
+  const [savedCards, setSavedCards] = React.useState([]);
+
   const [isMenuOpen, setMenuOpen] = React.useState(false);
+  const [message, setMessage] = React.useState(' ');
+  const [waitNum, setWaitNum] = React.useState(0);
 
   const base = 'app-content';
   const contentClass = `${base} ${base}_pos${mediaLeter[mediaNum]}`;
 
   const navigate = useNavigate();
 
-  useMedia(getMediaBreakArea(), hanleMediaChanged);
+  useMedia(getMediaBreakArea(), handleMediaChanged);
 
+  React.useEffect(() => {
+    // вспоминаем последний сеанс
+    initUser();
+    initUserCollection();
+    // setLoggedIn(apiUserAuth.isAuth());
+    // setMessage('');
+  }, []);
 
-  function hanleMediaChanged(event) {
+  React.useEffect(() => {
+    function handleWindowSize() {
+      // ОБРАБОТЧИК изменения ширины окна
+      setTimeout(() => {
+        // синхронизируем паджинатор с текущим медиа-запросом
+        moviesPaging.setMedia(mediaNum);
+        setCardCount(moviesPaging.getCount());
+      }, 1000);
+    }
+    // добавляем слушателя изменения размера окна
+    window.addEventListener("resize", handleWindowSize);
+    // при размонтировании приложения удаляем слушателя
+    return () => {
+      window.removeEventListener("resize", handleWindowSize);
+    };
+  }, [mediaNum]);
+
+  React.useEffect(() => {
+    // синхронизируем паджинатор с текущим медиа-запросом
+    moviesPaging.setMedia(mediaNum);
+    // если кол-во карточек = 0 значит это новый набор
+    if (cardCount === 0) {
+      // синхронизируем паджинатор с текущим размером массива
+      moviesPaging.setLength(cards.length);
+    }
+    if (moviesPaging.getCount() !== cardCount) {
+      // устанавливаем кол-во видимых карточек
+      setCardCount(moviesPaging.getCount());
+    }
+  }, [cards, mediaNum, cardCount]);
+
+  function handleMediaChanged(event) {
+    // ЦЕНТРАЛЬНЫЙ ОБРАБОТЧИК брейк-поинтов адаптивной верстки
     // получить параметр медиа-запроса
     const winW = parseInt(event.media.split(' ')[1], 10);
     // получить номер медиа-запроса
@@ -59,40 +103,312 @@ function App() {
     }
   }
 
-  function hanleSignIn() {
-    // если юзер известен, то по клику на войти сразу ведём на список карточек
-    if (isUserKnown) {
-      navigate('/movies', {replace: true});
+  function initUser() {
+    // проверяем локальное хранилище
+    apiUserAuth.getStoredData()
+    .then((res) => {
+      if (res) {
+        // если результат не пустой пытаемся разместить юзера
+        // в переменных состояния
+        setCurrentUser({
+          _id:   res.profile._id,
+          name:  res.profile.name,
+          email: res.profile.email,
+        });
+        if (res.storage) {
+          setUserQuery({
+            search: res.storage.search,
+            short: res.storage.short,
+          });
+          setCards(res.storage.cards);
+        } else {
+          setUserQuery({
+            search: '',
+            short: false,
+          });
+          setCards([]);
+        }
+        setCardCount(0);
+      } else {
+        // если результат пустой, значит юзера нет
+        setCurrentUser('');
+        setUserQuery({
+          search: '',
+          short: false,
+        });
+        setCards([]);
+        setCardCount(0);
+      }
+    })
+    .catch((err) => {
+      setCurrentUser('');
+      setUserQuery({
+        search: '',
+        short: false,
+      });
+      setCards([]);
+      setCardCount(0);
+      console.log(err, 'Ошибка размещения пользователя.');
+    })
+  }
+
+  function initUserCollection() {
+    setMeQuery({search: '', short: false});
+    // пробуем достать с сервера
+    // коллекцию юзера и разместить ее в переменной состояния
+    apiUserAuth.getAll()
+    .then((res) => {
+      setSavedCards(res);
+    })
+    .catch((err) => {
+      setSavedCards([]);
+      console.log(err, 'Ошибка размещения коллекции.');
+    })
+  }
+
+  // function isUserKnown() {
+  //   if(typeof loggedIn === 'undefined') {//we want it to match
+  //       setTimeout(isUserKnown, 100);//wait 100 millisecnds then recheck
+  //       return;
+  //   }
+  //   console.log(loggedIn);
+  //   return loggedIn;
+  // }
+
+  function errMessage(err, text) {
+    // генератор сообщения
+    if (err < 500) {
+      setMessage(text);
     } else {
-      navigate('/signin', {replace: true});
+      setMessage(
+        `Во время запроса произошла ошибка ${err}. ` +
+        'Возможно, проблема с соединением или сервер недоступен. ' +
+        'Подождите немного и попробуйте ещё раз.'
+      );
     }
   }
 
-  function hanleLogIn() {
-    // юзер авторизуется
-    setUserKnown(true);
-    navigate('/movies', {replace: true});
+  function savedMoviesIdSet(array) {
+    // возвращаем массив индексов сохраненных фильмов
+    return array.map((item) => {
+      return item.movieId;
+    });
   }
 
-  function hanleRegister({name, email}) {
-    // юзер регестрируется и авторизуется
-    setCurrentUser({name, email})
-    setUserKnown(true);
-    navigate('/movies', {replace: true});
+  function isMatсh(card, search, short) {
+    // проверить карточку на текст и длительность
+    const shortLen = 40;
+    const strSearch = search.trim().toLowerCase();
+    let res;
+    if (strSearch) {
+      const strIn = (card.nameRU + card.nameEN).split(' ').join('');
+      res = strIn.toLowerCase().indexOf(strSearch) >= 0;
+    } else {
+      res = true;
+    }
+    if (short) {
+      res = (card.duration <= shortLen) && res;
+    }
+    return res;
   }
 
-  function hanleLogOut() {
-    // юзер деавторизуется в форме профиля при клике на выйти из аккаунта
-    setUserKnown(false);
+  function handleLogIn({email, password}) {
+    // обработчик авторизации
+    handleClick();
+    setWaitNum(1);
+    apiUserAuth.login({email, password})
+    .then((res) => {
+      if (res) {
+        errMessage(res, 'Почта или пароль указаны неверно.')
+      } else {
+        initUser();
+        initUserCollection();
+        setMessage('');
+        navigate('/movies', {replace: true});
+      }
+    })
+    .catch((err) => {
+      console.log(err, 'Ошибка при авторизации.');
+    })
+    .finally(() => {
+      setWaitNum(0);
+    });
+  }
+
+  function handleRegister({name, email, password}) {
+    // обработчик регистрации
+    handleClick();
+    setWaitNum(2);
+    apiUserAuth.register({name, email, password})
+    .then((res) => {
+      if (res) {
+        errMessage(res, 'Проверьте адрес почты. Если вы уже проходили процедуру регистрации нажмите Войти.')
+      } else {
+        initUser();
+        initUserCollection();
+        setMessage('');
+        navigate('/movies', {replace: true});
+      }
+    })
+    .catch((err) => {
+      console.log(err, 'Ошибка при регистрации.');
+    })
+    .finally(() => {
+      setWaitNum(0);
+    });
+  }
+
+  function handleProfile({name, email}) {
+    // обработчик изменения данных профиля
+    handleClick();
+    setWaitNum(3);
+    apiUserAuth.update({name: name, email: email})
+    .then((res) => {
+      if (res) {
+        errMessage(res, 'Вы не можете использовать этот email адрес.')
+      } else {
+        currentUser.name = name;
+        currentUser.email = email;
+        setMessage('Изменения профиля сохранены.');
+      }
+    })
+    .catch((err) => {
+      console.log(err, 'Ошибка при обновлении профиля.');
+    })
+    .finally(() => {
+      setWaitNum(0);
+    });
+  }
+
+  function handleSelectCard({data, add}) {
+    // обработчик изменения принадлежности фильма библиотеки к коллекции
+    // TODO: набросить прелоадер на картинку фильма на время выполнения операции
+    setWaitNum(4);
+    data.owner = currentUser._id;
+    if (add) {
+      apiUserAuth.addMovie(data)
+      .then((res) => {
+        if (res) {
+          setSavedCards([res, ...savedCards]);
+        }
+      })
+      .finally(() => { setWaitNum(0); })
+    } else {
+      const element = savedCards.filter((item) => item.movieId === data.id)[0];
+      apiUserAuth.deleteMovie(element)
+      .then((res) => {
+        if (res) {
+          setSavedCards((state) => state.filter((item) => item._id !== res._id));
+        }
+      })
+      .finally(()  => { setWaitNum(0); })
+    }
+  }
+
+  function handleSearchMovies({search, short}) {
+    // обработчик поиска в библиотеке
+    if (!search) {
+      setMessage('Нужно указать ключевое слово.');
+      return;
+    }
+    setMessage('');
+    setWaitNum(5);
+    apiMovies.getAll()
+    .then((res) => {
+      const data = res.filter((item) => isMatсh(item, search, short));
+      localStorage.setItem('data',
+        JSON.stringify(
+           {
+             owner: currentUser._id,
+             search: search,
+             short: short,
+             cards:data,
+           }
+        )
+      )
+      setUserQuery({
+        search: search,
+        short: short,
+      });
+      setCards(data);
+      setCardCount(0);
+      if (data.length === 0) {
+        setMessage('Ничего не найдено.');
+      }
+    })
+    .catch((err) => {
+      errMessage(err);
+    })
+    .finally(()  => { setWaitNum(0); })
+  }
+
+  function handleDeleteSavedCard(data) {
+    // обработчик удаления фильма из коллекции
+    // TODO: набросить прелоадер на картинку фильма на время выполнения операции
+    setWaitNum(6);
+    data.owner = currentUser._id;
+    apiUserAuth.deleteMovie(data)
+    .then((res) => {
+      setSavedCards((state) => state.filter((item) => item._id !== res._id)); })
+    .finally(()  => { setWaitNum(0); })
+  }
+
+  function handleSearchSavedMovies({search, short}) {
+    // обработчик поиска в коллекции
+    setMeQuery({search: search, short: short});
+  }
+
+  function handleLogOut() {
+    // обработчик выхода пользователя
+    handleClick();
+    apiUserAuth.setToken('');
+    initUser();
+    initUserCollection();
     navigate('/', {replace: true});
   }
 
-  function hanleMenuClick() {
+  function handleClick() {
+    // скрываем сообщение в формах
+    setMessage(' ');
+  }
+
+  function handleSignIn() {
+    // переход в форму авторизации
+    handleClick();
+    navigate('/signin', {replace: true});
+  }
+
+  function handleSignUp() {
+    // переход в форму регистрации
+    handleClick();
+    navigate('/signup', {replace: true});
+  }
+
+  function handleEditIn() {
+    // переход в форму изменения профиля
+    setMenuOpen(false);
+    handleClick();
+    navigate('/profile', {replace: true});
+  }
+
+  function handleMenuClick() {
+    // открыть бургер меню
     setMenuOpen(true);
   }
 
-  function hanleNavigationCloseClick() {
+  function handleNavigationCloseClick() {
+     // закрыть бургер меню
     setMenuOpen(false);
+  }
+
+  function handleMoreCards() {
+     // обработать кнопку ещё
+    setCardCount(moviesPaging.getMore());
+  }
+
+  function handleLinkToMovie() {
+    // очистить сообщение при переходе к форме карточек библиотеки
+    setMessage('');
   }
 
   return (
@@ -107,14 +423,15 @@ function App() {
                 <Header
                   mediaNum={mediaLeter[mediaNum]}
                   isLight={false}
-                  isAuthorized={isUserKnown}
+                  isAuthorized={apiUserAuth.isAuth()}
                   linkMain={'/'}
                   linkMovies={'/movies'}
+                  onlinkMovies={handleLinkToMovie}
                   linkSavedMovies={'/saved-movies'}
-                  linkProfile={'/profile'}
-                  onMenuClick={hanleMenuClick}
+                  onEditProfile={handleEditIn}
+                  onMenuClick={handleMenuClick}
                   linkSignUp={'/signup'}
-                  onSignInClick={hanleSignIn}/>
+                  onSignInClick={handleSignIn}/>
                 <Main mediaNum={mediaLeter[mediaNum]} />
                 </>
               }
@@ -125,8 +442,11 @@ function App() {
                 <Login
                   mediaNum={mediaLeter[mediaNum]}
                   linkMain={'/'}
-                  onSubmit={hanleLogIn}
-                  linkSignUp={'/signup'}/>
+                  onSubmit={handleLogIn}
+                  onSignUp={handleSignUp}
+                  message={message}
+                  isWait={waitNum === 1 ? true: false}
+                  onClick={handleClick}/>
               }
             />
             <Route
@@ -135,70 +455,98 @@ function App() {
                 <Register
                   mediaNum={mediaLeter[mediaNum]}
                   linkMain={'/'}
-                  onSubmit={hanleRegister}
-                  linkSignIn={'/signin'}/>
+                  onSubmit={handleRegister}
+                  onSignIn={handleSignIn}
+                  message={message}
+                  isWait={waitNum === 2 ? true: false}
+                  onClick={handleClick}/>
               }
             />
             <Route
               path="/movies"
-              element={
-                <>
-                <Header
-                  mediaNum={mediaLeter[mediaNum]}
-                  isLight={true}
-                  isAuthorized={true}
-                  linkMain={'/'}
-                  linkMovies={'/movies'}
-                  linkSavedMovies={'/saved-movies'}
-                  linkProfile={'/profile'}
-                  onMenuClick={hanleMenuClick}/>
-                <Movies mediaNum={mediaLeter[mediaNum]} movieCards={movieSet} />
-                </>
-              }
+              element={<ProtectedRoute
+                isLogedIn={apiUserAuth.isAuth()}
+                component={
+                  <>
+                  <Header
+                    mediaNum={mediaLeter[mediaNum]}
+                    isLight={true}
+                    isAuthorized={apiUserAuth.isAuth()}
+                    linkMain={'/'}
+                    linkMovies={'/movies'}
+                    onlinkMovies={handleLinkToMovie}
+                    linkSavedMovies={'/saved-movies'}
+                    onEditProfile={handleEditIn}
+                    onMenuClick={handleMenuClick}/>
+                  <Movies
+                    mediaNum={mediaLeter[mediaNum]}
+                    movieQuery={userQuery}
+                    movieCards={cards.slice(0, cardCount)}
+                    selectionSet={savedMoviesIdSet(savedCards)}
+                    hasMore={moviesPaging.hasMore()}
+                    onShowMore={handleMoreCards}
+                    message={message}
+                    isWait={waitNum === 5 ? true: false}
+                    onSubmit={handleSearchMovies}
+                    onSelect={handleSelectCard}/>
+                  </>
+                }
+              />}
             />
             <Route
               path="/saved-movies"
-              element={
-                <>
-                <Header
-                  mediaNum={mediaLeter[mediaNum]}
-                  isLight={true}
-                  isAuthorized={true}
-                  linkMain={'/'}
-                  linkMovies={'/movies'}
-                  linkSavedMovies={'/saved-movies'}
-                  linkProfile={'/profile'}
-                  onMenuClick={hanleMenuClick}/>
-                <SavedMovies mediaNum={mediaLeter[mediaNum]} movieCards={savedMovieSet} />
-                </>
-              }
+              element={<ProtectedRoute
+                isLogedIn={apiUserAuth.isAuth()}
+                component={
+                  <>
+                  <Header
+                    mediaNum={mediaLeter[mediaNum]}
+                    isLight={true}
+                    isAuthorized={apiUserAuth.isAuth()}
+                    linkMain={'/'}
+                    linkMovies={'/movies'}
+                    onlinkMovies={handleLinkToMovie}
+                    linkSavedMovies={'/saved-movies'}
+                    onEditProfile={handleEditIn}
+                    onMenuClick={handleMenuClick}/>
+                  <SavedMovies
+                    mediaNum={mediaLeter[mediaNum]}
+                    movieQuery={meQuery}
+                    onDelete={handleDeleteSavedCard}
+                    onSubmit={handleSearchSavedMovies}
+                    movieCards={savedCards.filter((item) => isMatсh(item, meQuery.search, meQuery.short))} />
+                  </>
+                }
+              />}
             />
             <Route
               path="/profile"
-              element={
-                <>
-                <Header
-                  mediaNum={mediaLeter[mediaNum]}
-                  isLight={true}
-                  isAuthorized={true}
-                  linkMain={'/'}
-                  linkMovies={'/movies'}
-                  linkSavedMovies={'/saved-movies'}
-                  linkProfile={'/profile'}
-                  onMenuClick={hanleMenuClick}/>
-                <Profile
-                  mediaNum={mediaLeter[mediaNum]}
-                  onOutClick={hanleLogOut}
-                  onEditClick={hanleRegister}/>
-                </>
-              }
+              element={<ProtectedRoute
+                isLogedIn={apiUserAuth.isAuth()}
+                component={
+                  <>
+                  <Header
+                    mediaNum={mediaLeter[mediaNum]}
+                    isLight={true}
+                    isAuthorized={apiUserAuth.isAuth()}
+                    linkMain={'/'}
+                    linkMovies={'/movies'}
+                    onlinkMovies={handleLinkToMovie}
+                    linkSavedMovies={'/saved-movies'}
+                    onEditProfile={handleEditIn}
+                    onMenuClick={handleMenuClick}/>
+                  <Profile
+                    mediaNum={mediaLeter[mediaNum]}
+                    onOutClick={handleLogOut}
+                    onEditClick={handleProfile}
+                    message={message}
+                    isWait={waitNum === 3 ? true: false}
+                    onClick={handleClick}/>
+                  </>
+                }
+              />}
             />
-            <Route
-              path="/pre"
-              element={
-                <Preloader />
-              }
-            />
+
             <Route
               path="/*"
               element={
@@ -212,9 +560,9 @@ function App() {
             linkMain={'/'}
             linkMovies={'/movies'}
             linkSavedMovies={'/saved-movies'}
-            linkProfile={'/profile'}
+            onEditProfile={handleEditIn}
             isOpened={isMenuOpen}
-            handleOnClose={hanleNavigationCloseClick} />
+            handleOnClose={handleNavigationCloseClick} />
 
         </div>
 

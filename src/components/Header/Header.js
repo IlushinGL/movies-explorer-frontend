@@ -7,8 +7,8 @@ import './Header.css';
 function Header({
   mediaNum,
   isLight, isAuthorized,
-  linkMain, linkMovies, linkSavedMovies, linkProfile, linkSignUp,
-  onSignInClick, onMenuClick}) {
+  linkMain, linkMovies, linkSavedMovies, onEditProfile, linkSignUp,
+  onSignInClick, onMenuClick, onlinkMovies}) {
 
   const base         = 'header';
   const baseClass    = `${base} ${base}_pos${mediaNum} ${isLight ? (base + '_light'): ''}`;
@@ -31,6 +31,7 @@ function Header({
           (
             <>
               <NavLink to={linkMovies}
+                onClick={onlinkMovies}
                 className={({isActive}) =>
                   `${linkBase}
                    ${isLight ? `${linkBase}_light` : ''}
@@ -46,11 +47,13 @@ function Header({
                    ${isActive ? `${linkBase}_active` : ''}`}>
                 Сохранённые фильмы
               </NavLink>
-
-              <NavLink to={linkProfile}
-                className={btnClass}>
+              <button
+                className={btnClass}
+                type="button"
+                onClick={onEditProfile}>
                 Аккаунт
-              </NavLink>
+              </button>
+
             </>
           ) :
           (

@@ -2,16 +2,18 @@ import SearchForm from '../Movies/SearchForm/SearchForm';
 import Footer from '../Footer/Footer';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 
-function SavedMovies({mediaNum, movieCards}) {
-
-  function handleSearchQuery() {
-    console.log(`Запрос на поиск схранённых фильмов`);
-  }
+function SavedMovies({mediaNum, movieCards, onDelete, onSubmit, movieQuery}) {
 
   return (
     <>
-      <SearchForm mediaNum={mediaNum} onSubmit={handleSearchQuery} />
-      <MoviesCardList mediaNum={mediaNum} movieCards={movieCards} />
+      <SearchForm
+        mediaNum={mediaNum}
+        onSubmit={onSubmit}
+        movieQuery={movieQuery} />
+      <MoviesCardList
+        mediaNum={mediaNum}
+        movieCards={movieCards}
+        onDelete={onDelete}/>
       <Footer num={mediaNum} />
     </>
   );

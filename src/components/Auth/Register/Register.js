@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import {REG_PATTERNS} from '../../../utils/constants';
+import Preloader from '../../Preloader/Preloader';
 import logo from '../../../images/logo.svg';
 import '../Login/Login.css';
-import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 import { useFormAndValidation } from '../../../utils/customHooks';
 
-function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
+function Register({mediaNum, onSubmit, linkMain, onSignIn, message, isWait, onClick}) {
   const base        = 'login';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const headerClass = `${base}-header ${base}-header_pos${mediaNum}`;
@@ -15,32 +16,22 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
   const lblClass    = `${base}-form__lbl ${base}-form__lbl_pos${mediaNum}`;
   const inputClass  = `${base}-form__input ${base}-form__input_pos${mediaNum}`;
   const errClass    = `${base}-form__err ${base}-form__err_pos${mediaNum}`;
-  const ctlClass    = `${base}-control ${base}-control_pos${mediaNum} ${base}-control_pos${mediaNum}reg`;
+  const ctlClass    = `${base}-control ${base}-control_pos${mediaNum}`;
+  const msgClass    = `${base}-control__msg ${base}-control__msg_pos${mediaNum}  ${base}-control__msg_pos${mediaNum}reg`;
   const btnClass    = `${base}-control__btn ${base}-control__btn_pos${mediaNum}`;
   const blockClass  = `${base}-control-block ${base}-control-block_pos${mediaNum}`;
   const infoClass   = `${base}-control-block__info ${base}-control-block__info_pos${mediaNum}`;
   const actClass    = `${base}-control-block__action ${base}-control-block__action_pos${mediaNum}`;
 
-  const currentUser = React.useContext(CurrentUserContext);
-  const {values, setValues, handleChange, errors, isValid, resetForm} = useFormAndValidation();
-
-  React.useEffect(() => {
-    resetForm();
-    setValues({
-      name: currentUser.name,
-      email: currentUser.email,
-    });
-  }, [resetForm, setValues, currentUser]);
+  const {values, handleChange, errors, isValid} = useFormAndValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
-    // Передать значения управляемых компонентов во внешний обработчик
     onSubmit({
       name: values.name,
       email: values.email,
       password: values.password,
     });
-    resetForm();
   }
 
   return (
@@ -58,10 +49,13 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
         <input
           className={inputClass}
           onChange={handleChange}
+          onClick={onClick}
           type="text"
           name="name"
+          disabled={isWait}
           minLength="2"
           maxLength="40"
+          pattern={REG_PATTERNS.USERNAME}
           placeholder='укажите своё имя'
           autoComplete="off"
           required
@@ -73,10 +67,13 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
         <input
           className={inputClass}
           onChange={handleChange}
+          onClick={onClick}
           type="email"
           name="email"
+          disabled={isWait}
           minLength="5"
           maxLength="40"
+          pattern={REG_PATTERNS.EMAIL}
           placeholder='актуальный почтовый адрес'
           autoComplete="off"
           required
@@ -88,8 +85,10 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
         <input
           className={inputClass}
           onChange={handleChange}
+          onClick={onClick}
           type="password"
           name="password"
+          disabled={isWait}
           minLength="8"
           maxLength="12"
           placeholder='придумайте пароль'
@@ -98,20 +97,27 @@ function Register({mediaNum, onSubmit, linkMain, linkSignIn}) {
         />
         <span className={errClass}>{ errors.password || ' ' }</span>
       </form>
-      <div className={ctlClass}>
+      <section className={ctlClass}>
+        <div className={msgClass}>
+          {isWait ? <Preloader />: (message || ' ')}
+        </div>
         <button
           className={btnClass + (!isValid ? ` ${base}-control__btn_disabled` : '')}
           onClick={handleSubmit}
-          disabled={!isValid}>
+          disabled={!isValid || isWait}>
           Зарегистрироваться
         </button>
         <div className={blockClass}>
-          <div className={infoClass}>Уже зарегистрированы?</div>
-          <NavLink className={actClass} to={linkSignIn}>
+          <p className={infoClass}>Уже зарегистрированы?</p>
+          <button
+            className={actClass}
+            type="button"
+            disabled={isWait}
+            onClick={onSignIn}>
             Войти
-          </NavLink>
+          </button>
         </div>
-      </div>
+      </section>
     </main>
   );
 }

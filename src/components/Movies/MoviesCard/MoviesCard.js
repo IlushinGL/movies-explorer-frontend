@@ -1,12 +1,10 @@
-import React from 'react';
-// import { CurrentUserContext } from '../contexts/CurrentUserContext';
-
+import { Link } from 'react-router-dom';
 import './MoviesCard.css';
 import like_yes from '../../../images/like_yes.svg';
 import like_no from '../../../images/like_no.svg';
 import { getDurationStr } from '../../../utils/customFunction';
 
-function MoviesCard({mediaNum, card}) {
+function MoviesCard({mediaNum, card, onSelect, selectionSet}) {
   const base        = 'card';
   const baseClass   = `${base} ${base}_pos${mediaNum}`;
   const imgClass    = `${base}__img ${base}__img_pos${mediaNum}`;
@@ -16,18 +14,23 @@ function MoviesCard({mediaNum, card}) {
   const likeClass   = `${base}__caption-img`;
   const timeClass   = `${base}__caption-duration`;
 
-  const [isSelected, setSelected] = React.useState(false);
+  const isSelected = selectionSet.some(item => item === card.movieId);
 
   function handleSelected() {
-    setSelected(!isSelected);
+    onSelect({data: card, add: !isSelected});
   }
 
   return (
     <div className={baseClass}>
-      <img
-        className={imgClass}
-        src={card.image}
-        alt={'фильм'+ card.moveId} />
+      <Link
+          to={card.trailerLink}
+          target="_blank"
+          rel="noopener noreferrer">
+           <img
+            className={imgClass}
+            src={card.image}
+            alt={'фильм'+ card.id} />
+      </Link>
       <div className={capClass}>
         <div className={titleClass}>
           <h2 className={txtClass}>{card.nameRU}</h2>
@@ -35,13 +38,12 @@ function MoviesCard({mediaNum, card}) {
             onClick={handleSelected}
             className={likeClass}
             src={isSelected ? like_yes : like_no}
-            alt={isSelected ? 'выбран' : 'ожидание'} />
+            alt={isSelected ? 'да' : 'нет'} />
         </div>
         <p className={timeClass}>
           {getDurationStr(card.duration)}
         </p>
       </div>
-      {/* {isOwn && <button type="button" className='elements__element-trash' onClick={handleDeleteClick} />} */}
     </div>
   );
 }
